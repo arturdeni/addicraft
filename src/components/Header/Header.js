@@ -17,15 +17,15 @@ export function createHeader() {
       <nav class="nav">
         <ul class="nav-list">
           <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="#que-ofrecemos" class="nav-link">Qué Ofrecemos</a></li>
           <li class="nav-item"><a href="#quienes-somos" class="nav-link">Quiénes somos</a></li>
-          <li class="nav-item"><a href="#que-ofrecemos" class="nav-link">Que Ofrecemos</a></li>
           <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
         </ul>
       </nav>
     </div>
   `;
 
-  // Añadir event listeners para scroll suave
+  // Scroll suave para los enlaces de la navegación
   const navLinks = header.querySelectorAll(".nav-link");
   navLinks.forEach((link) => {
     link.addEventListener("click", (e) => {
@@ -45,7 +45,7 @@ export function createHeader() {
   return header;
 }
 
-// Exportar función para inicializar el header
+// Inicializar el header
 export function initHeader() {
   const headerContainer =
     document.getElementById("header-container") || document.body;

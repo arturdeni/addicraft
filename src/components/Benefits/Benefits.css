@@ -1,0 +1,154 @@
+/* src/components/Benefits/Benefits.css */
+.benefits-section {
+  background-color: #000;
+  color: #fff;
+  padding: 100px 0;
+  position: relative;
+}
+
+.benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+}
+
+.benefits-message {
+  text-align: center;
+}
+
+.benefits-title {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #9eff00; /* Verde neón */
+  margin: 0;
+}
+
+.benefits-showcase {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.benefit-images {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+.benefit-image {
+  width: 250px;
+  height: 250px;
+  background-color: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.benefit-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.benefit-image:hover {
+  transform: scale(1.05);
+}
+
+.benefit-metrics {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: rgba(30, 30, 30, 0.7);
+  border-radius: 30px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.metric:hover {
+  transform: translateY(-5px);
+  background-color: rgba(40, 40, 40, 0.9);
+}
+
+.metric-icon {
+  font-size: 18px;
+  color: #9eff00; /* Verde neón */
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Estilos específicos para cada icono */
+.metric:nth-child(1) .metric-icon {
+  color: #ff6b6b; /* Rojo para reducción de peso */
+}
+
+.metric:nth-child(2) .metric-icon {
+  color: #9eff00; /* Verde para eficiencia */
+}
+
+.metric:nth-child(3) .metric-icon {
+  color: #64d2ff; /* Azul para huella de carbono */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .benefits-title {
+    font-size: 28px;
+  }
+
+  .benefit-images {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .benefit-metrics {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .metric {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .benefits-section {
+    padding: 70px 0;
+  }
+}
+
+/* Animación sutil para los indicadores de métrica */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.metric-icon {
+  animation: pulse 2s infinite ease-in-out;
+}

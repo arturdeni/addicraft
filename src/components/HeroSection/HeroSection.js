@@ -33,8 +33,8 @@ export function createHeroSection() {
     </div>
   `;
 
-  // Añadir event listeners para scroll suave (DENTRO de la función)
-  const buttons = heroSection.querySelectorAll(".btn"); // Corregido: ".btn" en lugar de "btn"
+  // Scroll suave para los botones de la sección hero
+  const buttons = heroSection.querySelectorAll(".btn");
   buttons.forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -53,6 +53,7 @@ export function createHeroSection() {
   return heroSection;
 }
 
+// Inicializar la sección hero
 export function initHeroSection() {
   const mainContainer = document.getElementById("app") || document.body;
   if (!document.querySelector(".hero-section")) {
