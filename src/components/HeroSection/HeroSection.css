@@ -1,0 +1,126 @@
+/* src/components/HeroSection/HeroSection.css */
+.hero-section {
+  min-height: 100vh;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 80px; /* Espacio para el header fijo */
+}
+
+.hero-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  width: 100%;
+  flex: 1;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+.hero-title {
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-title {
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tagline {
+  margin-bottom: 24px;
+  color: #9eff00; /* Verde neón */
+  font-size: 18px;
+}
+
+.hero-description {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid;
+}
+
+.btn-primary {
+  background-color: transparent;
+  border-color: #9eff00;
+  color: #9eff00;
+}
+
+.btn-primary:hover {
+  background-color: #9eff00;
+  color: #000;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.hero-image {
+  max-width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cube-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-bottom {
+  width: 100%;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.hero-tagline {
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #9eff00; /* Verde neón */
+  line-height: 1.3;
+}
+
+/* Nota: Asumiendo que ya tienes estilos globales (tipo de fuente, reset, etc.) en tu styles.css */
