@@ -8,12 +8,10 @@
   --background-primary: #000;
   --background-secondary: rgba(30, 30, 30, 0.5);
   --background-tertiary: rgba(30, 30, 30, 0.7);
-  --link-color: #646cff;
-  --link-hover-color: #535bf2;
   --button-background: #1a1a1a;
 
   /* Typography */
-  --font-family-base: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-base: "Rubik", system-ui, Avenir, Helvetica, Arial, sans-serif;
   --line-height-base: 1.5;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -41,18 +39,49 @@
   /* Transitions */
   --transition-duration: 0.3s;
   --transition-timing: ease;
+}
 
-  /* Base Styles */
+/* Base Styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
   font-family: var(--font-family-base);
   line-height: var(--line-height-base);
   font-weight: var(--font-weight-normal);
   color: var(--text-color);
   background-color: var(--background-primary);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* Asegurar que todos los elementos respetan el ancho de su contenedor */
+img,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Evitar que el contenido se desborde de sus contenedores */
+#app {
+  overflow-x: hidden;
+  max-width: 100vw;
+  margin: 0 auto;
 }
 
 /* Common section styles */
@@ -67,6 +96,8 @@
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: var(--container-padding);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Common button styles */
@@ -78,6 +109,7 @@
   font-weight: var(--font-weight-medium);
   transition: all var(--transition-duration) var(--transition-timing);
   border: 2px solid;
+  text-align: center;
 }
 
 .btn-primary {
@@ -105,31 +137,31 @@
 /* Base Elements */
 a {
   font-weight: var(--font-weight-medium);
-  color: var(--link-color);
+  color: var(--primary-color);
   text-decoration: inherit;
 }
-a:hover {
-  color: var(--link-hover-color);
-}
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+a:hover {
+  color: var(--primary-color);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 0;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  line-height: 1.2;
+}
+
+p {
+  margin-top: 0;
 }
 
 button {
@@ -143,18 +175,76 @@ button {
   cursor: pointer;
   transition: border-color var(--transition-duration);
 }
+
 button:hover {
-  border-color: var(--link-color);
+  border-color: var(--primary-color);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Ajustes para componentes específicos para evitar overflow */
+.hero-container,
+.services-container,
+.about-container,
+.process-container,
+.benefits-container,
+.contact-container {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
+  #app {
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
   .section-title {
     font-size: 36px;
     margin-bottom: var(--spacing-xl);
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+
+  .hero-container {
+    padding: 40px 15px;
+  }
+
+  .main-title,
+  .subtitle {
+    font-size: 40px;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 28px;
+  }
+
+  .main-title,
+  .subtitle {
+    font-size: 32px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
   }
 }

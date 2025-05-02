@@ -1,3 +1,4 @@
+import "./fonts.css";
 import "./style.css";
 import { createHeader } from "./components/Header/Header.js";
 import { createHeroSection } from "./components/HeroSection/HeroSection.js";

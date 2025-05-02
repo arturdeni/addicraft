@@ -1,0 +1,37 @@
+/* src/fonts.css */
+
+/* Rubik Regular */
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Rubik Italic */
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Rubik Bold */
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Rubik Bold Italic */
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
