@@ -2,7 +2,7 @@
 .services-section {
   background-color: var(--background-primary);
   color: #fff;
-  padding: var(--spacing-xxl) 0;
+  padding: 120px 0;
 }
 
 .services-container {
