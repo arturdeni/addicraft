@@ -20,7 +20,7 @@ export function createProcess() {
           <path class="path-background" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#333" stroke-width="3" />
           
           <!-- Línea de animación (verde) que se irá revelando -->
-          <path class="path-animated" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#9eff00" stroke-width="3" stroke-dasharray="2000" stroke-dashoffset="2000" />
+          <path class="path-animated" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#CCFF02" stroke-width="3" stroke-dasharray="2000" stroke-dashoffset="2000" />
         </svg>
         
         <div class="process-steps">

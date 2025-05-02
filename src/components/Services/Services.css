@@ -1,28 +1,23 @@
 /* src/components/Services/Services.css */
 .services-section {
-  background-color: #000;
+  background-color: var(--background-primary);
   color: #fff;
-  padding: 80px 0;
+  padding: var(--spacing-xxl) 0;
 }
 
 .services-container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: var(--container-padding);
 }
 
-.section-title {
-  font-size: 42px;
-  font-weight: 600;
-  margin-bottom: 60px;
-  text-align: center;
-}
+/* Section title is now in global style.css */
 
 .services-grid {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 80px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xxl);
 }
 
 .service-card {
@@ -31,10 +26,10 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: rgba(30, 30, 30, 0.5);
-  border-radius: 10px;
-  padding: 30px;
-  transition: transform 0.3s ease;
+  background-color: var(--background-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  transition: transform var(--transition-duration) var(--transition-timing);
 }
 
 .service-card:hover {
@@ -45,11 +40,11 @@
   width: 80px;
   height: 80px;
   background-color: #111;
-  border-radius: 50%;
+  border-radius: var(--border-radius-circle);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .service-icon img {
@@ -60,23 +55,23 @@
 
 .service-title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   margin-bottom: 15px;
-  color: #9eff00; /* Verde neón */
+  color: var(--primary-color);
 }
 
 .service-description {
   font-size: 16px;
-  line-height: 1.6;
-  color: #ddd;
+  line-height: var(--line-height-base);
+  color: var(--text-light-color);
 }
 
 .services-benefits {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  margin-top: 40px;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
 }
 
 .benefit {
@@ -85,8 +80,8 @@
 
 .benefit-highlight {
   font-size: 28px;
-  font-weight: 600;
-  color: #9eff00; /* Verde neón */
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
   line-height: 1.4;
 }
 

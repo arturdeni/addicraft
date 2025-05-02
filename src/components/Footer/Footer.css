@@ -1,32 +1,32 @@
 /* Footer.css */
 .footer {
-  background-color: #000;
+  background-color: var(--background-primary);
   color: #fff;
   padding: 70px 0 30px;
 }
 
 .footer-container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: var(--container-padding);
 }
 
 .tech-section {
-  margin-bottom: 60px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .tech-title {
   font-size: 38px;
-  font-weight: 600;
-  margin-bottom: 30px;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-md);
   text-align: center;
 }
 
 .tech-description {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--line-height-base);
   max-width: 900px;
-  margin: 0 auto 40px;
+  margin: 0 auto var(--spacing-xl);
   text-align: center;
 }
 
@@ -35,7 +35,7 @@
   justify-content: center;
   align-items: center;
   gap: 70px;
-  margin-top: 40px;
+  margin-top: var(--spacing-xl);
 }
 
 .tech-logo {
@@ -49,13 +49,13 @@
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 20px;
+  padding-top: var(--spacing-sm);
   text-align: center;
 }
 
 .copyright {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted-color);
 }
 
 @media (max-width: 768px) {
