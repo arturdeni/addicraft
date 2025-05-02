@@ -1,11 +1,12 @@
 // utils/animations.js
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function initAnimations() {
-  // Animación para el hero section
+  // --- HERO SECTION ANIMATIONS ---
   gsap.from(".hero-title", {
     opacity: 0,
     y: 50,
@@ -41,7 +42,10 @@ export function initAnimations() {
     delay: 0.3,
   });
 
-  // Animaciones para servicios
+  // Animación de hero-tagline con SplitType
+  initHeroTaglineAnimation();
+
+  // --- SERVICIOS ANIMATIONS ---
   gsap.from(".service-card", {
     opacity: 0,
     y: 50,
@@ -53,7 +57,7 @@ export function initAnimations() {
     },
   });
 
-  // Animaciones para equipo
+  // --- EQUIPO ANIMATIONS ---
   gsap.from(".team-member", {
     opacity: 0,
     y: 50,
@@ -76,5 +80,42 @@ export function initAnimations() {
   });
 
   // Las animaciones del process-section se manejan en su propio componente
-  // para tener mayor control sobre el efecto de la línea de tiempo
+}
+
+// Función separada para la animación del tagline
+function initHeroTaglineAnimation() {
+  const heroTaglineElement = document.querySelector(".hero-tagline");
+  if (!heroTaglineElement) return;
+
+  // Aplicar el atributo "animate"
+  heroTaglineElement.setAttribute("animate", "");
+
+  // Inicializar SplitType (sin guardar la referencia ya que no la usamos)
+  new SplitType("[animate]", {
+    types: "lines, words, chars",
+    tagName: "span",
+  });
+
+  // Primero ocultar todas las palabras con un set inicial
+  gsap.set("[animate] .word", {
+    y: "110%",
+    opacity: 0,
+    rotationZ: "10",
+    visibility: "hidden",
+  });
+
+  // Aplicar la animación con GSAP
+  gsap.to("[animate] .word", {
+    y: "0%",
+    opacity: 1,
+    rotationZ: "0",
+    visibility: "visible",
+    duration: 0.5,
+    ease: "power1.out",
+    stagger: 0.1,
+    scrollTrigger: {
+      trigger: "[animate]",
+      start: "top 70%",
+    },
+  });
 }

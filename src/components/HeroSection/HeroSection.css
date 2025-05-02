@@ -62,8 +62,7 @@
   margin-top: var(--spacing-md);
 }
 
-/* Button styles moved to global style.css */
-
+/* Hero image */
 .hero-image {
   max-width: 45%;
   display: flex;
@@ -77,9 +76,10 @@
   object-fit: contain;
 }
 
+/* Hero bottom */
 .hero-bottom {
   width: 100%;
-  padding: var(--spacing-xl) var(--spacing-sm);
+  padding: var(--spacing-xxl) var(--spacing-sm);
   text-align: center;
   margin-top: auto;
 }
@@ -91,7 +91,34 @@
   max-width: 1000px;
   margin: 0 auto;
   color: var(--primary-color);
-  line-height: 1.3;
+  line-height: 1.4;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0; /* Espacio para el texto rotado */
+}
+
+/* Estilos para la animación SplitType */
+[animate] {
+  overflow: hidden;
+}
+
+[animate] .word {
+  display: inline-block;
+  overflow: hidden;
+  transform-origin: bottom left;
+  opacity: 0;
+  visibility: hidden;
+}
+
+[animate] .char {
+  display: inline-block;
+}
+
+[animate] .line {
+  overflow: hidden;
+  display: block;
+  position: relative;
+  height: auto;
 }
 
 /* Media queries */
@@ -99,7 +126,6 @@
   .hero-container {
     flex-direction: column;
     text-align: center;
-    padding: 0;
     padding: 40px 15px;
   }
 
@@ -120,5 +146,9 @@
   .hero-buttons {
     flex-direction: column;
     justify-content: center;
+  }
+
+  .hero-tagline {
+    font-size: 30px;
   }
 }
