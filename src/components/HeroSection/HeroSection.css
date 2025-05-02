@@ -16,7 +16,7 @@
   align-items: center;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 60px 40px;
+  padding: 80px 40px 110px;
   width: 100%;
   flex: 1;
 }
@@ -100,6 +100,7 @@
     flex-direction: column;
     text-align: center;
     padding: 0;
+    padding: 40px 15px;
   }
 
   .hero-content {
@@ -117,6 +118,7 @@
   }
 
   .hero-buttons {
+    flex-direction: column;
     justify-content: center;
   }
 }

@@ -218,10 +218,6 @@ button:focus-visible {
     font-size: 0.9em;
   }
 
-  .hero-container {
-    padding: 40px 15px;
-  }
-
   .main-title,
   .subtitle {
     font-size: 40px;
@@ -242,9 +238,5 @@ button:focus-visible {
   .btn {
     width: 100%;
     margin-bottom: 10px;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
   }
 }

@@ -13,6 +13,13 @@ export function initAnimations() {
     delay: 0.2,
   });
 
+  gsap.from(".tagline", {
+    opacity: 0,
+    y: 30,
+    duration: 1,
+    delay: 0.6,
+  });
+
   gsap.from(".hero-description", {
     opacity: 0,
     y: 30,

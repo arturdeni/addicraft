@@ -11,8 +11,6 @@
   padding: var(--container-padding);
 }
 
-/* Section title is now in global style.css */
-
 .services-grid {
   display: flex;
   justify-content: space-between;
