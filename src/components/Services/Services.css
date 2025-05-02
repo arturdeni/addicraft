@@ -74,6 +74,11 @@
 
 .benefit {
   text-align: center;
+  height: 70px; /* Aumentado para dar más espacio */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .benefit-highlight {
@@ -81,9 +86,24 @@
   font-weight: var(--font-weight-bold);
   color: var(--primary-color);
   line-height: 1.4;
+  display: block;
+  position: relative;
+  min-height: 40px; /* Asegurar que tenga altura mínima */
+  opacity: 1; /* Asegurarnos que sea visible */
 }
 
-/* Para dispositivos más pequeños (si decides añadir responsividad después) */
+/* Estilos para SplitType */
+.benefit-highlight .word {
+  display: inline-block;
+  position: relative;
+  margin-right: 0.25em;
+}
+
+.benefit-highlight .char {
+  display: inline-block;
+}
+
+/* Para dispositivos más pequeños */
 @media (max-width: 768px) {
   .services-grid {
     flex-direction: column;
@@ -91,5 +111,24 @@
 
   .service-card {
     width: 100%;
+  }
+
+  .benefit-highlight {
+    font-size: 24px;
+  }
+
+  .benefit {
+    height: 60px;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .benefit-highlight {
+    font-size: 20px;
+  }
+
+  .benefit {
+    height: 50px;
   }
 }

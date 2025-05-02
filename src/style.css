@@ -89,7 +89,7 @@ svg {
   font-size: 42px;
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-xxl);
-  text-align: center;
+  text-align: left;
 }
 
 .container {

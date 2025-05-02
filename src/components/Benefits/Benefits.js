@@ -34,15 +34,15 @@ export function createBenefits() {
         <div class="benefit-metrics">
           <div class="metric" data-value="-60">
             <span class="metric-icon">▼</span>
-            <span class="metric-value">-60% peso</span>
+            <span class="metric-value">-60 peso</span>
           </div>
           <div class="metric" data-value="30">
             <span class="metric-icon">🔄</span>
-            <span class="metric-value">+30% eficiencia</span>
+            <span class="metric-value">+30 eficiencia</span>
           </div>
           <div class="metric" data-value="-40">
             <span class="metric-icon">🌍</span>
-            <span class="metric-value">-40% huella de carbono</span>
+            <span class="metric-value">-40 huella de carbono</span>
           </div>
         </div>
       </div>

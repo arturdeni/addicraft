@@ -1,0 +1,39 @@
+/* src/utils/titleAnimations.css */
+.animate-title {
+  overflow: hidden;
+}
+
+.animate-title .char {
+  display: inline-block;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transform-origin: bottom;
+  will-change: transform, opacity;
+}
+
+.animate-title .word {
+  display: inline-block;
+  margin-right: 0.25em;
+  white-space: nowrap;
+}
+
+/* Optional: add some cool styles to make the titles pop more */
+.section-title {
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: var(--primary-color);
+  transform: translateX(-50%);
+  transition: width 0.6s ease;
+}
+
+.section-title.is-inview::after {
+  width: 60px;
+}

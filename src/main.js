@@ -9,6 +9,8 @@ import { createBenefits } from "./components/Benefits/Benefits.js";
 import { createContactForm } from "./components/ContactForm/ContactForm.js";
 import { createFooter } from "./components/Footer/Footer.js";
 import { initAnimations } from "./utils/animations.js";
+import { initSectionTitleAnimations } from "./utils/titleAnimations.js";
+import "./utils/titleAnimations.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.querySelector("#app");
@@ -25,4 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicializar animaciones GSAP
   initAnimations();
+
+  // Inicializar animaciones para los títulos de sección
+  initSectionTitleAnimations();
 });

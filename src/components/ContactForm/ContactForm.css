@@ -14,14 +14,6 @@
   align-items: center;
 }
 
-.section-title {
-  font-size: 42px;
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--spacing-xl);
-  text-align: center;
-  color: var(--primary-color);
-}
-
 .contact-form {
   width: 100%;
   max-width: 800px;
@@ -195,11 +187,6 @@ textarea::placeholder {
     flex-direction: column;
     gap: 40px;
     margin-bottom: var(--spacing-sm);
-  }
-
-  .section-title {
-    font-size: 36px;
-    margin-bottom: 50px;
   }
 
   label {
