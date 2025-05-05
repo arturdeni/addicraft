@@ -17,7 +17,7 @@
 
 .tech-title {
   font-size: 38px;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
   margin-bottom: var(--spacing-md);
   text-align: center;
 }

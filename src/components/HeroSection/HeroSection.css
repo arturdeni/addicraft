@@ -33,23 +33,29 @@
 
 .main-title {
   font-size: 80px;
-  font-weight: 700;
+  font-weight: 300;
   line-height: 1;
 }
 
 .subtitle {
   font-size: 80px;
-  font-weight: 700;
+  font-weight: 300;
   line-height: 1;
 }
 
 .tagline {
+  position: absolute;
+  top: 313px;
+  left: 490px;
+  line-height: 0.6;
+  font-family: var(--font-family-secondary);
   margin-bottom: 24px;
   color: var(--primary-color);
   font-size: 18px;
 }
 
 .hero-description {
+  font-family: var(--font-family-secondary);
   font-size: 18px;
   line-height: var(--line-height-base);
   margin-bottom: var(--spacing-md);
@@ -81,16 +87,20 @@
   outline: none;
 }
 
-/* Hero bottom */
+/* Hero bottom - ajustado para requerir menos scroll */
 .hero-bottom {
   width: 100%;
-  padding: var(--spacing-xxl) var(--spacing-sm);
+  padding: var(--spacing-xl) var(--spacing-sm); /* Reducido el padding vertical */
   text-align: center;
   margin-top: auto;
+  overflow: visible;
+  min-height: 120px; /* Altura mínima reducida para menos scroll */
+  position: relative;
 }
 
+/* Estilos para el hero-tagline */
 .hero-tagline {
-  font-size: 50px;
+  font-size: 46px;
   font-weight: var(--font-weight-medium);
   text-align: center;
   max-width: 1000px;
@@ -98,32 +108,36 @@
   color: var(--primary-color);
   line-height: 1.1;
   position: relative;
-  overflow: hidden;
-  padding: 10px 0; /* Espacio para el texto rotado */
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-/* Estilos para la animación SplitType */
-[animate] {
-  overflow: hidden;
-}
-
-[animate] .word {
-  display: inline-block;
-  overflow: hidden;
-  transform-origin: bottom left;
-  opacity: 0;
-  visibility: hidden;
-}
-
-[animate] .char {
-  display: inline-block;
-}
-
-[animate] .line {
-  overflow: hidden;
-  display: block;
+/* Estilos de animación 3D */
+.hero-tagline[animate] {
+  transform-style: preserve-3d;
   position: relative;
-  height: auto;
+  overflow: visible;
+}
+
+.hero-tagline[animate] .word {
+  display: inline-block;
+  margin-right: 0.1em; /* Espacio reducido entre palabras */
+  white-space: nowrap;
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
+  backface-visibility: hidden; /* Mejora apariencia de transformaciones 3D */
+  filter: blur(0); /* Prevenir efecto de borrosidad no deseado */
+}
+
+.hero-tagline[animate] .word:last-child {
+  margin-right: 0;
+}
+
+/* Manejo correcto de saltos de línea */
+.hero-tagline br {
+  display: block;
+  content: "";
+  margin-bottom: 0.1em; /* Espacio reducido entre líneas */
 }
 
 /* Media queries */
@@ -137,6 +151,10 @@
   .hero-content {
     max-width: 100%;
     margin-bottom: var(--spacing-xl);
+  }
+
+  .tagline {
+    position: static;
   }
 
   .hero-image {
@@ -156,7 +174,17 @@
   }
 
   .hero-tagline {
-    font-size: 36px;
+    font-size: 30px;
+  }
+
+  .hero-tagline[animate] .word {
+    margin-right: 0.05em; /* Espacio aún más reducido en móviles */
+    transform: translateZ(0); /* Forzar aceleración por hardware */
+  }
+
+  .hero-bottom {
+    min-height: 100px; /* Altura aún más reducida para móviles */
+    padding: var(--spacing-lg) var(--spacing-sm); /* Menos padding en móviles */
   }
 }
 
@@ -164,5 +192,9 @@
   .hero-image {
     width: 250px;
     height: 250px;
+  }
+
+  .hero-bottom {
+    min-height: 80px; /* Mínimo para dispositivos muy pequeños */
   }
 }

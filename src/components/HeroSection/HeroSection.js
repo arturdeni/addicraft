@@ -10,13 +10,13 @@ export function createHeroSection() {
   heroSection.innerHTML = `
     <div class="hero-container">
       <div class="hero-content">
+        <div class="tagline">
+          <p>Del diseño inteligente<br></br>al impacto positivo</p>
+        </div>
         <h1 class="hero-title">
           <span class="main-title">AddiCraft</span>
           <span class="subtitle">Engineering</span>
         </h1>
-        <div class="tagline">
-          <p>Del diseño inteligente al impacto positivo</p>
-        </div>
         <p class="hero-description">
           Somos una ingeniería especializada en optimización topológica y fabricación aditiva. Reducimos peso, coste y complejidad en maquinaria industrial.
         </p>

@@ -90,32 +90,51 @@ function initHeroTaglineAnimation() {
   // Aplicar el atributo "animate"
   heroTaglineElement.setAttribute("animate", "");
 
-  // Inicializar SplitType (sin guardar la referencia ya que no la usamos)
+  // Inicializar SplitType
   new SplitType("[animate]", {
-    types: "lines, words, chars",
+    types: "words",
     tagName: "span",
   });
 
-  // Primero ocultar todas las palabras con un set inicial
-  gsap.set("[animate] .word", {
-    y: "110%",
-    opacity: 0,
-    rotationZ: "10",
-    visibility: "hidden",
+  // Obtener las palabras
+  const words = [...heroTaglineElement.querySelectorAll(".word")];
+  if (!words.length) return;
+
+  // Añadir perspectiva a los elementos padre
+  words.forEach((word) => gsap.set(word.parentNode, { perspective: 1000 }));
+
+  // Configurar los estados iniciales de las palabras de manera aleatoria
+  // Rangos más pequeños para una animación más sutil
+  words.forEach((word) => {
+    gsap.set(word, {
+      z: gsap.utils.random(200, 600), // Menor profundidad para animación más rápida
+      opacity: 0,
+      xPercent: gsap.utils.random(-50, 50), // Menor movimiento horizontal
+      yPercent: gsap.utils.random(-10, 10), // Menor movimiento vertical
+      rotationX: gsap.utils.random(-60, 60), // Menor rotación
+    });
   });
 
-  // Aplicar la animación con GSAP
-  gsap.to("[animate] .word", {
-    y: "0%",
+  // Crear la animación vinculada al scroll, más rápida
+  gsap.to(words, {
+    ease: "power1.out", // Easing más suave
     opacity: 1,
-    rotationZ: "0",
-    visibility: "visible",
-    duration: 0.5,
-    ease: "power1.out",
-    stagger: 0.1,
+    rotationX: 0,
+    rotationY: 0,
+    xPercent: 0,
+    yPercent: 0,
+    z: 0,
+    stagger: {
+      each: 0.03, // Menor tiempo entre palabras
+      from: "random", // Animar las palabras en orden aleatorio
+    },
     scrollTrigger: {
-      trigger: "[animate]",
-      start: "top 70%",
+      trigger: heroTaglineElement, // Usar el elemento directamente como trigger
+      start: "top 85%", // Comienza antes en el viewport
+      end: "top 55%", // Termina rápidamente (sólo 30% de scroll necesario)
+      scrub: 0.3, // Menor retraso para animación más rápida
+      invalidateOnRefresh: true, // Recalcular en caso de cambio de tamaño
+      markers: false, // Para depuración
     },
   });
 }

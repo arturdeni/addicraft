@@ -12,6 +12,7 @@
 
   /* Typography */
   --font-family-base: "Rubik", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-secondary: "Arial Narrow", Arial, sans-serif;
   --line-height-base: 1.5;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -87,7 +88,7 @@ svg {
 /* Common section styles */
 .section-title {
   font-size: 42px;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
   margin-bottom: var(--spacing-xxl);
   text-align: left;
 }
@@ -217,22 +218,12 @@ button:focus-visible {
     padding: 10px 20px;
     font-size: 0.9em;
   }
-
-  .main-title,
-  .subtitle {
-    font-size: 40px;
-  }
 }
 
 /* Para pantallas muy pequeñas */
 @media (max-width: 480px) {
   .section-title {
     font-size: 28px;
-  }
-
-  .main-title,
-  .subtitle {
-    font-size: 32px;
   }
 
   .btn {

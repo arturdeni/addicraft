@@ -16,7 +16,6 @@
 .team-grid {
   display: flex;
   justify-content: space-around;
-  gap: var(--spacing-xl);
   margin-bottom: var(--spacing-xxl);
 }
 
@@ -24,14 +23,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
-  max-width: 400px;
+  max-width: 370px;
 }
 
 .member-image {
-  width: 250px;
-  height: 250px;
+  width: 370px;
+  height: 310px;
   border-radius: var(--border-radius-md);
   overflow: hidden;
   margin-bottom: 25px;
@@ -49,6 +47,7 @@
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-xs);
   color: #fff;
+  text-align: left;
 }
 
 .member-title {
@@ -56,12 +55,14 @@
   margin-bottom: 15px;
   color: var(--primary-color);
   font-weight: var(--font-weight-medium);
+  text-align: left;
 }
 
 .member-bio {
   font-size: 16px;
   line-height: var(--line-height-base);
   color: var(--text-light-color);
+  text-align: left;
 }
 
 .about-mission {
@@ -92,6 +93,7 @@
   .team-grid {
     flex-direction: column;
     align-items: center;
+    gap: var(--spacing-xl);
   }
 
   .team-member {
@@ -101,6 +103,10 @@
   .member-image {
     width: 200px;
     height: 200px;
+  }
+
+  .about-mission {
+    padding: var(--spacing-lg) var(--spacing-sm);
   }
 
   .mission-title {
