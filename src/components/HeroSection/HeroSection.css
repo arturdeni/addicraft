@@ -62,18 +62,23 @@
   margin-top: var(--spacing-md);
 }
 
-/* Hero image */
+/* Hero image container styling - updated for 3D model */
 .hero-image {
   max-width: 45%;
+  width: 600px;
+  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.cube-image {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
+/* Canvas styling - simplified */
+.hero-image canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  outline: none;
 }
 
 /* Hero bottom */
@@ -136,6 +141,8 @@
 
   .hero-image {
     max-width: 80%;
+    width: 300px;
+    height: 300px;
   }
 
   .main-title,
@@ -150,5 +157,12 @@
 
   .hero-tagline {
     font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-image {
+    width: 250px;
+    height: 250px;
   }
 }

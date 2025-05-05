@@ -1,5 +1,6 @@
 // src/components/HeroSection/HeroSection.js
 import "./HeroSection.css";
+import { Hero3DModel } from "./Hero3Dmodel.js";
 
 export function createHeroSection() {
   const heroSection = document.createElement("section");
@@ -24,8 +25,8 @@ export function createHeroSection() {
           <a href="#contacto" class="btn btn-secondary">Contacto</a>
         </div>
       </div>
-      <div class="hero-image">
-        <img src="/assets/images/cube3D.png" alt="Estructura optimizada topológicamente" class="cube-image">
+      <div class="hero-image" id="hero3DContainer">
+        <!-- 3D model will be inserted here by JavaScript -->
       </div>
     </div>
     <div class="hero-bottom">
@@ -50,20 +51,42 @@ export function createHeroSection() {
     });
   });
 
+  // Initialize 3D model after the component is mounted
+  setTimeout(() => {
+    const container = document.getElementById("hero3DContainer");
+    if (container) {
+      // Store the instance for potential cleanup
+      heroSection.modelInstance = new Hero3DModel(container);
+    }
+  }, 100);
+
   return heroSection;
 }
 
 // Inicializar la sección hero
 export function initHeroSection() {
   const mainContainer = document.getElementById("app") || document.body;
-  if (!document.querySelector(".hero-section")) {
-    // Si ya existe el header, inserta el hero después del header
-    const header = document.querySelector(".header");
-    if (header) {
-      header.after(createHeroSection());
-    } else {
-      // Si no hay header, añádelo al principio del contenedor principal
-      mainContainer.prepend(createHeroSection());
+
+  // Check if hero section already exists and remove it to avoid duplicates
+  const existingHero = document.querySelector(".hero-section");
+  if (existingHero) {
+    // Clean up previous 3D model if it exists
+    if (existingHero.modelInstance) {
+      existingHero.modelInstance.dispose();
     }
+    existingHero.remove();
   }
+
+  const hero = createHeroSection();
+
+  // Si ya existe el header, inserta el hero después del header
+  const header = document.querySelector(".header");
+  if (header) {
+    header.after(hero);
+  } else {
+    // Si no hay header, añádelo al principio del contenedor principal
+    mainContainer.prepend(hero);
+  }
+
+  return hero;
 }
