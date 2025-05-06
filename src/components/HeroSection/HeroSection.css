@@ -44,9 +44,9 @@
 }
 
 .tagline {
-  position: absolute;
-  top: 313px;
-  left: 490px;
+  position: relative;
+  top: 83px;
+  left: 380px;
   line-height: 0.6;
   font-family: var(--font-family-secondary);
   margin-bottom: 24px;

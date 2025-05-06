@@ -45,18 +45,6 @@ export function initAnimations() {
   // Animación de hero-tagline con SplitType
   initHeroTaglineAnimation();
 
-  // --- SERVICIOS ANIMATIONS ---
-  gsap.from(".service-card", {
-    opacity: 0,
-    y: 50,
-    duration: 0.8,
-    stagger: 0.2,
-    scrollTrigger: {
-      trigger: ".services-section",
-      start: "top 70%",
-    },
-  });
-
   // --- EQUIPO ANIMATIONS ---
   gsap.from(".team-member", {
     opacity: 0,

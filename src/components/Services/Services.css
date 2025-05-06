@@ -2,7 +2,11 @@
 .services-section {
   background-color: var(--background-primary);
   color: #fff;
-  padding: 120px 0;
+  padding: 160px 0; /* Increased padding for more space */
+  min-height: 100vh; /* Make it at least full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .services-container {
@@ -11,48 +15,71 @@
   padding: var(--container-padding);
 }
 
-.services-grid {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xxl);
-}
-
-.service-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: var(--background-secondary);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-md);
-  transition: transform var(--transition-duration) var(--transition-timing);
-}
-
-.service-card:hover {
-  transform: translateY(-10px);
-}
-
-.service-icon {
-  width: 80px;
-  height: 80px;
-  background-color: #111;
-  border-radius: var(--border-radius-circle);
+.services-showcase {
+  position: relative;
+  height: 650px; /* Increased height for the showcase area */
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: var(--spacing-sm);
 }
 
-.service-icon img {
-  width: 40px;
-  height: 40px;
+/* Logo container styles */
+.logo-container {
+  position: absolute;
+  z-index: 10;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.central-logo {
+  width: 80%;
+  height: auto;
+}
+
+/* Services items container */
+.services-items {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+/* Common styles for service items */
+.service-item {
+  width: 280px;
+  background-color: transparent; /* Removed background */
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+/* Service image container */
+.service-image {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-image img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
+/* Service content styling */
 .service-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: var(--font-weight-bold);
   margin-bottom: 15px;
   color: var(--primary-color);
@@ -64,71 +91,34 @@
   color: var(--text-light-color);
 }
 
-.services-benefits {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-xl);
-}
-
-.benefit {
-  text-align: center;
-  height: 70px; /* Aumentado para dar más espacio */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.benefit-highlight {
-  font-size: 28px;
-  font-weight: var(--font-weight-bold);
-  color: var(--primary-color);
-  line-height: 1.4;
-  display: block;
-  position: relative;
-  min-height: 40px; /* Asegurar que tenga altura mínima */
-  opacity: 1; /* Asegurarnos que sea visible */
-}
-
-/* Estilos para SplitType */
-.benefit-highlight .word {
-  display: inline-block;
-  position: relative;
-  margin-right: 0.25em;
-}
-
-.benefit-highlight .char {
-  display: inline-block;
-}
-
-/* Para dispositivos más pequeños */
+/* Responsive styles */
 @media (max-width: 768px) {
-  .services-grid {
-    flex-direction: column;
+  .services-showcase {
+    height: 750px; /* Increase height for mobile */
   }
 
-  .service-card {
-    width: 100%;
+  .service-item {
+    width: 220px;
   }
 
-  .benefit-highlight {
-    font-size: 24px;
-  }
-
-  .benefit {
-    height: 60px;
+  .service-image {
+    width: 120px;
+    height: 120px;
   }
 }
 
-/* Para pantallas muy pequeñas */
+/* For very small screens */
 @media (max-width: 480px) {
-  .benefit-highlight {
-    font-size: 20px;
+  .services-showcase {
+    height: 850px; /* Even more height for smaller devices */
   }
 
-  .benefit {
-    height: 50px;
+  .service-item {
+    width: 180px;
+  }
+
+  .service-image {
+    width: 100px;
+    height: 100px;
   }
 }

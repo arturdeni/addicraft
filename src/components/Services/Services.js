@@ -2,7 +2,6 @@
 import "./Services.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,186 +14,122 @@ export function createServices() {
     <div class="services-container">
       <h2 class="section-title">Qué ofrecemos</h2>
       
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">
-            <img src="/assets/images/service-icon1.svg" alt="Estudio técnico">
-          </div>
-          <h3 class="service-title">Estudio técnico</h3>
-          <p class="service-description">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
+      <div class="services-showcase">
+        <div class="logo-container">
+          <img src="/assets/logos/addiCraftLogo.png" alt="AddiCraft Engineering Logo" class="central-logo">
         </div>
         
-        <div class="service-card">
-          <div class="service-icon">
-            <img src="/assets/images/service-icon2.svg" alt="Impresión 3D">
+        <div class="services-items">
+          <div class="service-item service-top">
+            <div class="service-image">
+              <img src="/assets/images/service-optim.png" alt="Optimización topológica">
+            </div>
+            <h3 class="service-title">Optimización topológica</h3>
+            <p class="service-description">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
           </div>
-          <h3 class="service-title">Impresión 3D</h3>
-          <p class="service-description">Impresión 3D de piezas prototipos para comparar el diseño original.</p>
-        </div>
-        
-        <div class="service-card">
-          <div class="service-icon">
-            <img src="/assets/images/service-icon3.svg" alt="Diseño">
+          
+          <div class="service-item service-right">
+            <div class="service-image">
+              <img src="/assets/images/service-fab.png" alt="Fabricación">
+            </div>
+            <h3 class="service-title">Fabricación</h3>
+            <p class="service-description">Impresión 3D de última generación para conseguir el mejor resultado.</p>
           </div>
-          <h3 class="service-title">Diseño</h3>
-          <p class="service-description">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
-        </div>
-      </div>
-      
-      <div class="services-benefits">
-        <div class="benefit" id="benefit-container">
-          <span class="benefit-highlight" id="benefit-text">Ahorro de hasta 70% de material</span>
+          
+          <div class="service-item service-left">
+            <div class="service-image">
+              <img src="/assets/images/service-design.png" alt="Diseño">
+            </div>
+            <h3 class="service-title">Diseño</h3>
+            <p class="service-description">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
+          </div>
         </div>
       </div>
     </div>
   `;
 
-  // Inicializar la animación del texto de beneficios después de que el elemento esté en el DOM
+  // Inicializar las animaciones después de que el elemento esté en el DOM
   setTimeout(() => {
-    initTextAnimation();
+    initServicesAnimations();
   }, 100);
 
   return servicesSection;
 }
 
-// Variable global para controlar la inicialización
-let textAnimationInitialized = false;
+function initServicesAnimations() {
+  // Asegurarnos de que los elementos existen
+  const servicesSection = document.getElementById("que-ofrecemos");
+  const logoElement = document.querySelector(".central-logo");
+  const serviceItems = document.querySelectorAll(".service-item");
 
-function initTextAnimation() {
-  // Evitar inicializar múltiples veces
-  if (textAnimationInitialized) return;
+  if (!servicesSection || !logoElement || serviceItems.length === 0) return;
 
-  // Asegurarse de que el elemento esté en el DOM
-  const benefitContainer = document.getElementById("benefit-container");
-  const benefitText = document.getElementById("benefit-text");
-
-  if (!benefitContainer || !benefitText) {
-    console.error("No se encontraron los elementos para la animación");
-    return;
-  }
-
-  // Textos a mostrar en secuencia
-  const benefitTexts = [
-    "Ahorro de hasta 70% de material",
-    "Producción en menos tiempo",
-    "Personalización 100%",
-    "Tecnología puntera",
-  ];
-
-  let currentIndex = 0;
-
-  // Marcar como inicializado
-  textAnimationInitialized = true;
-
-  // Enfoque alternativo: usar elementos diferentes para cada texto
-  // y mostrarlos/ocultarlos en lugar de modificar el contenido de texto
-
-  // Crear elementos para cada texto
-  const textElements = [];
-
-  // Ocultar el elemento original
-  benefitText.style.display = "none";
-
-  // Crear elementos nuevos para cada texto
-  benefitTexts.forEach((text, index) => {
-    const element = document.createElement("span");
-    element.className = "benefit-highlight text-element";
-    element.id = `benefit-text-${index}`;
-    element.textContent = text;
-
-    // Ocultar todos excepto el primero
-    if (index !== 0) {
-      element.style.display = "none";
-    }
-
-    // Añadir al contenedor y a la lista
-    benefitContainer.appendChild(element);
-    textElements.push(element);
+  // Configuración inicial - todos los servicios ocultos en el centro (donde está el logo)
+  gsap.set(serviceItems, {
+    opacity: 0,
+    scale: 0.5,
+    x: 0,
+    y: 0,
+    xPercent: -50,
+    yPercent: -50,
+    transformOrigin: "center center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
   });
 
-  // Inicializar SplitType para todos los elementos
-  const splitInstances = textElements.map((element) => {
-    return new SplitType(`#${element.id}`, {
-      types: "words",
-      tagName: "span",
-    });
+  // Crear la timeline controlada por scroll - ajustada para empezar antes y ser más rápida
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".services-showcase",
+      start: "top 40%",
+      end: "top 25%",
+      scrub: 0.8,
+      // markers: true,
+      toggleActions: "play none reverse none",
+    },
   });
 
-  // Comprobar que SplitType ha funcionado en todos los elementos
-  const allSplitValid = splitInstances.every((split, index) => {
-    if (!split.words || split.words.length === 0) {
-      console.error(
-        `SplitType falló para el texto ${index}: ${benefitTexts[index]}`
-      );
-      return false;
-    }
-    return true;
-  });
+  // Animación para el elemento superior con rebote
+  tl.to(
+    ".service-top",
+    {
+      opacity: 1,
+      scale: 1,
+      y: -260,
+      duration: 0.5,
+      ease: "back.out(1.7)", // Añadido efecto de rebote
+    },
+    0
+  );
 
-  if (!allSplitValid) {
-    console.error(
-      "Al menos un SplitType falló. Mostrando textos sin animación."
-    );
-    textElements.forEach((element, index) => {
-      if (index !== 0) {
-        element.style.display = "none";
-      } else {
-        element.style.display = "block";
-      }
-    });
-    return;
-  }
+  // Animación para el elemento derecho con rebote
+  tl.to(
+    ".service-right",
+    {
+      opacity: 1,
+      scale: 1,
+      x: 260,
+      y: 150,
+      duration: 0.5,
+      ease: "back.out(1.7)", // Añadido efecto de rebote
+    },
+    0
+  );
 
-  // Configurar las posiciones iniciales para todos excepto el primero
-  for (let i = 1; i < textElements.length; i++) {
-    gsap.set(`#${textElements[i].id} .word`, {
-      y: "100%",
-      opacity: 0,
-    });
-  }
-
-  // Función para cambiar al siguiente texto
-  function showNextText() {
-    const currentElement = textElements[currentIndex];
-    const nextIndex = (currentIndex + 1) % textElements.length;
-    const nextElement = textElements[nextIndex];
-
-
-    // Animación de salida del texto actual
-    gsap.to(`#${currentElement.id} .word`, {
-      y: "-100%",
-      opacity: 0,
-      duration: 0.4,
-      ease: "power1.in",
-      stagger: 0.03,
-      onComplete: () => {
-        // Ocultar el elemento actual
-        currentElement.style.display = "none";
-
-        // Mostrar el siguiente elemento
-        nextElement.style.display = "block";
-
-        // Animar entrada del siguiente texto
-        gsap.to(`#${nextElement.id} .word`, {
-          y: "0%",
-          opacity: 1,
-          duration: 0.4,
-          ease: "power1.out",
-          stagger: 0.03,
-          onComplete: () => {
-            // Actualizar el índice
-            currentIndex = nextIndex;
-
-            // Programar el siguiente cambio
-            gsap.delayedCall(3, showNextText);
-          },
-        });
-      },
-    });
-  }
-
-  // Iniciar el ciclo de animación después de un tiempo
-  gsap.delayedCall(3, showNextText);
+  // Animación para el elemento izquierdo con rebote
+  tl.to(
+    ".service-left",
+    {
+      opacity: 1,
+      scale: 1,
+      x: -260,
+      y: 150,
+      duration: 0.5,
+      ease: "back.out(1.7)", // Añadido efecto de rebote
+    },
+    0
+  );
 }
 
 export function initServices() {
