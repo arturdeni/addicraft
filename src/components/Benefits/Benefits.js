@@ -54,10 +54,10 @@ function createBenefitsHTML() {
       <div class="benefits-showcase">
         <div class="benefit-images">
           <div class="benefit-image">
-            <img src="/assets/images/benefit-image1.jpg" alt="Pieza optimizada - antes y después">
+            <img src="/assets/images/benefit-image1.png" alt="Pieza optimizada - antes y después">
           </div>
           <div class="benefit-image">
-            <img src="/assets/images/benefit-image2.jpg" alt="Diseño optimizado en uso">
+            <img src="/assets/images/benefit-image2.png" alt="Diseño optimizado en uso">
           </div>
         </div>
         

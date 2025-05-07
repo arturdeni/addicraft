@@ -27,7 +27,7 @@ export function createProcess() {
           <!-- Paso 1 -->
           <div class="process-step" data-step="1">
             <div class="step-image">
-              <img src="/assets/images/process-step1.jpg" alt="Estudio de la pieza">
+              <img src="/assets/images/process-step1.png" alt="Estudio de la pieza">
             </div>
             <p class="step-title">Estudio de la pieza a optimizar</p>
           </div>
@@ -35,7 +35,7 @@ export function createProcess() {
           <!-- Paso 2 -->
           <div class="process-step" data-step="2">
             <div class="step-image">
-              <img src="/assets/images/process-step2.jpg" alt="Aplicación de esfuerzos">
+              <img src="/assets/images/process-step2.png" alt="Aplicación de esfuerzos">
             </div>
             <p class="step-title">Aplicación de los esfuerzo que sufre la pieza</p>
           </div>
@@ -43,7 +43,7 @@ export function createProcess() {
           <!-- Paso 3 -->
           <div class="process-step" data-step="3">
             <div class="step-image">
-              <img src="/assets/images/process-step3.jpg" alt="Realización del análisis">
+              <img src="/assets/images/process-step3.png" alt="Realización del análisis">
             </div>
             <p class="step-title">Realización del análisis</p>
           </div>
@@ -51,7 +51,7 @@ export function createProcess() {
           <!-- Paso 4 -->
           <div class="process-step" data-step="4">
             <div class="step-image">
-              <img src="/assets/images/process-step4.jpg" alt="Análisis de resultados">
+              <img src="/assets/images/process-step4.png" alt="Análisis de resultados">
             </div>
             <p class="step-title">Análisis de resultados</p>
           </div>
@@ -59,7 +59,7 @@ export function createProcess() {
           <!-- Paso 5 -->
           <div class="process-step" data-step="5">
             <div class="step-image">
-              <img src="/assets/images/process-step5.jpg" alt="Rediseño de la pieza">
+              <img src="/assets/images/process-step5.png" alt="Rediseño de la pieza">
             </div>
             <p class="step-title">Rediseño de la pieza</p>
           </div>
@@ -67,7 +67,7 @@ export function createProcess() {
           <!-- Paso 6 -->
           <div class="process-step" data-step="6">
             <div class="step-image">
-              <img src="/assets/images/process-step6.jpg" alt="Fabricación">
+              <img src="/assets/images/process-step6.png" alt="Fabricación">
             </div>
             <p class="step-title">Fabricación</p>
           </div>
