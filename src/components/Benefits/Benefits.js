@@ -62,30 +62,39 @@ function createBenefitsHTML() {
         </div>
         
         <div class="benefit-metrics">
-          ${createMetrics([
-            { value: -60, icon: "▼", label: "peso" },
-            { value: 30, icon: "🔄", label: "eficiencia" },
-            { value: -40, icon: "🌍", label: "huella de carbono" },
-          ])}
+          <div class="metric">
+            <img src="/assets/icons/icono-peso.png" alt="Reducción de peso" class="metric-icon">
+            <div class="metric-content">
+              <span class="metric-sign">-</span>
+              <span class="metric-number" data-value="60">0</span>
+              <span class="metric-percent">%</span>
+              <span class="metric-label">peso</span>
+            </div>
+          </div>
+          
+          <div class="metric">
+            <img src="/assets/icons/icono-eficiencia.png" alt="Mejora de eficiencia" class="metric-icon">
+            <div class="metric-content">
+              <span class="metric-sign">+</span>
+              <span class="metric-number" data-value="30">0</span>
+              <span class="metric-percent">%</span>
+              <span class="metric-label">eficiencia</span>
+            </div>
+          </div>
+          
+          <div class="metric">
+            <img src="/assets/icons/icono-huella.png" alt="Reducción huella de carbono" class="metric-icon">
+            <div class="metric-content">
+              <span class="metric-sign">-</span>
+              <span class="metric-number" data-value="40">0</span>
+              <span class="metric-percent">%</span>
+              <span class="metric-label">huella de carbono</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   `;
-}
-
-function createMetrics(metrics) {
-  return metrics
-    .map(
-      ({ value, icon, label }) => `
-    <div class="metric" data-value="${value}">
-      <span class="metric-icon">${icon}</span>
-      <span class="metric-value">${value < 0 ? "-" : "+"}${Math.abs(
-        value
-      )}% ${label}</span>
-    </div>
-  `
-    )
-    .join("");
 }
 
 function initBenefitsAnimations() {
@@ -153,37 +162,26 @@ function animateMetrics() {
 function animateMetricCounter(metric, index) {
   if (!metric) return;
 
-  const metricValue = parseInt(metric.getAttribute("data-value") || "0");
-  const isPositive = metricValue > 0;
-  const absoluteValue = Math.abs(metricValue);
-  const prefix = isPositive ? "+" : "-";
+  const numberElement = metric.querySelector(".metric-number");
+  if (!numberElement) return;
 
-  const metricText = metric.querySelector(".metric-value");
-  if (!metricText) return;
+  const targetValue = parseInt(numberElement.getAttribute("data-value") || "0");
 
-  // Extraer partes del texto inicial para separar el número del resto
-  const originalText = metricText.textContent || "";
-  const textParts = originalText.split("%");
-  if (textParts.length < 2) return;
-
-  // La parte después del símbolo "%"
-  const labelPart = textParts[1].trim();
-
-  const obj = { value: 0 };
-  gsap.to(obj, {
-    value: absoluteValue,
-    duration: 1.5,
-    delay: 0.3 + 0.1 * index,
-    ease: "power2.out",
-    onUpdate: function () {
-      const currentValue = Math.round(obj.value);
-      metricText.textContent = `${prefix}${currentValue}% ${labelPart}`;
-    },
-    scrollTrigger: {
-      trigger: ".benefit-metrics",
-      start: "top 85%",
-    },
-  });
+  gsap.fromTo(
+    numberElement,
+    { innerText: 0 },
+    {
+      innerText: targetValue,
+      duration: 1.5,
+      delay: 0.3 + 0.1 * index,
+      ease: "power2.out",
+      snap: { innerText: 1 }, // Asegura que los valores sean enteros
+      scrollTrigger: {
+        trigger: ".benefit-metrics",
+        start: "top 85%",
+      },
+    }
+  );
 }
 
 export function initBenefits() {

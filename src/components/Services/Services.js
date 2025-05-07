@@ -22,7 +22,7 @@ export function createServices() {
         <div class="services-items">
           <div class="service-item service-top">
             <div class="service-image">
-              <img src="/assets/images/service-optim.png" alt="Optimización topológica">
+              <img src="/assets/images/pieza-topologica.jpg" alt="Optimización topológica">
             </div>
             <h3 class="service-title">Optimización topológica</h3>
             <p class="service-description">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
@@ -30,7 +30,7 @@ export function createServices() {
           
           <div class="service-item service-right">
             <div class="service-image">
-              <img src="/assets/images/service-fab.png" alt="Fabricación">
+              <img src="/assets/images/pieza-fabricacion.jpg" alt="Fabricación">
             </div>
             <h3 class="service-title">Fabricación</h3>
             <p class="service-description">Impresión 3D de última generación para conseguir el mejor resultado.</p>
@@ -38,7 +38,7 @@ export function createServices() {
           
           <div class="service-item service-left">
             <div class="service-image">
-              <img src="/assets/images/service-design.png" alt="Diseño">
+              <img src="/assets/images/pieza-diseno.jpg" alt="Diseño">
             </div>
             <h3 class="service-title">Diseño</h3>
             <p class="service-description">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
@@ -82,8 +82,8 @@ function initServicesAnimations() {
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: ".services-showcase",
-      start: "top 40%",
-      end: "top 25%",
+      start: "top 45%",
+      end: "top 15%",
       scrub: 0.8,
       // markers: true,
       toggleActions: "play none reverse none",

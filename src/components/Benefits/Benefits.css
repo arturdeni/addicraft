@@ -65,49 +65,53 @@
 .benefit-metrics {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-xl);
+  gap: 80px;
   width: 100%;
-  margin-top: var(--spacing-sm);
+  margin-top: 30px;
 }
 
 .metric {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: 12px var(--spacing-sm);
-  background-color: var(--background-tertiary);
-  border-radius: var(--border-radius-pill);
-  transition: transform var(--transition-duration) var(--transition-timing),
-    background-color var(--transition-duration) var(--transition-timing);
-}
-
-.metric:hover {
-  transform: translateY(-5px);
-  background-color: rgba(40, 40, 40, 0.9);
+  gap: 15px;
 }
 
 .metric-icon {
-  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.metric-content {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.metric-sign {
+  font-weight: var(--font-weight-bold);
+  font-size: 20px;
   color: var(--primary-color);
 }
 
-.metric-value {
-  font-size: 18px;
+.metric-number {
   font-weight: var(--font-weight-bold);
+  font-size: 20px;
+  color: var(--primary-color);
+  min-width: 26px; /* Ancho fijo para evitar movimiento */
+  text-align: right;
+}
+
+.metric-percent {
+  font-weight: var(--font-weight-bold);
+  font-size: 20px;
+  color: var(--primary-color);
+  margin-right: 5px;
+}
+
+.metric-label {
+  font-size: 18px;
   color: #fff;
-}
-
-/* Estilos específicos para cada icono */
-.metric:nth-child(1) .metric-icon {
-  color: #ff6b6b; /* Rojo para reducción de peso */
-}
-
-.metric:nth-child(2) .metric-icon {
-  color: var(--primary-color); /* Verde para eficiencia */
-}
-
-.metric:nth-child(3) .metric-icon {
-  color: #64d2ff; /* Azul para huella de carbono */
 }
 
 /* Estilos responsivos */
@@ -124,32 +128,10 @@
   .benefit-metrics {
     flex-direction: column;
     align-items: center;
-  }
-
-  .metric {
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
+    gap: 30px;
   }
 
   .benefits-section {
     padding: 70px 0;
   }
-}
-
-/* Animación sutil para los indicadores de métrica */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.metric-icon {
-  animation: pulse 2s infinite ease-in-out;
 }
