@@ -2,23 +2,26 @@
 .services-section {
   background-color: var(--background-primary);
   color: #fff;
-  padding: 160px 0; /* Increased padding for more space */
+  padding: 160px 0; /* Vuelto al padding original */
   min-height: 100vh; /* Make it at least full viewport height */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+  overflow: visible; /* Permite el pinning */
 }
 
 .services-container {
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: var(--container-padding);
+  width: 100%;
 }
 
 .services-showcase {
   position: relative;
-  height: 650px; /* Increased height for the showcase area */
-  margin: 0 auto;
+  height: 650px; /* Height for the showcase area */
+  margin: 0 auto; /* Vuelto al margen original */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,9 +59,9 @@
 /* Common styles for service items */
 .service-item {
   width: 280px;
-  background-color: transparent; /* Removed background */
+  background-color: transparent;
   text-align: center;
-  will-change: transform, opacity;
+  will-change: transform, opacity; /* Optimización para animación */
 }
 
 /* Service image container */
@@ -91,8 +94,19 @@
   color: var(--text-light-color);
 }
 
+/* Estilos para el contenedor cuando está fijado */
+.services-section.gsap-pin-spacer {
+  display: flex !important; /* Sobrescribe el display establecido por GSAP */
+  justify-content: center;
+  align-items: center;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
+  .services-section {
+    padding: 120px 0; /* Reduced padding for mobile */
+  }
+
   .services-showcase {
     height: 750px; /* Increase height for mobile */
   }
@@ -104,6 +118,14 @@
   .service-image {
     width: 120px;
     height: 120px;
+  }
+
+  .service-title {
+    font-size: 20px;
+  }
+
+  .service-description {
+    font-size: 14px;
   }
 }
 
@@ -120,5 +142,13 @@
   .service-image {
     width: 100px;
     height: 100px;
+  }
+
+  .service-title {
+    font-size: 18px;
+  }
+
+  .service-description {
+    font-size: 13px;
   }
 }

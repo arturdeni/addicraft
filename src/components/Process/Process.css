@@ -2,23 +2,29 @@
 .process-section {
   background-color: var(--background-primary);
   color: #fff;
-  padding: var(--spacing-xxl) 0 120px;
+  padding: var(--spacing-xxl) 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Permite efectos de pinning */
+  min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .process-container {
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: var(--container-padding);
+  width: 100%;
 }
 
-/* Section title now in global style.css */
+/* Section title en global style.css */
 
 .process-flow {
   position: relative;
   height: 600px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .process-path {
@@ -35,8 +41,10 @@
 }
 
 .path-animated {
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linecap: butt; /* Controla mejor el inicio del trazo */
+  stroke-linejoin: miter;
+  will-change: stroke-dashoffset; /* Optimiza la animación */
+  filter: drop-shadow(0 0 3px rgba(204, 255, 2, 0.6));
 }
 
 .process-steps {
@@ -51,6 +59,7 @@
   width: 200px;
   opacity: 0; /* Inicialmente invisible */
   transform: translateY(30px);
+  will-change: opacity, transform; /* Optimiza la animación */
 }
 
 /* Posicionamiento de cada paso */
@@ -110,6 +119,13 @@
   margin: 0 auto;
 }
 
+/* Estilos para el contenedor cuando está fijado */
+.process-section.gsap-pin-spacer {
+  display: flex !important; /* Sobrescribe el display establecido por GSAP */
+  justify-content: center;
+  align-items: center;
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .process-flow {
@@ -164,9 +180,4 @@
     /* Ajustar el SVG para la vista móvil */
     transform: scale(0.8);
   }
-}
-
-/* Estilos adicionales para mejorar la visibilidad de la línea */
-.path-animated {
-  filter: drop-shadow(0 0 3px rgba(204, 255, 2, 0.6));
 }

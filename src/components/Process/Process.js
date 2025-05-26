@@ -16,11 +16,11 @@ export function createProcess() {
       
       <div class="process-flow">
         <svg class="process-path" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
-          <!-- Línea de fondo (gris) -->
+          <!-- Línea de fondo (gris) - El rectángulo completo -->
           <path class="path-background" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#333" stroke-width="3" />
           
-          <!-- Línea de animación (verde) que se irá revelando -->
-          <path class="path-animated" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#CCFF02" stroke-width="3" stroke-dasharray="2000" stroke-dashoffset="2000" />
+          <!-- Línea de animación (verde) - Modificada para terminar en la esquina inferior izquierda -->
+          <path class="path-animated" d="M 150,150 H 600 H 1050 V 450 H 600 H 150" fill="none" stroke="#CCFF02" stroke-width="3" />
         </svg>
         
         <div class="process-steps">
@@ -89,39 +89,66 @@ function initProcessAnimations() {
   const processSection = document.getElementById("como-lo-hacemos");
   if (!processSection) return;
 
-  // Animar la línea de proceso
-  gsap.to(".path-animated", {
-    strokeDashoffset: 0,
-    ease: "none",
+  // Configuración específica para el trazo
+  const pathAnimated = document.querySelector(".path-animated");
+  if (pathAnimated) {
+    // Obtener la longitud total del path
+    const pathLength = pathAnimated.getTotalLength();
+
+    // Configurar el dasharray y offset
+    gsap.set(pathAnimated, {
+      strokeDasharray: pathLength,
+      strokeDashoffset: pathLength,
+      strokeLinecap: "butt",
+    });
+  }
+
+  // Crear una timeline para la animación
+  // Aumentamos el valor de end para hacer que la sección permanezca fija por más tiempo
+  // permitiendo que la línea se dibuje más lentamente
+  const processTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".process-section",
-      start: "top 80%",
-      end: "bottom 20%",
-      scrub: true,
+      start: "top top",
+      end: "+=1500", // Aumentado de 1000 a 1500 para hacer que la animación sea más lenta
+      pin: true,
+      pinSpacing: true,
+      scrub: 0.7, // Aumentado de 0.5 a 0.7 para hacer la animación más suave y lenta
+      // markers: true, // Descomentar para depuración
     },
   });
 
-  // Animar cada paso del proceso para que aparezcan secuencialmente
+  // Animar el trazo para que se dibuje - aumentamos la duración relativa
+  processTl.to(".path-animated", {
+    strokeDashoffset: 0,
+    duration: 0.8, // Aumentado de 0.5 a 0.8 para ralentizar específicamente la línea verde
+    ease: "power1.inOut",
+  });
+
+  // Coordinar la aparición de los pasos con el avance de la línea
   const steps = document.querySelectorAll(".process-step");
+
+  // Definir en qué punto de la animación debe aparecer cada paso (valores entre 0 y 1)
+  const stepTriggerPoints = [
+    0.15, // Paso 1 aparece cuando la línea ha avanzado 15%
+    0.5, // Paso 2 aparece cuando la línea ha avanzado 32%
+    0.65, // Paso 3
+    0.8, // Paso 4
+    1, // Paso 5
+    1.3, // Paso 6
+  ];
+
+  // Animar cada paso según su punto de activación
   steps.forEach((step, index) => {
-    gsap.fromTo(
+    processTl.to(
       step,
-      {
-        opacity: 0,
-        y: 30,
-      },
       {
         opacity: 1,
         y: 0,
-        duration: 0.5,
-        scrollTrigger: {
-          trigger: ".process-section",
-          start: `top ${80 - index * 5}%`,
-          end: `top ${50 - index * 5}%`,
-          scrub: 1,
-          // markers: true, // Descomentar para depuración
-        },
-      }
+        duration: 0.1,
+        ease: "power1.out",
+      },
+      stepTriggerPoints[index] * 0.5 // Mantener el mismo tiempo relativo para los pasos
     );
   });
 }

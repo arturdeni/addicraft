@@ -78,58 +78,66 @@ function initServicesAnimations() {
     left: "50%",
   });
 
-  // Crear la timeline controlada por scroll - ajustada para empezar antes y ser más rápida
-  const tl = gsap.timeline({
+  // Crear la timeline controlada por scroll con pinning
+  const servicesTl = gsap.timeline({
     scrollTrigger: {
-      trigger: ".services-showcase",
-      start: "top 45%",
-      end: "top 15%",
-      scrub: 0.8,
-      // markers: true,
-      toggleActions: "play none reverse none",
+      trigger: ".services-section",
+      start: "top -10%", // Cambiado para que se fije más arriba (el logo aparece más hacia arriba)
+      end: "+=800", // Duración del scroll para la animación
+      pin: true, // Mantiene la sección fija
+      pinSpacing: true, // Asegura que haya espacio para el scroll
+      scrub: 0.8, // Controla la suavidad de la animación
+      // markers: true, // Descomentar para depuración
     },
   });
 
-  // Animación para el elemento superior con rebote
-  tl.to(
+  // Fase 1: Pequeña pausa inicial para que el usuario vea la configuración inicial
+  servicesTl.to({}, { duration: 0.1 });
+
+  // Fase 2: Animación de los elementos de servicio (sin animación del logo)
+  // Elemento superior
+  servicesTl.to(
     ".service-top",
     {
       opacity: 1,
       scale: 1,
       y: -260,
-      duration: 0.5,
-      ease: "back.out(1.7)", // Añadido efecto de rebote
+      duration: 0.3,
+      ease: "back.out(1.7)",
     },
-    0
+    0.2 // Comienza un poco después de la pausa inicial
   );
 
-  // Animación para el elemento derecho con rebote
-  tl.to(
+  // Elemento derecho
+  servicesTl.to(
     ".service-right",
     {
       opacity: 1,
       scale: 1,
       x: 260,
       y: 150,
-      duration: 0.5,
-      ease: "back.out(1.7)", // Añadido efecto de rebote
+      duration: 0.3,
+      ease: "back.out(1.7)",
     },
-    0
+    0.4 // Ligeramente después del elemento superior
   );
 
-  // Animación para el elemento izquierdo con rebote
-  tl.to(
+  // Elemento izquierdo
+  servicesTl.to(
     ".service-left",
     {
       opacity: 1,
       scale: 1,
       x: -260,
       y: 150,
-      duration: 0.5,
-      ease: "back.out(1.7)", // Añadido efecto de rebote
+      duration: 0.3,
+      ease: "back.out(1.7)",
     },
-    0
+    0.6 // Último en aparecer
   );
+
+  // Fase 3: Pequeña pausa final para que el usuario pueda ver el resultado completo
+  servicesTl.to({}, { duration: 0.2 });
 }
 
 export function initServices() {
