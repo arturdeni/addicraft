@@ -77,12 +77,12 @@ export function createProcess() {
 
       <!-- Mobile Version -->
       <div class="process-flow-mobile mobile-only">
-        <svg class="process-path-mobile" viewBox="0 0 100 1200" preserveAspectRatio="xMidYMid meet">
+        <svg class="process-path-mobile" viewBox="0 0 100 1400" preserveAspectRatio="xMidYMid meet">
           <!-- Línea de fondo vertical (gris) -->
-          <path class="path-background-mobile" d="M 50,50 V 1150" fill="none" stroke="#333" stroke-width="4" />
+          <path class="path-background-mobile" d="M 50,0 V 1400" fill="none" stroke="#333" stroke-width="4" />
           
           <!-- Línea de animación vertical (verde) -->
-          <path class="path-animated-mobile" d="M 50,50 V 1150" fill="none" stroke="#CCFF02" stroke-width="4" />
+          <path class="path-animated-mobile" d="M 50,0 V 1400" fill="none" stroke="#CCFF02" stroke-width="4" />
         </svg>
         
         <div class="process-steps-mobile">
@@ -272,33 +272,33 @@ function initMobileAnimations() {
   // Configuración inicial para los pasos mobile
   const stepsMobile = document.querySelectorAll(".process-step-mobile");
   gsap.set(stepsMobile, {
-    opacity: 0,
-    x: -30,
+    opacity: 1,
+    y: 30,
   });
 
-  // Crear ScrollTrigger para la línea mobile (sin pin)
+  // Crear ScrollTrigger para la línea mobile (animación más rápida y mejor sincronizada)
   gsap.to(".path-animated-mobile", {
     strokeDashoffset: 0,
     ease: "none",
     scrollTrigger: {
       trigger: ".process-flow-mobile",
-      start: "top 70%",
-      end: "bottom 30%",
-      scrub: 1,
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: 0.5,
     },
   });
 
-  // Animar cada paso mobile individualmente
+  // Animar cada paso mobile individualmente con mejor timing
   stepsMobile.forEach((step, index) => {
     gsap.to(step, {
       opacity: 1,
-      x: 0,
+      y: 0,
       duration: 0.6,
       ease: "power2.out",
       scrollTrigger: {
         trigger: step,
-        start: "top 80%",
-        end: "bottom 60%",
+        start: "top 85%",
+        end: "bottom 50%",
         toggleActions: "play none none reverse",
       },
     });

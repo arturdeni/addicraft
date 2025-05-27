@@ -48,6 +48,9 @@ export class Hero3DModel {
     // Append renderer to container
     this.container.appendChild(this.renderer.domElement);
 
+    // Fix touch scroll on mobile - disable pointer events on canvas for mobile devices
+    this.setupMobileScrollFix();
+
     // Add lights - simplified, neutral lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     this.scene.add(ambientLight);
@@ -72,6 +75,14 @@ export class Hero3DModel {
 
     // Handle window resize
     window.addEventListener("resize", this.onWindowResize.bind(this));
+
+    // Handle orientation change on mobile
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        this.setupMobileScrollFix();
+        this.onWindowResize();
+      }, 100);
+    });
 
     // Start animation loop
     this.animate();
@@ -114,26 +125,8 @@ export class Hero3DModel {
         const scale = 2.2 / maxDim; // Smaller scale factor for a more natural size
         this.model.scale.multiplyScalar(scale);
 
-        // Preserve original materials (don't modify colors)
-
-        // Make model white and brighter
-        this.model.traverse((child) => {
-          if (child.isMesh) {
-            if (child.material) {
-              if (Array.isArray(child.material)) {
-                child.material.forEach((mat) => {
-                  mat.color.set(0xffffff); // Pure white color
-                  mat.emissive.set(0x333333); // Subtle emission for brightness
-                  mat.emissiveIntensity = 0.9; // Emission intensity
-                });
-              } else {
-                child.material.color.set(0xffffff); // Pure white color
-                child.material.emissive.set(0xffffff); // Subtle emission for brightness
-                child.material.emissiveIntensity = 0.5; // Emission intensity
-              }
-            }
-          }
-        });
+        // Keep original materials and colors - NO COLOR MODIFICATIONS
+        // The model will display with its original textures and colors from the GLB file
 
         // Add model to scene
         this.scene.add(this.model);
@@ -160,6 +153,27 @@ export class Hero3DModel {
     );
   }
 
+  setupMobileScrollFix() {
+    // Detect if we're on a mobile device
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) || window.innerWidth <= 768;
+
+    if (isMobile) {
+      // Disable pointer events on canvas for mobile to allow scroll
+      this.renderer.domElement.style.pointerEvents = "none";
+
+      // Also disable controls for mobile since we can't interact anyway
+      if (this.controls) {
+        this.controls.enabled = false;
+      }
+    } else {
+      // For desktop, keep pointer events enabled if needed for future interactions
+      this.renderer.domElement.style.pointerEvents = "auto";
+    }
+  }
+
   onWindowResize() {
     if (this.container && this.camera && this.renderer) {
       const width = this.container.clientWidth;
@@ -168,6 +182,9 @@ export class Hero3DModel {
       this.camera.aspect = width / height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height);
+
+      // Re-check mobile status on resize
+      this.setupMobileScrollFix();
     }
   }
 
@@ -196,6 +213,10 @@ export class Hero3DModel {
   dispose() {
     // Clean up resources when component unmounts
     window.removeEventListener("resize", this.onWindowResize.bind(this));
+    window.removeEventListener(
+      "orientationchange",
+      this.setupMobileScrollFix.bind(this)
+    );
 
     // Remove canvas from container
     if (this.renderer) {

@@ -5,12 +5,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: rgba(
-    204,
-    255,
-    2,
-    0.5
-  ); /* Color primario con misma opacidad */
+  background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); /* Para Safari */
   padding: 16px 0;
