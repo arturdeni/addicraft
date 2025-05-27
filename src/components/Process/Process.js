@@ -14,7 +14,8 @@ export function createProcess() {
     <div class="process-container">
       <h2 class="section-title">¿Cómo lo hacemos?</h2>
       
-      <div class="process-flow">
+      <!-- Desktop Version -->
+      <div class="process-flow desktop-only">
         <svg class="process-path" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
           <!-- Línea de fondo (gris) - El rectángulo completo -->
           <path class="path-background" d="M 150,150 H 600 H 1050 V 450 H 600 H 150 Z" fill="none" stroke="#333" stroke-width="3" />
@@ -73,6 +74,85 @@ export function createProcess() {
           </div>
         </div>
       </div>
+
+      <!-- Mobile Version -->
+      <div class="process-flow-mobile mobile-only">
+        <svg class="process-path-mobile" viewBox="0 0 100 1200" preserveAspectRatio="xMidYMid meet">
+          <!-- Línea de fondo vertical (gris) -->
+          <path class="path-background-mobile" d="M 50,50 V 1150" fill="none" stroke="#333" stroke-width="4" />
+          
+          <!-- Línea de animación vertical (verde) -->
+          <path class="path-animated-mobile" d="M 50,50 V 1150" fill="none" stroke="#CCFF02" stroke-width="4" />
+        </svg>
+        
+        <div class="process-steps-mobile">
+          <!-- Paso 1 Mobile -->
+          <div class="process-step-mobile" data-step="1">
+            <div class="step-number">01</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step1.png" alt="Estudio de la pieza">
+              </div>
+              <p class="step-title-mobile">Estudio de la pieza a optimizar</p>
+            </div>
+          </div>
+          
+          <!-- Paso 2 Mobile -->
+          <div class="process-step-mobile" data-step="2">
+            <div class="step-number">02</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step2.png" alt="Aplicación de esfuerzos">
+              </div>
+              <p class="step-title-mobile">Aplicación de los esfuerzo que sufre la pieza</p>
+            </div>
+          </div>
+          
+          <!-- Paso 3 Mobile -->
+          <div class="process-step-mobile" data-step="3">
+            <div class="step-number">03</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step3.png" alt="Realización del análisis">
+              </div>
+              <p class="step-title-mobile">Realización del análisis</p>
+            </div>
+          </div>
+          
+          <!-- Paso 4 Mobile -->
+          <div class="process-step-mobile" data-step="4">
+            <div class="step-number">04</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step4.png" alt="Análisis de resultados">
+              </div>
+              <p class="step-title-mobile">Análisis de resultados</p>
+            </div>
+          </div>
+          
+          <!-- Paso 5 Mobile -->
+          <div class="process-step-mobile" data-step="5">
+            <div class="step-number">05</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step5.png" alt="Rediseño de la pieza">
+              </div>
+              <p class="step-title-mobile">Rediseño de la pieza</p>
+            </div>
+          </div>
+          
+          <!-- Paso 6 Mobile -->
+          <div class="process-step-mobile" data-step="6">
+            <div class="step-number">06</div>
+            <div class="step-content">
+              <div class="step-image-mobile">
+                <img src="/assets/images/process-step6.png" alt="Fabricación">
+              </div>
+              <p class="step-title-mobile">Fabricación</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 
@@ -89,7 +169,43 @@ function initProcessAnimations() {
   const processSection = document.getElementById("como-lo-hacemos");
   if (!processSection) return;
 
-  // Configuración específica para el trazo
+  // Detectar si estamos en mobile
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    initMobileAnimations();
+  } else {
+    initDesktopAnimations();
+  }
+
+  // Listener para cambios de tamaño de ventana
+  window.addEventListener("resize", () => {
+    const newIsMobile = window.innerWidth <= 768;
+    if (newIsMobile !== isMobile) {
+      // Limpiar animaciones existentes
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (
+          trigger.trigger === processSection ||
+          processSection.contains(trigger.trigger)
+        ) {
+          trigger.kill();
+        }
+      });
+
+      // Reinicializar animaciones
+      setTimeout(() => {
+        if (newIsMobile) {
+          initMobileAnimations();
+        } else {
+          initDesktopAnimations();
+        }
+      }, 100);
+    }
+  });
+}
+
+function initDesktopAnimations() {
+  // Configuración específica para el trazo desktop
   const pathAnimated = document.querySelector(".path-animated");
   if (pathAnimated) {
     // Obtener la longitud total del path
@@ -103,42 +219,29 @@ function initProcessAnimations() {
     });
   }
 
-  // Crear una timeline para la animación
-  // Aumentamos el valor de end para hacer que la sección permanezca fija por más tiempo
-  // permitiendo que la línea se dibuje más lentamente
+  // Crear una timeline para la animación desktop
   const processTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".process-section",
-      start: "top -14%", // Cambiado para que inicie antes
-      end: "+=1500", // Aumentado de 1000 a 1500 para hacer que la animación sea más lenta
+      start: "top -14%",
+      end: "+=1500",
       pin: true,
       pinSpacing: true,
-      scrub: 0.7, // Aumentado de 0.5 a 0.7 para hacer la animación más suave y lenta
-      // markers: true, // Descomentar para depuración
+      scrub: 0.7,
     },
   });
 
-  // Animar el trazo para que se dibuje - aumentamos la duración relativa
+  // Animar el trazo para que se dibuje
   processTl.to(".path-animated", {
     strokeDashoffset: 0,
-    duration: 0.8, // Aumentado de 0.5 a 0.8 para ralentizar específicamente la línea verde
+    duration: 0.8,
     ease: "power1.inOut",
   });
 
   // Coordinar la aparición de los pasos con el avance de la línea
   const steps = document.querySelectorAll(".process-step");
+  const stepTriggerPoints = [0.15, 0.5, 0.65, 0.8, 1, 1.3];
 
-  // Definir en qué punto de la animación debe aparecer cada paso (valores entre 0 y 1)
-  const stepTriggerPoints = [
-    0.15, // Paso 1 aparece cuando la línea ha avanzado 15%
-    0.5, // Paso 2 aparece cuando la línea ha avanzado 32%
-    0.65, // Paso 3
-    0.8, // Paso 4
-    1, // Paso 5
-    1.3, // Paso 6
-  ];
-
-  // Animar cada paso según su punto de activación
   steps.forEach((step, index) => {
     processTl.to(
       step,
@@ -148,8 +251,57 @@ function initProcessAnimations() {
         duration: 0.1,
         ease: "power1.out",
       },
-      stepTriggerPoints[index] * 0.5 // Mantener el mismo tiempo relativo para los pasos
+      stepTriggerPoints[index] * 0.5
     );
+  });
+}
+
+function initMobileAnimations() {
+  // Configuración para la línea vertical mobile
+  const pathAnimatedMobile = document.querySelector(".path-animated-mobile");
+  if (pathAnimatedMobile) {
+    const pathLength = pathAnimatedMobile.getTotalLength();
+
+    gsap.set(pathAnimatedMobile, {
+      strokeDasharray: pathLength,
+      strokeDashoffset: pathLength,
+      strokeLinecap: "round",
+    });
+  }
+
+  // Configuración inicial para los pasos mobile
+  const stepsMobile = document.querySelectorAll(".process-step-mobile");
+  gsap.set(stepsMobile, {
+    opacity: 0,
+    x: -30,
+  });
+
+  // Crear ScrollTrigger para la línea mobile (sin pin)
+  gsap.to(".path-animated-mobile", {
+    strokeDashoffset: 0,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".process-flow-mobile",
+      start: "top 70%",
+      end: "bottom 30%",
+      scrub: 1,
+    },
+  });
+
+  // Animar cada paso mobile individualmente
+  stepsMobile.forEach((step, index) => {
+    gsap.to(step, {
+      opacity: 1,
+      x: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: step,
+        start: "top 80%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse",
+      },
+    });
   });
 }
 

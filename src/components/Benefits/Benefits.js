@@ -5,42 +5,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Constantes para reutilización
-const ANIMATION_DEFAULTS = {
-  duration: 0.8,
-  ease: "power2.out",
-};
-
 export function createBenefits() {
   const benefitsSection = document.createElement("section");
   benefitsSection.id = "beneficios";
   benefitsSection.classList.add("benefits-section");
 
-  benefitsSection.innerHTML = createBenefitsHTML();
-
-  // Usar requestAnimationFrame en lugar de setTimeout para mejor rendimiento
-  if (
-    document.readyState === "complete" ||
-    document.readyState === "interactive"
-  ) {
-    requestAnimationFrame(() => {
-      if (document.getElementById("beneficios")) {
-        initBenefitsAnimations();
-      }
-    });
-  } else {
-    document.addEventListener("DOMContentLoaded", () => {
-      if (document.getElementById("beneficios")) {
-        initBenefitsAnimations();
-      }
-    });
-  }
-
-  return benefitsSection;
-}
-
-function createBenefitsHTML() {
-  return `
+  benefitsSection.innerHTML = `
     <div class="benefits-container">
       <div class="benefits-message">
         <h2 class="benefits-title">
@@ -95,14 +65,19 @@ function createBenefitsHTML() {
       </div>
     </div>
   `;
+
+  // Inicializar animaciones
+  requestAnimationFrame(() => {
+    if (document.getElementById("beneficios")) {
+      initBenefitsAnimations();
+    }
+  });
+
+  return benefitsSection;
 }
 
 function initBenefitsAnimations() {
-  // Verificamos que GSAP y ScrollTrigger estén correctamente registrados
-  if (!gsap || !ScrollTrigger) {
-    console.error("GSAP o ScrollTrigger no están disponibles");
-    return;
-  }
+  if (!gsap || !ScrollTrigger) return;
 
   animateTitles();
   animateImages();
@@ -111,9 +86,10 @@ function initBenefitsAnimations() {
 
 function animateTitles() {
   gsap.from(".benefits-title", {
-    ...ANIMATION_DEFAULTS,
     opacity: 0,
     y: 30,
+    duration: 0.8,
+    ease: "power2.out",
     scrollTrigger: {
       trigger: ".benefits-section",
       start: "top 70%",
@@ -123,9 +99,10 @@ function animateTitles() {
 
 function animateImages() {
   gsap.from(".benefit-image", {
-    ...ANIMATION_DEFAULTS,
     opacity: 0,
     scale: 0.9,
+    duration: 0.8,
+    ease: "power2.out",
     stagger: 0.2,
     scrollTrigger: {
       trigger: ".benefit-images",
@@ -136,14 +113,12 @@ function animateImages() {
 
 function animateMetrics() {
   const metrics = document.querySelectorAll(".metric");
+  if (!metrics.length) return;
 
-  if (!metrics.length) {
-    console.warn("No se encontraron elementos .metric");
-    return;
-  }
+  let countersTriggered = false;
 
+  // Animar aparición de contenedores
   metrics.forEach((metric, index) => {
-    // Animar la aparición del contenedor
     gsap.from(metric, {
       opacity: 0,
       x: -20,
@@ -154,42 +129,83 @@ function animateMetrics() {
         start: "top 85%",
       },
     });
+  });
 
-    animateMetricCounter(metric, index);
+  // Configurar detección de visibilidad para contadores
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (
+          entry.isIntersecting &&
+          !countersTriggered &&
+          entry.intersectionRatio >= 0.5
+        ) {
+          countersTriggered = true;
+
+          metrics.forEach((metric, index) => {
+            animateCounter(metric, index);
+          });
+
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.5,
+      rootMargin: "-10% 0px -10% 0px",
+    }
+  );
+
+  // Observar números para activar contadores
+  document.querySelectorAll(".metric-number").forEach((numberEl) => {
+    observer.observe(numberEl);
   });
 }
 
-function animateMetricCounter(metric, index) {
-  if (!metric) return;
-
+function animateCounter(metric, index) {
   const numberElement = metric.querySelector(".metric-number");
   if (!numberElement) return;
 
   const targetValue = parseInt(numberElement.getAttribute("data-value") || "0");
+  const counterObj = { value: 0 };
 
-  gsap.fromTo(
-    numberElement,
-    { innerText: 0 },
-    {
-      innerText: targetValue,
-      duration: 1.5,
-      delay: 0.3 + 0.1 * index,
-      ease: "power2.out",
-      snap: { innerText: 1 }, // Asegura que los valores sean enteros
-      scrollTrigger: {
-        trigger: ".benefit-metrics",
-        start: "top 85%",
-      },
-    }
-  );
+  gsap.to(counterObj, {
+    value: targetValue,
+    duration: 2,
+    delay: 0.1 * index,
+    ease: "power2.out",
+    onUpdate() {
+      numberElement.textContent = Math.round(counterObj.value);
+    },
+    onStart() {
+      numberElement.classList.add("counting");
+    },
+    onComplete() {
+      numberElement.textContent = targetValue;
+      numberElement.classList.remove("counting");
+      numberElement.classList.add("count-complete");
+
+      // Efecto final de "pop"
+      gsap.fromTo(
+        numberElement,
+        { scale: 1 },
+        {
+          scale: 1.1,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.inOut",
+        }
+      );
+    },
+  });
 }
 
 export function initBenefits() {
   const mainContainer = document.getElementById("app") || document.body;
   const processSection = document.querySelector(".process-section");
-  const benefitsExists = document.querySelector(".benefits-section");
 
-  if (!benefitsExists) {
+  if (!document.querySelector(".benefits-section")) {
     if (processSection) {
       processSection.after(createBenefits());
     } else {

@@ -2,13 +2,13 @@
 .services-section {
   background-color: var(--background-primary);
   color: #fff;
-  padding: 160px 0; /* Vuelto al padding original */
-  min-height: 100vh; /* Make it at least full viewport height */
+  padding: 160px 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-  overflow: visible; /* Permite el pinning */
+  overflow: visible;
 }
 
 .services-container {
@@ -18,10 +18,20 @@
   width: 100%;
 }
 
+/* Mostrar/ocultar versiones según el tamaño de pantalla */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* ============ DESKTOP STYLES ============ */
 .services-showcase {
   position: relative;
-  height: 650px; /* Height for the showcase area */
-  margin: 0 auto; /* Vuelto al margen original */
+  height: 650px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +71,7 @@
   width: 280px;
   background-color: transparent;
   text-align: center;
-  will-change: transform, opacity; /* Optimización para animación */
+  will-change: transform, opacity;
 }
 
 /* Service image container */
@@ -96,19 +106,146 @@
 
 /* Estilos para el contenedor cuando está fijado */
 .services-section.gsap-pin-spacer {
-  display: flex !important; /* Sobrescribe el display establecido por GSAP */
+  display: flex !important;
   justify-content: center;
   align-items: center;
 }
 
-/* Responsive styles */
+/* ============ MOBILE STYLES ============ */
+.services-showcase-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding: 40px 0;
+}
+
+.service-item-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  will-change: opacity, transform;
+  margin-top: 50px;
+}
+
+.service-item-mobile:first-child {
+  margin-top: 0;
+}
+
+.service-image-mobile {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  margin-bottom: 25px;
+  background-color: #222;
+}
+
+.service-image-mobile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.service-content-mobile {
+  max-width: 300px;
+}
+
+.service-title-mobile {
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.service-description-mobile {
+  font-size: 16px;
+  line-height: var(--line-height-base);
+  color: var(--text-light-color);
+  margin: 0;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
 @media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
   .services-section {
-    padding: 120px 0; /* Reduced padding for mobile */
+    padding: 80px 0;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .services-container {
+    padding: 0 20px;
+  }
+
+  .services-showcase-mobile {
+    gap: 40px;
+    padding: 20px 0;
+  }
+
+  .service-image-mobile {
+    width: 180px;
+    height: 180px;
+  }
+
+  .service-content-mobile {
+    max-width: 280px;
+  }
+
+  .service-title-mobile {
+    font-size: 22px;
+  }
+
+  .service-description-mobile {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-section {
+    padding: 60px 0;
+  }
+
+  .services-showcase-mobile {
+    gap: 35px;
+  }
+
+  .service-image-mobile {
+    width: 160px;
+    height: 160px;
+  }
+
+  .service-content-mobile {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .service-title-mobile {
+    font-size: 20px;
+  }
+
+  .service-description-mobile {
+    font-size: 14px;
+  }
+}
+
+/* ============ DESKTOP RESPONSIVE (mantener original) ============ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .services-section {
+    padding: 120px 0;
   }
 
   .services-showcase {
-    height: 750px; /* Increase height for mobile */
+    height: 750px;
   }
 
   .service-item {
@@ -126,29 +263,5 @@
 
   .service-description {
     font-size: 14px;
-  }
-}
-
-/* For very small screens */
-@media (max-width: 480px) {
-  .services-showcase {
-    height: 850px; /* Even more height for smaller devices */
-  }
-
-  .service-item {
-    width: 180px;
-  }
-
-  .service-image {
-    width: 100px;
-    height: 100px;
-  }
-
-  .service-title {
-    font-size: 18px;
-  }
-
-  .service-description {
-    font-size: 13px;
   }
 }

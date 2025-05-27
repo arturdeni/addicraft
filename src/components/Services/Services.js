@@ -14,7 +14,8 @@ export function createServices() {
     <div class="services-container">
       <h2 class="section-title">Qué ofrecemos</h2>
       
-      <div class="services-showcase">
+      <!-- Desktop Version -->
+      <div class="services-showcase desktop-only">
         <div class="logo-container">
           <img src="/assets/logos/addiCraftLogo.png" alt="AddiCraft Engineering Logo" class="central-logo">
         </div>
@@ -45,6 +46,39 @@ export function createServices() {
           </div>
         </div>
       </div>
+
+      <!-- Mobile Version -->
+      <div class="services-showcase-mobile mobile-only">
+        <div class="service-item-mobile">
+          <div class="service-image-mobile">
+            <img src="/assets/images/pieza-topologica.jpg" alt="Optimización topológica">
+          </div>
+          <div class="service-content-mobile">
+            <h3 class="service-title-mobile">Optimización topológica</h3>
+            <p class="service-description-mobile">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
+          </div>
+        </div>
+        
+        <div class="service-item-mobile">
+          <div class="service-image-mobile">
+            <img src="/assets/images/pieza-diseno.jpg" alt="Diseño">
+          </div>
+          <div class="service-content-mobile">
+            <h3 class="service-title-mobile">Diseño</h3>
+            <p class="service-description-mobile">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
+          </div>
+        </div>
+        
+        <div class="service-item-mobile">
+          <div class="service-image-mobile">
+            <img src="/assets/images/pieza-fabricacion.jpg" alt="Fabricación">
+          </div>
+          <div class="service-content-mobile">
+            <h3 class="service-title-mobile">Fabricación</h3>
+            <p class="service-description-mobile">Impresión 3D de última generación para conseguir el mejor resultado.</p>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 
@@ -59,10 +93,48 @@ export function createServices() {
 function initServicesAnimations() {
   // Asegurarnos de que los elementos existen
   const servicesSection = document.getElementById("que-ofrecemos");
+  if (!servicesSection) return;
+
+  // Detectar si estamos en mobile
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    initMobileAnimations();
+  } else {
+    initDesktopAnimations();
+  }
+
+  // Listener para cambios de tamaño de ventana
+  window.addEventListener("resize", () => {
+    const newIsMobile = window.innerWidth <= 768;
+    if (newIsMobile !== isMobile) {
+      // Limpiar animaciones existentes
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (
+          trigger.trigger === servicesSection ||
+          servicesSection.contains(trigger.trigger)
+        ) {
+          trigger.kill();
+        }
+      });
+
+      // Reinicializar animaciones
+      setTimeout(() => {
+        if (newIsMobile) {
+          initMobileAnimations();
+        } else {
+          initDesktopAnimations();
+        }
+      }, 100);
+    }
+  });
+}
+
+function initDesktopAnimations() {
   const logoElement = document.querySelector(".central-logo");
   const serviceItems = document.querySelectorAll(".service-item");
 
-  if (!servicesSection || !logoElement || serviceItems.length === 0) return;
+  if (!logoElement || serviceItems.length === 0) return;
 
   // Configuración inicial - todos los servicios ocultos en el centro (donde está el logo)
   gsap.set(serviceItems, {
@@ -82,20 +154,18 @@ function initServicesAnimations() {
   const servicesTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".services-section",
-      start: "top -15%", // Cambiado para que se fije más arriba (el logo aparece más hacia arriba)
-      end: "+=800", // Duración del scroll para la animación
-      pin: true, // Mantiene la sección fija
-      pinSpacing: true, // Asegura que haya espacio para el scroll
-      scrub: 0.8, // Controla la suavidad de la animación
-      // markers: true, // Descomentar para depuración
+      start: "top -15%",
+      end: "+=800",
+      pin: true,
+      pinSpacing: true,
+      scrub: 0.8,
     },
   });
 
-  // Fase 1: Pequeña pausa inicial para que el usuario vea la configuración inicial
+  // Fase 1: Pequeña pausa inicial
   servicesTl.to({}, { duration: 0.1 });
 
-  // Fase 2: Animación de los elementos de servicio (sin animación del logo)
-  // Elemento superior
+  // Fase 2: Animación de los elementos de servicio
   servicesTl.to(
     ".service-top",
     {
@@ -105,10 +175,9 @@ function initServicesAnimations() {
       duration: 0.3,
       ease: "back.out(1.7)",
     },
-    0.2 // Comienza un poco después de la pausa inicial
+    0.2
   );
 
-  // Elemento derecho
   servicesTl.to(
     ".service-right",
     {
@@ -119,10 +188,9 @@ function initServicesAnimations() {
       duration: 0.3,
       ease: "back.out(1.7)",
     },
-    0.4 // Ligeramente después del elemento superior
+    0.4
   );
 
-  // Elemento izquierdo
   servicesTl.to(
     ".service-left",
     {
@@ -133,11 +201,37 @@ function initServicesAnimations() {
       duration: 0.3,
       ease: "back.out(1.7)",
     },
-    0.6 // Último en aparecer
+    0.6
   );
 
-  // Fase 3: Pequeña pausa final para que el usuario pueda ver el resultado completo
+  // Fase 3: Pequeña pausa final
   servicesTl.to({}, { duration: 0.2 });
+}
+
+function initMobileAnimations() {
+  const serviceItemsMobile = document.querySelectorAll(".service-item-mobile");
+
+  // Configuración inicial para mobile
+  gsap.set(serviceItemsMobile, {
+    opacity: 0,
+    y: 50,
+  });
+
+  // Animar cada servicio mobile individualmente
+  serviceItemsMobile.forEach((item, index) => {
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: item,
+        start: "top 80%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
 }
 
 export function initServices() {
