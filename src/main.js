@@ -10,6 +10,7 @@ import { createContactForm } from "./components/ContactForm/ContactForm.js";
 import { createFooter } from "./components/Footer/Footer.js";
 import { initAnimations } from "./utils/animations.js";
 import { initSectionTitleAnimations } from "./utils/titleAnimations.js";
+import { initSmoothScroll } from "./utils/scrollUtils.js";
 import "./utils/titleAnimations.css";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -30,4 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicializar animaciones para los títulos de sección
   initSectionTitleAnimations();
+
+  // Inicializar scroll suave unificado para toda la aplicación
+  initSmoothScroll();
 });

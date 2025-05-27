@@ -34,23 +34,6 @@ export function createHeroSection() {
     </div>
   `;
 
-  // Scroll suave para los botones de la sección hero
-  const buttons = heroSection.querySelectorAll(".btn");
-  buttons.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute("href");
-      const targetElement = document.querySelector(targetId);
-
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80, // Asumiendo altura del header de 80px
-          behavior: "smooth",
-        });
-      }
-    });
-  });
-
   // Initialize 3D model after the component is mounted
   setTimeout(() => {
     const container = document.getElementById("hero3DContainer");

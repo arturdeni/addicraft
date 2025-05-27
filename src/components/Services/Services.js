@@ -82,7 +82,7 @@ function initServicesAnimations() {
   const servicesTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".services-section",
-      start: "top -10%", // Cambiado para que se fije más arriba (el logo aparece más hacia arriba)
+      start: "top -15%", // Cambiado para que se fije más arriba (el logo aparece más hacia arriba)
       end: "+=800", // Duración del scroll para la animación
       pin: true, // Mantiene la sección fija
       pinSpacing: true, // Asegura que haya espacio para el scroll

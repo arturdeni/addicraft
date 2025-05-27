@@ -109,7 +109,7 @@ function initProcessAnimations() {
   const processTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".process-section",
-      start: "top top",
+      start: "top -14%", // Cambiado para que inicie antes
       end: "+=1500", // Aumentado de 1000 a 1500 para hacer que la animación sea más lenta
       pin: true,
       pinSpacing: true,

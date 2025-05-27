@@ -25,23 +25,6 @@ export function createHeader() {
     </div>
   `;
 
-  // Scroll suave para los enlaces de la navegación
-  const navLinks = header.querySelectorAll(".nav-link");
-  navLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute("href");
-      const targetElement = document.querySelector(targetId);
-
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - header.offsetHeight,
-          behavior: "smooth",
-        });
-      }
-    });
-  });
-
   return header;
 }
 
