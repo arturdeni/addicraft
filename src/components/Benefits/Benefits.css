@@ -117,7 +117,7 @@
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .benefits-title {
-    font-size: 28px;
+    font-size: 20px;
   }
 
   .benefit-images {

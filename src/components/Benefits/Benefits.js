@@ -82,6 +82,25 @@ function initBenefitsAnimations() {
   animateTitles();
   animateImages();
   animateMetrics();
+
+  // 🎯 EFECTO OVERLAY - Solo en desktop y después de todas las animaciones
+  if (window.innerWidth > 768) {
+    setTimeout(() => {
+      initOverlayEffect();
+    }, 1000); // Delay para evitar conflictos con otros pins
+  }
+}
+
+// 🎯 NUEVA FUNCIÓN PARA EL EFECTO OVERLAY
+function initOverlayEffect() {
+  ScrollTrigger.create({
+    trigger: ".benefits-section",
+    start: "bottom 80%", // Iniciar cuando el trigger esté en el 80% de la parte inferior de la ventana
+    end: "+=900vh", // Pin durante una altura de viewport
+    pin: true,
+    pinSpacing: true,
+    id: "benefits-overlay", // ID único para evitar conflictos
+  });
 }
 
 function animateTitles() {
