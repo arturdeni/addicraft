@@ -1,7 +1,7 @@
 /* src/components/ContactForm/ContactForm.css */
 .contact-section {
-  background-color: var(--background-primary);
-  color: #fff;
+  background-color: var(--primary-color); /* Cambiado a verde primario */
+  color: var(--secondary-color); /* Texto negro para contraste */
   padding: var(--spacing-xxl) 0 100px;
 }
 
@@ -41,7 +41,7 @@ label {
   top: -25px;
   left: 0;
   font-size: 16px;
-  color: #fff;
+  color: var(--secondary-color); /* Texto negro para contraste */
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
@@ -50,8 +50,8 @@ textarea {
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--primary-color);
-  color: #fff;
+  border-bottom: 1px solid var(--secondary-color); /* Línea negra para contraste */
+  color: var(--secondary-color); /* Texto negro */
   padding: 10px 0;
   font-size: 16px;
   font-family: inherit;
@@ -62,13 +62,13 @@ textarea {
 input:focus,
 textarea:focus {
   outline: none;
-  border-color: #fff;
+  border-color: rgba(0, 0, 0, 0.8); /* Línea más oscura al hacer focus */
 }
 
 /* Cambiar color del placeholder */
 input::placeholder,
 textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5); /* Placeholder semi-transparente negro */
 }
 
 .form-submit {
@@ -79,8 +79,8 @@ textarea::placeholder {
 
 .btn-submit {
   background-color: transparent;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
+  color: var(--secondary-color); /* Texto negro */
+  border: 2px solid var(--secondary-color); /* Borde negro */
   border-radius: var(--border-radius-pill);
   padding: 12px 40px;
   font-size: 16px;
@@ -90,13 +90,13 @@ textarea::placeholder {
 }
 
 .btn-submit:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--secondary-color); /* Fondo negro al hacer hover */
+  color: var(--primary-color); /* Texto verde al hacer hover */
 }
 
 .btn-submit.success {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .contact-info {
@@ -109,14 +109,14 @@ textarea::placeholder {
 }
 
 .contact-email {
-  color: #fff;
+  color: var(--secondary-color); /* Texto negro */
   font-size: 18px;
   text-decoration: none;
   transition: color var(--transition-duration) var(--transition-timing);
 }
 
 .contact-email:hover {
-  color: var(--primary-color);
+  color: rgba(0, 0, 0, 0.7); /* Un poco más claro al hacer hover */
 }
 
 .social-links {
@@ -131,15 +131,17 @@ textarea::placeholder {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.1); /* Fondo negro semi-transparente */
   border-radius: var(--border-radius-circle);
   transition: all var(--transition-duration) var(--transition-timing);
-  color: #fff;
+  color: var(--secondary-color); /* Iconos negros */
 }
 
 .social-link:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(
+    --secondary-color
+  ); /* Fondo negro completo al hacer hover */
+  color: var(--primary-color); /* Iconos verdes al hacer hover */
   transform: translateY(-5px);
 }
 
@@ -149,10 +151,15 @@ textarea::placeholder {
   justify-content: center;
 }
 
+/* Actualizar el color de los SVG de redes sociales */
+.social-link svg path {
+  fill: currentColor; /* Usar el color actual del elemento padre */
+}
+
 .contact-address {
   font-style: normal;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7); /* Texto negro semi-transparente */
   margin-top: var(--spacing-xs);
 }
 
@@ -163,8 +170,8 @@ textarea::placeholder {
   left: 0;
   width: 100%;
   padding: 10px;
-  background-color: rgba(204, 255, 2, 0.2);
-  color: var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.2); /* Fondo negro semi-transparente */
+  color: var(--secondary-color); /* Texto negro */
   text-align: center;
   border-radius: var(--border-radius-sm);
   animation: fadeIn 0.5s ease forwards;
@@ -210,26 +217,26 @@ textarea::placeholder {
 /* Animación para los campos del formulario cuando reciben focus */
 input:focus + label,
 textarea:focus + label {
-  color: var(--primary-color);
+  color: rgba(0, 0, 0, 0.8); /* Color negro más intenso al hacer focus */
   transform: translateY(-5px);
 }
 
 /* Efectos hover para los campos */
 .form-group:hover input,
 .form-group:hover textarea {
-  border-color: rgba(204, 255, 2, 0.8);
+  border-color: rgba(0, 0, 0, 0.8); /* Borde más oscuro al hacer hover */
 }
 
 /* Para dispositivos de pantalla táctil */
 @media (hover: none) {
   .btn-submit:hover {
     background-color: transparent;
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   .social-link:hover {
     transform: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--secondary-color);
   }
 }
