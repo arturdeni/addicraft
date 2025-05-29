@@ -22,11 +22,12 @@ export function createBenefits() {
       </div>
       
       <div class="benefits-showcase">
-        <div class="benefit-images">
-          <div class="benefit-image">
+        <!-- Contenedor de imágenes superpuestas -->
+        <div class="benefit-images-container">
+          <div class="benefit-image benefit-image-1">
             <img src="/assets/images/benefit-image1.png" alt="Pieza optimizada - antes y después">
           </div>
-          <div class="benefit-image">
+          <div class="benefit-image benefit-image-2">
             <img src="/assets/images/benefit-image2.png" alt="Diseño optimizado en uso">
           </div>
         </div>
@@ -83,23 +84,46 @@ function initBenefitsAnimations() {
   animateImages();
   animateMetrics();
 
-  // 🎯 EFECTO OVERLAY - Solo en desktop y después de todas las animaciones
-  if (window.innerWidth > 768) {
-    setTimeout(() => {
-      initOverlayEffect();
-    }, 1000); // Delay para evitar conflictos con otros pins
-  }
+  // 🎯 EFECTO OVERLAY
+  setTimeout(() => {
+    initOverlayEffect();
+  }, 1000); // Delay para evitar conflictos con otros pins
 }
 
-// 🎯 NUEVA FUNCIÓN PARA EL EFECTO OVERLAY
+// 🎯 NUEVA FUNCIÓN PARA EL EFECTO OVERLAY CON TRANSICIÓN DE IMÁGENES
 function initOverlayEffect() {
-  ScrollTrigger.create({
-    trigger: ".benefits-section",
-    start: "bottom 80%", // Iniciar cuando el trigger esté en el 80% de la parte inferior de la ventana
-    end: "+=900vh", // Pin durante una altura de viewport
-    pin: true,
-    pinSpacing: true,
-    id: "benefits-overlay", // ID único para evitar conflictos
+  const image1 = document.querySelector(".benefit-image-1");
+  const image2 = document.querySelector(".benefit-image-2");
+
+  // Configuración inicial de las imágenes
+  gsap.set(image1, { opacity: 1 });
+  gsap.set(image2, { opacity: 0 });
+
+  // Timeline para la transición de imágenes durante el pin
+  const imageTransitionTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".benefits-section",
+      start: "bottom 90%",
+      end: "+=1450vh", // Pin un poco más largo para dar tiempo a la transición
+      pin: true,
+      pinSpacing: true,
+      scrub: 1,
+      id: "benefits-overlay",
+      onUpdate: (self) => {
+        // Transición de opacidad basada en el progreso del scroll
+        const progress = self.progress;
+
+        if (progress < 0.5) {
+          // Primera mitad: mostrar imagen 1
+          gsap.set(image1, { opacity: 1 - progress * 2 });
+          gsap.set(image2, { opacity: progress * 2 });
+        } else {
+          // Segunda mitad: mostrar imagen 2
+          gsap.set(image1, { opacity: 0 });
+          gsap.set(image2, { opacity: 1 });
+        }
+      },
+    },
   });
 }
 
@@ -117,14 +141,14 @@ function animateTitles() {
 }
 
 function animateImages() {
-  gsap.from(".benefit-image", {
+  // Solo animar la primera imagen inicialmente
+  gsap.from(".benefit-image-1", {
     opacity: 0,
     scale: 0.9,
     duration: 0.8,
     ease: "power2.out",
-    stagger: 0.2,
     scrollTrigger: {
-      trigger: ".benefit-images",
+      trigger: ".benefit-images-container",
       start: "top 80%",
     },
   });

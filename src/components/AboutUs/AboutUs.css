@@ -101,6 +101,7 @@
   }
 
   .member-image {
+    align-self: center;
     width: 200px;
     height: 200px;
   }

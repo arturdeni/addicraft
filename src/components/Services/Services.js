@@ -5,6 +5,33 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Datos de los servicios
+const servicesData = [
+  {
+    id: 1,
+    title: "Optimización topológica",
+    description:
+      "Estudio técnico de la pieza y optimización adaptada según sus necesidades.",
+    image: "/assets/images/pieza-topologica.jpg",
+  },
+  {
+    id: 2,
+    title: "Diseño",
+    description:
+      "Modificamos la pieza según los resultados obtenidos en la optimización.",
+    image: "/assets/images/pieza-diseno.jpg",
+  },
+  {
+    id: 3,
+    title: "Fabricación",
+    description:
+      "Impresión 3D de última generación para conseguir el mejor resultado.",
+    image: "/assets/images/pieza-fabricacion.jpg",
+  },
+];
+
+let currentAnimationInstance = null;
+
 export function createServices() {
   const servicesSection = document.createElement("section");
   servicesSection.id = "que-ofrecemos";
@@ -14,234 +41,258 @@ export function createServices() {
     <div class="services-container">
       <h2 class="section-title">Qué ofrecemos</h2>
       
-      <!-- Desktop Version -->
-      <div class="services-showcase desktop-only">
-        <div class="logo-container">
-          <img src="/assets/logos/addiCraftLogo.png" alt="AddiCraft Engineering Logo" class="central-logo">
+      <div class="services-showcase">
+        <!-- Slides de servicios -->
+        <div class="services-content">
+          ${servicesData
+            .map(
+              (service, index) => `
+            <div class="service-slide" data-service="${index}">
+              <div class="service-image-container">
+                <img src="${service.image}" alt="${service.title}" class="service-image">
+              </div>
+              <div class="service-text-container">
+                <h3 class="service-title">${service.title}</h3>
+                <p class="service-description">${service.description}</p>
+              </div>
+            </div>
+          `
+            )
+            .join("")}
         </div>
         
-        <div class="services-items">
-          <div class="service-item service-top">
-            <div class="service-image">
-              <img src="/assets/images/pieza-topologica.jpg" alt="Optimización topológica">
-            </div>
-            <h3 class="service-title">Optimización topológica</h3>
-            <p class="service-description">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
-          </div>
-          
-          <div class="service-item service-right">
-            <div class="service-image">
-              <img src="/assets/images/pieza-fabricacion.jpg" alt="Fabricación">
-            </div>
-            <h3 class="service-title">Fabricación</h3>
-            <p class="service-description">Impresión 3D de última generación para conseguir el mejor resultado.</p>
-          </div>
-          
-          <div class="service-item service-left">
-            <div class="service-image">
-              <img src="/assets/images/pieza-diseno.jpg" alt="Diseño">
-            </div>
-            <h3 class="service-title">Diseño</h3>
-            <p class="service-description">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile Version -->
-      <div class="services-showcase-mobile mobile-only">
-        <div class="service-item-mobile">
-          <div class="service-image-mobile">
-            <img src="/assets/images/pieza-topologica.jpg" alt="Optimización topológica">
-          </div>
-          <div class="service-content-mobile">
-            <h3 class="service-title-mobile">Optimización topológica</h3>
-            <p class="service-description-mobile">Estudio técnico de la pieza y optimización adaptada según sus necesidades.</p>
-          </div>
-        </div>
-        
-        <div class="service-item-mobile">
-          <div class="service-image-mobile">
-            <img src="/assets/images/pieza-diseno.jpg" alt="Diseño">
-          </div>
-          <div class="service-content-mobile">
-            <h3 class="service-title-mobile">Diseño</h3>
-            <p class="service-description-mobile">Modificamos la pieza según los resultados obtenidos en la optimización.</p>
-          </div>
-        </div>
-        
-        <div class="service-item-mobile">
-          <div class="service-image-mobile">
-            <img src="/assets/images/pieza-fabricacion.jpg" alt="Fabricación">
-          </div>
-          <div class="service-content-mobile">
-            <h3 class="service-title-mobile">Fabricación</h3>
-            <p class="service-description-mobile">Impresión 3D de última generación para conseguir el mejor resultado.</p>
-          </div>
+        <!-- Indicadores de progreso - solo desktop -->
+        <div class="progress-indicators">
+          ${servicesData
+            .map(
+              (_, index) => `
+            <div class="progress-dot" data-index="${index}"></div>
+          `
+            )
+            .join("")}
         </div>
       </div>
     </div>
   `;
 
-  // Inicializar las animaciones después de que el elemento esté en el DOM
-  setTimeout(() => {
+  // Inicializar animaciones después del DOM
+  requestAnimationFrame(() => {
     initServicesAnimations();
-  }, 100);
+  });
 
   return servicesSection;
 }
 
 function initServicesAnimations() {
-  // Asegurarnos de que los elementos existen
+  // Limpiar animaciones previas si existen
+  if (currentAnimationInstance) {
+    currentAnimationInstance.kill();
+    currentAnimationInstance = null;
+  }
+
   const servicesSection = document.getElementById("que-ofrecemos");
   if (!servicesSection) return;
 
-  // Detectar si estamos en mobile
-  const isMobile = window.innerWidth <= 768;
+  // Inicializar animaciones para todos los tamaños de pantalla
+  initUnifiedAnimations();
 
-  if (isMobile) {
-    initMobileAnimations();
-  } else {
-    initDesktopAnimations();
+  // Manejar cambios de tamaño de ventana
+  const handleResize = gsap.utils.debounce(() => {
+    if (currentAnimationInstance) {
+      currentAnimationInstance.kill();
+    }
+
+    requestAnimationFrame(() => {
+      initUnifiedAnimations();
+    });
+  }, 250);
+
+  window.addEventListener("resize", handleResize);
+}
+
+function initUnifiedAnimations() {
+  const serviceSlides = document.querySelectorAll(".service-slide");
+  const progressDots = document.querySelectorAll(".progress-dot");
+
+  if (!serviceSlides.length) {
+    console.warn("Services elements not found");
+    return;
   }
 
-  // Listener para cambios de tamaño de ventana
-  window.addEventListener("resize", () => {
-    const newIsMobile = window.innerWidth <= 768;
-    if (newIsMobile !== isMobile) {
-      // Limpiar animaciones existentes
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (
-          trigger.trigger === servicesSection ||
-          servicesSection.contains(trigger.trigger)
-        ) {
-          trigger.kill();
-        }
-      });
-
-      // Reinicializar animaciones
-      setTimeout(() => {
-        if (newIsMobile) {
-          initMobileAnimations();
-        } else {
-          initDesktopAnimations();
-        }
-      }, 100);
-    }
-  });
-}
-
-function initDesktopAnimations() {
-  const logoElement = document.querySelector(".central-logo");
-  const serviceItems = document.querySelectorAll(".service-item");
-
-  if (!logoElement || serviceItems.length === 0) return;
-
-  // Configuración inicial - todos los servicios ocultos en el centro (donde está el logo)
-  gsap.set(serviceItems, {
+  // Reset inicial - ocultar slides
+  gsap.set(serviceSlides, {
+    y: "100%",
     opacity: 0,
-    scale: 0.5,
-    x: 0,
-    y: 0,
-    xPercent: -50,
-    yPercent: -50,
-    transformOrigin: "center center",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
   });
 
-  // Crear la timeline controlada por scroll con pinning
-  const servicesTl = gsap.timeline({
+  gsap.set(progressDots, {
+    scale: 0.5,
+    opacity: 0.3,
+  });
+
+  // Timeline principal con pin - MÁS TIEMPO PARA CADA SLIDE
+  const masterTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".services-section",
-      start: "top -15%",
-      end: "+=800",
+      start: "top top", // CAMBIADO de "top -15%" a "top 20%" para que el pin empiece más tarde
+      end: "+=500vh", // AUMENTADO de 300vh a 500vh para más scroll
       pin: true,
       pinSpacing: true,
-      scrub: 0.8,
+      scrub: 1.2, // AUMENTADO de 0.8 a 1.2 para movimiento más lento
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        updateProgressIndicators(self.progress, progressDots);
+      },
+      onStart: () => {
+        console.log("Services animation started");
+      },
     },
   });
 
-  // Fase 1: Pequeña pausa inicial
-  servicesTl.to({}, { duration: 0.1 });
+  // Guardar referencia para cleanup
+  currentAnimationInstance = masterTimeline;
 
-  // Fase 2: Animación de los elementos de servicio
-  servicesTl.to(
-    ".service-top",
-    {
-      opacity: 1,
-      scale: 1,
-      y: -260,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-    },
-    0.2
-  );
-
-  servicesTl.to(
-    ".service-right",
-    {
-      opacity: 1,
-      scale: 1,
-      x: 260,
-      y: 150,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-    },
-    0.4
-  );
-
-  servicesTl.to(
-    ".service-left",
-    {
-      opacity: 1,
-      scale: 1,
-      x: -260,
-      y: 150,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-    },
-    0.6
-  );
-
-  // Fase 3: Pequeña pausa final
-  servicesTl.to({}, { duration: 0.2 });
+  // Secuencia de animación
+  buildAnimationSequence(masterTimeline, serviceSlides, progressDots);
 }
 
-function initMobileAnimations() {
-  const serviceItemsMobile = document.querySelectorAll(".service-item-mobile");
+function buildAnimationSequence(timeline, serviceSlides, progressDots) {
+  const totalServices = serviceSlides.length;
 
-  // Configuración inicial para mobile
-  gsap.set(serviceItemsMobile, {
-    opacity: 0,
-    y: 50,
-  });
-
-  // Animar cada servicio mobile individualmente
-  serviceItemsMobile.forEach((item, index) => {
-    gsap.to(item, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: item,
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none reverse",
+  // Fase 1: Mostrar primer servicio (0.0 - 0.3) - MÁS TIEMPO
+  timeline
+    .to(
+      serviceSlides[0],
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.2, // AUMENTADO de 0.15 a 0.2
+        ease: "power2.out",
       },
-    });
+      0
+    )
+    .to(
+      progressDots[0],
+      {
+        scale: 1.2,
+        opacity: 1,
+        duration: 0.1,
+      },
+      0.1
+    );
+
+  // Fase 2: Transiciones entre servicios - MÁS ESPACIADAS
+  for (let i = 1; i < totalServices; i++) {
+    const startTime = 0.3 + (i - 1) * 0.35; // AUMENTADO de 0.2 + 0.3 a 0.3 + 0.35
+
+    // Salida del servicio anterior
+    timeline
+      .to(
+        serviceSlides[i - 1],
+        {
+          y: "-100%",
+          opacity: 0,
+          duration: 0.15, // AUMENTADO de 0.1 a 0.15
+          ease: "power2.in",
+        },
+        startTime
+      )
+      .to(
+        progressDots[i - 1],
+        {
+          scale: 0.5,
+          opacity: 0.7,
+          duration: 0.1,
+        },
+        startTime
+      );
+
+    // Entrada del nuevo servicio
+    timeline
+      .to(
+        serviceSlides[i],
+        {
+          y: "0%",
+          opacity: 1,
+          duration: 0.2, // AUMENTADO de 0.15 a 0.2
+          ease: "power2.out",
+        },
+        startTime + 0.1
+      )
+      .to(
+        progressDots[i],
+        {
+          scale: 1.2,
+          opacity: 1,
+          duration: 0.1,
+        },
+        startTime + 0.15
+      );
+  }
+}
+
+function updateProgressIndicators(progress, progressDots) {
+  const totalServices = servicesData.length;
+  const currentIndex = Math.min(
+    Math.floor(progress * totalServices),
+    totalServices - 1
+  );
+
+  progressDots.forEach((dot, index) => {
+    if (index === currentIndex) {
+      // Servicio activo
+      gsap.to(dot, {
+        scale: 1.2,
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else if (index < currentIndex) {
+      // Servicios completados
+      gsap.to(dot, {
+        scale: 1,
+        opacity: 0.7,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      // Servicios pendientes
+      gsap.to(dot, {
+        scale: 0.5,
+        opacity: 0.3,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
   });
 }
 
 export function initServices() {
   const mainContainer = document.getElementById("app") || document.body;
-  // Buscar el hero section para insertar los servicios después
   const heroSection = document.querySelector(".hero-section");
-  if (heroSection && !document.querySelector(".services-section")) {
-    heroSection.after(createServices());
-  } else if (!document.querySelector(".services-section")) {
-    // Si no hay hero section, añadirlo al final del contenedor principal
-    mainContainer.appendChild(createServices());
+
+  // Remover sección existente si existe
+  const existingServices = document.querySelector(".services-section");
+  if (existingServices) {
+    // Limpiar animaciones antes de remover
+    ScrollTrigger.getAll().forEach((trigger) => {
+      if (
+        trigger.trigger === existingServices ||
+        existingServices.contains(trigger.trigger)
+      ) {
+        trigger.kill();
+      }
+    });
+    existingServices.remove();
   }
+
+  const newServices = createServices();
+
+  if (heroSection) {
+    heroSection.after(newServices);
+  } else {
+    mainContainer.appendChild(newServices);
+  }
+
+  return newServices;
 }

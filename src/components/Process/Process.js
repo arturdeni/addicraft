@@ -223,7 +223,7 @@ function initDesktopAnimations() {
   const processTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".process-section",
-      start: "top -14%",
+      start: "top -8%",
       end: "+=1500",
       pin: true,
       pinSpacing: true,

@@ -224,6 +224,7 @@ button:focus-visible {
 @media (max-width: 480px) {
   .section-title {
     font-size: 28px;
+    text-align: center;
   }
 
   .btn {

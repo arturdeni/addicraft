@@ -7,7 +7,7 @@
   /* 🎯 OVERLAY: z-index + margin negativo para deslizarse por encima */
   position: relative;
   z-index: 100;
-  margin-top: -660px; /* Compensar exactamente el pin space de Benefits */
+  margin-top: -750px; /* Compensar exactamente el pin space de Benefits */
 }
 
 .contact-container {
@@ -196,8 +196,12 @@ textarea::placeholder {
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .contact-section {
-    /* En móviles, quitar el margin negativo */
-    margin-top: 0;
+    width: 112%;
+    margin-left: -6%;
+  }
+
+  .contact-container {
+    padding: 0 40px;
   }
 
   .form-row {

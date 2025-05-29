@@ -28,13 +28,13 @@ export function smoothScrollTo(targetId) {
 
       if (servicesTrigger) {
         // Usar la posición de inicio del trigger
-        targetPosition = servicesTrigger.start - headerHeight;
+        targetPosition = servicesTrigger.start + headerHeight;
       } else {
         // Fallback si no hay trigger
-        targetPosition = servicesSection.offsetTop - headerHeight;
+        targetPosition = servicesSection.offsetTop + headerHeight;
       }
     } else {
-      targetPosition = targetElement.offsetTop - headerHeight;
+      targetPosition = targetElement.offsetTop + headerHeight;
     }
   } else {
     // Para otras secciones, usar el cálculo normal
