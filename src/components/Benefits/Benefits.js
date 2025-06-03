@@ -104,8 +104,8 @@ function initOverlayEffect() {
   const imageTransitionTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".benefits-section",
-      start: "bottom 90%",
-      end: "+=1450vh", // Pin un poco más largo para dar tiempo a la transición
+      start: "bottom bottom",
+      end: "+=2250vh", // Pin un poco más largo para dar tiempo a la transición
       pin: true,
       pinSpacing: true,
       scrub: 1,
