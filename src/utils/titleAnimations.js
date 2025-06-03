@@ -1,49 +1,59 @@
 // src/utils/titleAnimations.js
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function initSectionTitleAnimations() {
+  // Refresh ScrollTrigger to recalculate positions after pins
+  ScrollTrigger.refresh();
+
   // Get all section titles
   const sectionTitles = document.querySelectorAll(".section-title");
 
   // Process each title
-  sectionTitles.forEach((title) => {
+  sectionTitles.forEach((title, index) => {
     // Add a class to make targeting easier
     title.classList.add("animate-title");
 
-    // Initialize SplitType to split text into characters
-    const splitTitle = new SplitType(title, {
-      types: "chars,words",
-      tagName: "span",
+    // Set initial state - text is visible but covered
+    gsap.set(title, {
+      opacity: 1, // Text is always visible
     });
 
-    // Hide all characters initially
-    gsap.set(splitTitle.chars, {
-      y: 60,
-      opacity: 0,
-      rotateX: -90,
-      transformOrigin: "50% 50% -20",
-    });
-
-    // Create animation that triggers on scroll
-    gsap.to(splitTitle.chars, {
-      y: 0,
-      opacity: 1,
-      rotateX: 0,
-      stagger: 0.02, // Time between each character animation
-      duration: 0.7,
-      ease: "power2.out",
+    // Create the reveal animation
+    gsap.to(title, {
       scrollTrigger: {
         trigger: title,
-        start: "top 60%", // Start animation when the top of the title is 80% from the top of the viewport
-        // end: "bottom 20%",
-        // scrub: false, // Animation plays independent of scroll position once triggered
-        // markers: false, // Set to true during development to see the trigger points
-        toggleActions: "play none none none", // play on enter, no reverse
+        start: "top 90%",
+        end: "top 70%",
+        scrub: 1,
+        invalidateOnRefresh: true,
+        refreshPriority: -1,
+        onUpdate: (self) => {
+          if (self.progress > 0.7) {
+            title.classList.add("is-inview");
+          } else {
+            title.classList.remove("is-inview");
+          }
+        },
+        onComplete: () => {
+          title.classList.add("is-inview");
+        },
+        onReverseComplete: () => {
+          title.classList.remove("is-inview");
+        },
       },
     });
+  });
+
+  // Add a delayed refresh to account for any layout shifts
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 1000);
+
+  // Refresh on window resize to recalculate positions
+  window.addEventListener("resize", () => {
+    ScrollTrigger.refresh();
   });
 }

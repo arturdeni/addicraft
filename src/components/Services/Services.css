@@ -186,7 +186,6 @@
 
   .services-container .section-title {
     margin-bottom: 25px; /* REDUCIDO */
-    font-size: 36px; /* Asegurar legibilidad */
   }
 
   .service-slide {
@@ -225,7 +224,6 @@
 
   .services-container .section-title {
     margin-bottom: 20px; /* REDUCIDO */
-    font-size: 32px; /* REDUCIDO para mobile */
   }
 
   .services-showcase {
@@ -261,7 +259,6 @@
   }
 
   .services-container .section-title {
-    font-size: 28px; /* MÁS PEQUEÑO para pantallas muy pequeñas */
     margin-bottom: 15px;
   }
 

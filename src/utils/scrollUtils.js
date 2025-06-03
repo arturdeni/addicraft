@@ -28,17 +28,17 @@ export function smoothScrollTo(targetId) {
 
       if (servicesTrigger) {
         // Usar la posición de inicio del trigger
-        targetPosition = servicesTrigger.start + headerHeight;
+        targetPosition = servicesTrigger.start + headerHeight + 160;
       } else {
         // Fallback si no hay trigger
-        targetPosition = servicesSection.offsetTop + headerHeight;
+        targetPosition = servicesSection.offsetTop + headerHeight + 160;
       }
     } else {
-      targetPosition = targetElement.offsetTop + headerHeight;
+      targetPosition = targetElement.offsetTop + headerHeight + 160;
     }
   } else {
     // Para otras secciones, usar el cálculo normal
-    targetPosition = targetElement.offsetTop - headerHeight;
+    targetPosition = targetElement.offsetTop - headerHeight + 80;
   }
 
   window.scrollTo({

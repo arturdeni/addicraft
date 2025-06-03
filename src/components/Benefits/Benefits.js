@@ -176,8 +176,8 @@ function animateTitles() {
     },
     scrollTrigger: {
       trigger: benefitsTitleElement, // Usar el elemento directamente como trigger
-      start: window.innerWidth <= 768 ? "top 90%" : "+=600", // Valores diferentes para mobile
-      end: window.innerWidth <= 768 ? "center 30%" : "+=670", // Valores diferentes para mobile
+      start: "top 90%",
+      end: "center 30%",
       scrub: 0.3, // Menor retraso para animación más rápida
       invalidateOnRefresh: true, // Recalcular en caso de cambio de tamaño
     },

@@ -110,7 +110,7 @@ export class Hero3DModel {
     const loader = new GLTFLoader();
 
     loader.load(
-      "/assets/images/addiCraft-cube3D.glb",
+      "/assets/images/addiCraft-cube3D-2.glb",
       (gltf) => {
         this.model = gltf.scene;
 
