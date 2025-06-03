@@ -135,7 +135,7 @@ function initUnifiedAnimations() {
     scrollTrigger: {
       trigger: ".services-section",
       start: "top top", // CAMBIADO de "top -15%" a "top 20%" para que el pin empiece más tarde
-      end: "+=500vh", // AUMENTADO de 300vh a 500vh para más scroll
+      end: "+=1800vh", // AUMENTADO para más scroll
       pin: true,
       pinSpacing: true,
       scrub: 1.2, // AUMENTADO de 0.8 a 1.2 para movimiento más lento

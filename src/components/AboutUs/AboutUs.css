@@ -66,11 +66,16 @@
 }
 
 .about-mission {
-  background-color: var(--background-secondary);
+  background-color: var(--primary-color);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-xl);
   margin-top: var(--spacing-xl);
   text-align: center;
+}
+
+.about-mission h3,
+.about-mission p {
+  color: black;
 }
 
 .mission-title {
@@ -101,7 +106,6 @@
   }
 
   .member-image {
-    align-self: center;
     width: 200px;
     height: 200px;
   }

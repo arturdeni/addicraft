@@ -103,7 +103,7 @@
 }
 
 .service-title {
-  font-size: 32px; /* REDUCIDO de 36px a 32px */
+  font-size: 28px;
   font-weight: var(--font-weight-bold);
   margin: 0 0 16px 0; /* REDUCIDO de 20px a 16px */
   color: var(--primary-color);
@@ -111,7 +111,7 @@
 }
 
 .service-description {
-  font-size: 16px; /* REDUCIDO de 18px a 16px */
+  font-size: 16px;
   line-height: var(--line-height-base);
   color: var(--text-light-color);
   margin: 0;
@@ -168,14 +168,6 @@
     height: 220px;
   }
 
-  .service-title {
-    font-size: 28px; /* REDUCIDO de 32px a 28px */
-  }
-
-  .service-description {
-    font-size: 15px; /* REDUCIDO de 16px a 15px */
-  }
-
   .progress-indicators {
     right: 25px;
     gap: 14px;
@@ -211,15 +203,7 @@
   }
 
   .service-text-container {
-    max-width: 100%;
-  }
-
-  .service-title {
-    font-size: 24px; /* REDUCIDO de 28px a 24px */
-  }
-
-  .service-description {
-    font-size: 15px; /* REDUCIDO de 16px a 15px */
+    max-width: 80%;
   }
 
   /* OCULTAR BULLETS EN MOBILE */
@@ -261,12 +245,7 @@
   }
 
   .service-title {
-    font-size: 22px; /* REDUCIDO de 24px a 22px */
     margin-bottom: 12px; /* REDUCIDO de 15px a 12px */
-  }
-
-  .service-description {
-    font-size: 14px; /* REDUCIDO de 15px a 14px */
   }
 
   /* BULLETS OCULTOS EN MOBILE */
@@ -298,14 +277,6 @@
     flex: 0 0 140px; /* REDUCIDO de 160px a 140px */
     width: 140px;
     height: 140px;
-  }
-
-  .service-title {
-    font-size: 20px; /* REDUCIDO de 22px a 20px */
-  }
-
-  .service-description {
-    font-size: 13px; /* REDUCIDO de 14px a 13px */
   }
 }
 

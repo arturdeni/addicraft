@@ -2,6 +2,7 @@
 import "./Benefits.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +15,9 @@ export function createBenefits() {
     <div class="benefits-container">
       <div class="benefits-message">
         <h2 class="benefits-title">
-          Nuestro enfoque reduce<br>
-          consumo energético y emisiones.<br>
-          Ingeniería responsable para un<br>
+          Nuestro enfoque reduce
+          consumo energético y emisiones.
+          Ingeniería responsable para un
           futuro más limpio.
         </h2>
       </div>
@@ -127,15 +128,58 @@ function initOverlayEffect() {
   });
 }
 
+// 🎯 NUEVA FUNCIÓN: Animación 3D del título igual que hero-tagline
 function animateTitles() {
-  gsap.from(".benefits-title", {
-    opacity: 0,
-    y: 30,
-    duration: 0.8,
-    ease: "power2.out",
+  const benefitsTitleElement = document.querySelector(".benefits-title");
+  if (!benefitsTitleElement) return;
+
+  // Aplicar el atributo "animate"
+  benefitsTitleElement.setAttribute("animate", "");
+
+  // Inicializar SplitType
+  new SplitType(benefitsTitleElement, {
+    types: "words",
+    tagName: "span",
+  });
+
+  // Obtener las palabras
+  const words = [...benefitsTitleElement.querySelectorAll(".word")];
+  if (!words.length) return;
+
+  // Añadir perspectiva a los elementos padre
+  words.forEach((word) => gsap.set(word.parentNode, { perspective: 1000 }));
+
+  // Configurar los estados iniciales de las palabras de manera aleatoria
+  // Rangos más pequeños para una animación más sutil
+  words.forEach((word) => {
+    gsap.set(word, {
+      z: gsap.utils.random(200, 600), // Menor profundidad para animación más rápida
+      opacity: 0,
+      xPercent: gsap.utils.random(-50, 50), // Menor movimiento horizontal
+      yPercent: gsap.utils.random(-10, 10), // Menor movimiento vertical
+      rotationX: gsap.utils.random(-60, 60), // Menor rotación
+    });
+  });
+
+  // Crear la animación vinculada al scroll, más rápida
+  gsap.to(words, {
+    ease: "power1.out", // Easing más suave
+    opacity: 1,
+    rotationX: 0,
+    rotationY: 0,
+    xPercent: 0,
+    yPercent: 0,
+    z: 0,
+    stagger: {
+      each: 0.03, // Menor tiempo entre palabras
+      from: "random", // Animar las palabras en orden aleatorio
+    },
     scrollTrigger: {
-      trigger: ".benefits-section",
-      start: "top 70%",
+      trigger: benefitsTitleElement, // Usar el elemento directamente como trigger
+      start: window.innerWidth <= 768 ? "top 90%" : "+=600", // Valores diferentes para mobile
+      end: window.innerWidth <= 768 ? "center 30%" : "+=670", // Valores diferentes para mobile
+      scrub: 0.3, // Menor retraso para animación más rápida
+      invalidateOnRefresh: true, // Recalcular en caso de cambio de tamaño
     },
   });
 }

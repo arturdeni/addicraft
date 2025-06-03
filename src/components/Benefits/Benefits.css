@@ -21,11 +21,44 @@
 }
 
 .benefits-title {
-  font-size: 36px;
-  font-weight: var(--font-weight-bold);
+  font-size: 46px;
+  font-weight: var(--font-weight-normal);
   line-height: 1.3;
   color: var(--primary-color);
   margin: 0;
+  /* 🎯 NUEVOS ESTILOS PARA ANIMACIÓN 3D */
+  transform-style: preserve-3d;
+  will-change: transform;
+  overflow: visible;
+  position: relative;
+}
+
+/* 🎯 ESTILOS DE ANIMACIÓN 3D PARA EL TÍTULO - IGUAL QUE HERO-TAGLINE */
+.benefits-title[animate] {
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: visible;
+}
+
+.benefits-title[animate] .word {
+  display: inline-block;
+  margin-right: 0.1em; /* Espacio reducido entre palabras */
+  white-space: nowrap;
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
+  backface-visibility: hidden; /* Mejora apariencia de transformaciones 3D */
+  filter: blur(0); /* Prevenir efecto de borrosidad no deseado */
+}
+
+.benefits-title[animate] .word:last-child {
+  margin-right: 0;
+}
+
+/* Manejo correcto de saltos de línea */
+.benefits-title br {
+  display: block;
+  content: "";
+  margin-bottom: 0.1em; /* Espacio reducido entre líneas */
 }
 
 .benefits-showcase {
@@ -39,8 +72,8 @@
 /* ============ SOLO CAMBIO: CONTENEDOR DE IMÁGENES SUPERPUESTAS ============ */
 .benefit-images-container {
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,18 +168,24 @@
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .benefits-title {
-    font-size: 20px;
+    font-size: 30px;
+  }
+
+  /* 🎯 AJUSTES RESPONSIVOS PARA ANIMACIÓN 3D */
+  .benefits-title[animate] .word {
+    margin-right: 0.05em; /* Espacio aún más reducido en móviles */
+    transform: translateZ(0); /* Forzar aceleración por hardware */
   }
 
   .benefit-images-container {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
   }
 
   .benefit-metrics {
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 15px;
   }
 
   .benefits-section {
