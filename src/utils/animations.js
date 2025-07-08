@@ -45,28 +45,6 @@ export function initAnimations() {
   // Animación de hero-tagline con SplitType
   initHeroTaglineAnimation();
 
-  // --- EQUIPO ANIMATIONS ---
-  gsap.from(".team-member", {
-    opacity: 0,
-    y: 50,
-    duration: 0.8,
-    stagger: 0.3,
-    scrollTrigger: {
-      trigger: ".about-section",
-      start: "top 70%",
-    },
-  });
-
-  gsap.from(".about-mission", {
-    opacity: 0,
-    y: 30,
-    duration: 1,
-    scrollTrigger: {
-      trigger: ".about-mission",
-      start: "top 80%",
-    },
-  });
-
   // Las animaciones del process-section se manejan en su propio componente
 }
 

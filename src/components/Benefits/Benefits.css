@@ -196,7 +196,7 @@
 /* 🎯 CSS para el indicador de progreso */
 
 .scroll-progress-indicator {
-  position: fixed;
+  position: absolute;
   bottom: 320px;
   right: 60px;
   z-index: 50;

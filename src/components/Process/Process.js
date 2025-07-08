@@ -304,15 +304,3 @@ function initMobileAnimations() {
     });
   });
 }
-
-export function initProcess() {
-  const mainContainer = document.getElementById("app") || document.body;
-  // Buscar el about-us para insertar el proceso después
-  const aboutSection = document.querySelector(".about-section");
-  if (aboutSection && !document.querySelector(".process-section")) {
-    aboutSection.after(createProcess());
-  } else if (!document.querySelector(".process-section")) {
-    // Si no hay section de about-us, añadirlo al final del contenedor principal
-    mainContainer.appendChild(createProcess());
-  }
-}
