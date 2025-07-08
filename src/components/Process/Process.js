@@ -28,41 +28,41 @@ export function createProcess() {
           <!-- Paso 1 -->
           <div class="process-step" data-step="1">
             <div class="step-image">
-              <img src="/assets/images/process-step1.png" alt="Estudio de la pieza">
+              <img src="/assets/images/process-step1.png" alt="Pieza original">
             </div>
-            <p class="step-title">Estudio de la pieza a optimizar</p>
+            <p class="step-title">Pieza original</p>
           </div>
           
           <!-- Paso 2 -->
           <div class="process-step" data-step="2">
             <div class="step-image">
-              <img src="/assets/images/process-step2.png" alt="Aplicación de esfuerzos">
+              <img src="/assets/images/process-step2.png" alt="Estudio de fuerzas">
             </div>
-            <p class="step-title">Aplicación de los esfuerzo que sufre la pieza</p>
+            <p class="step-title">Estudio de fuerzas</p>
           </div>
           
           <!-- Paso 3 -->
           <div class="process-step" data-step="3">
             <div class="step-image">
-              <img src="/assets/images/process-step3.png" alt="Realización del análisis">
+              <img src="/assets/images/process-step3.png" alt="Resultado de la optimización">
             </div>
-            <p class="step-title">Realización del análisis</p>
+            <p class="step-title">Resultado de la optimización</p>
           </div>
           
           <!-- Paso 4 -->
           <div class="process-step" data-step="4">
             <div class="step-image">
-              <img src="/assets/images/process-step4.png" alt="Análisis de resultados">
+              <img src="/assets/images/process-step4.png" alt="Validación del diseño">
             </div>
-            <p class="step-title">Análisis de resultados</p>
+            <p class="step-title">Validación del diseño</p>
           </div>
           
           <!-- Paso 5 -->
           <div class="process-step" data-step="5">
             <div class="step-image">
-              <img src="/assets/images/process-step5.png" alt="Rediseño de la pieza">
+              <img src="/assets/images/process-step5.png" alt="Diseño final">
             </div>
-            <p class="step-title">Rediseño de la pieza</p>
+            <p class="step-title">Diseño final</p>
           </div>
           
           <!-- Paso 6 -->
@@ -91,9 +91,9 @@ export function createProcess() {
             <div class="step-number">01</div>
             <div class="step-content">
               <div class="step-image-mobile">
-                <img src="/assets/images/process-step1.png" alt="Estudio de la pieza">
+                <img src="/assets/images/process-step1.png" alt="Pieza original">
               </div>
-              <p class="step-title-mobile">Estudio de la pieza a optimizar</p>
+              <p class="step-title-mobile">Pieza original a optimizar</p>
             </div>
           </div>
           
@@ -102,9 +102,9 @@ export function createProcess() {
             <div class="step-number">02</div>
             <div class="step-content">
               <div class="step-image-mobile">
-                <img src="/assets/images/process-step2.png" alt="Aplicación de esfuerzos">
+                <img src="/assets/images/process-step2.png" alt="Estudio de fuerzas">
               </div>
-              <p class="step-title-mobile">Aplicación de los esfuerzo que sufre la pieza</p>
+              <p class="step-title-mobile">Estudio de fuerzas</p>
             </div>
           </div>
           
@@ -113,9 +113,9 @@ export function createProcess() {
             <div class="step-number">03</div>
             <div class="step-content">
               <div class="step-image-mobile">
-                <img src="/assets/images/process-step3.png" alt="Realización del análisis">
+                <img src="/assets/images/process-step3.png" alt="Resultado de la optimización">
               </div>
-              <p class="step-title-mobile">Realización del análisis</p>
+              <p class="step-title-mobile">Resultado de la optimización</p>
             </div>
           </div>
           
@@ -124,9 +124,9 @@ export function createProcess() {
             <div class="step-number">04</div>
             <div class="step-content">
               <div class="step-image-mobile">
-                <img src="/assets/images/process-step4.png" alt="Análisis de resultados">
+                <img src="/assets/images/process-step4.png" alt="Validación del diseño">
               </div>
-              <p class="step-title-mobile">Análisis de resultados</p>
+              <p class="step-title-mobile">Validación del diseño</p>
             </div>
           </div>
           
@@ -135,9 +135,9 @@ export function createProcess() {
             <div class="step-number">05</div>
             <div class="step-content">
               <div class="step-image-mobile">
-                <img src="/assets/images/process-step5.png" alt="Rediseño de la pieza">
+                <img src="/assets/images/process-step5.png" alt="Diseño final">
               </div>
-              <p class="step-title-mobile">Rediseño de la pieza</p>
+              <p class="step-title-mobile">Diseño final</p>
             </div>
           </div>
           
@@ -248,7 +248,7 @@ function initDesktopAnimations() {
       {
         opacity: 1,
         y: 0,
-        duration: 0.1,
+        duration: 0.04,
         ease: "power1.out",
       },
       stepTriggerPoints[index] * 0.5

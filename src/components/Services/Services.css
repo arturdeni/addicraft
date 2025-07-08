@@ -267,13 +267,13 @@
   }
 
   .service-slide {
-    gap: 15px; /* REDUCIDO de 20px a 15px */
+    gap: 35px;
   }
 
   .service-image-container {
-    flex: 0 0 140px; /* REDUCIDO de 160px a 140px */
-    width: 140px;
-    height: 140px;
+    flex: 0 0 200px;
+    width: 200px;
+    height: 200px;
   }
 }
 

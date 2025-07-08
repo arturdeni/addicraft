@@ -65,6 +65,32 @@ export function createBenefits() {
           </div>
         </div>
       </div>
+      
+      <!-- 🎯 NUEVO: SOLO el indicador de progreso -->
+      <div class="scroll-progress-indicator">
+        <div class="progress-circle">
+          <svg class="progress-ring" width="60" height="60">
+            <circle
+              class="progress-ring-background"
+              stroke="#333"
+              stroke-width="3"
+              fill="transparent"
+              r="26"
+              cx="30"
+              cy="30"/>
+            <circle
+              class="progress-ring-progress"
+              stroke="#CCFF02"
+              stroke-width="3"
+              fill="transparent"
+              r="26"
+              cx="30"
+              cy="30"/>
+          </svg>
+          <div class="progress-percentage">0%</div>
+        </div>
+        <div class="progress-text">Sigue scrolleando</div>
+      </div>
     </div>
   `;
 
@@ -85,13 +111,14 @@ function initBenefitsAnimations() {
   animateImages();
   animateMetrics();
 
-  // 🎯 EFECTO OVERLAY
+  // 🎯 EFECTO OVERLAY - SIN CAMBIOS + añadir indicador
   setTimeout(() => {
     initOverlayEffect();
+    initProgressIndicator(); // 🎯 NUEVA función separada
   }, 1000); // Delay para evitar conflictos con otros pins
 }
 
-// 🎯 NUEVA FUNCIÓN PARA EL EFECTO OVERLAY CON TRANSICIÓN DE IMÁGENES
+// 🎯 FUNCIÓN ORIGINAL SIN CAMBIOS
 function initOverlayEffect() {
   const image1 = document.querySelector(".benefit-image-1");
   const image2 = document.querySelector(".benefit-image-2");
@@ -105,7 +132,7 @@ function initOverlayEffect() {
     scrollTrigger: {
       trigger: ".benefits-section",
       start: "bottom bottom",
-      end: "+=2250vh", // Pin un poco más largo para dar tiempo a la transición
+      end: "+=2250vh",
       pin: true,
       pinSpacing: true,
       scrub: 1,
@@ -128,7 +155,94 @@ function initOverlayEffect() {
   });
 }
 
-// 🎯 NUEVA FUNCIÓN: Animación 3D del título igual que hero-tagline
+// 🎯 NUEVA FUNCIÓN: Solo para el indicador de progreso
+function initProgressIndicator() {
+  const progressIndicator = document.querySelector(
+    ".scroll-progress-indicator"
+  );
+  const progressRing = document.querySelector(".progress-ring-progress");
+  const progressPercentage = document.querySelector(".progress-percentage");
+  const progressText = document.querySelector(".progress-text");
+
+  if (!progressIndicator || !progressRing) {
+    console.log("Progress indicator elements not found");
+    return;
+  }
+
+  // Configurar el círculo de progreso
+  const circumference = 2 * Math.PI * 26; // r=26
+  progressRing.style.strokeDasharray = circumference;
+  progressRing.style.strokeDashoffset = circumference;
+  progressRing.style.transform = "rotate(-90deg)";
+  progressRing.style.transformOrigin = "50% 50%";
+
+  // Textos contextuales según el progreso
+  const progressTexts = [
+    "Sigue scrolleando",
+    "Optimizando estructura...",
+    "Aplicando mejoras...",
+    "¡Optimización completa!",
+  ];
+
+  // 🎯 NUEVO: Variable para controlar cambio de texto
+  let currentTextIndex = 0;
+
+  // 🎯 NUEVA FUNCIÓN: Cambio suave de texto
+  function updateTextSmooth(newTextIndex) {
+    if (newTextIndex !== currentTextIndex) {
+      // Desvanecer texto actual
+      progressText.classList.add("changing");
+
+      // Después de la transición, cambiar texto y volver a mostrar
+      setTimeout(() => {
+        progressText.textContent = progressTexts[newTextIndex];
+        progressText.classList.remove("changing");
+        currentTextIndex = newTextIndex;
+      }, 200); // La mitad de la duración de la transición CSS (0.4s)
+    }
+  }
+
+  // ScrollTrigger independiente
+  ScrollTrigger.create({
+    trigger: ".benefits-section",
+    start: "bottom bottom",
+    end: "+=1250vh",
+    scrub: true,
+    onEnter: () => {
+      gsap.to(progressIndicator, { opacity: 1, duration: 0.5 });
+    },
+    onUpdate: (self) => {
+      const progress = self.progress;
+
+      // Actualizar círculo de progreso
+      const offset = circumference - progress * circumference;
+      progressRing.style.strokeDashoffset = offset;
+
+      // Actualizar porcentaje
+      const percentage = Math.round(progress * 100);
+      progressPercentage.textContent = `${percentage}%`;
+
+      // 🎯 ARREGLADO: Actualizar texto con transición suave
+      let textIndex = Math.floor(progress * (progressTexts.length - 1));
+      if (progress >= 0.95) textIndex = progressTexts.length - 1;
+
+      updateTextSmooth(textIndex);
+
+      // Cambiar color del círculo según progreso
+      if (progress < 0.3) {
+        progressRing.style.stroke = "#CCFF02";
+      } else if (progress < 0.7) {
+        progressRing.style.stroke = "#FFD700";
+      } else {
+        progressRing.style.stroke = "#00FF88";
+      }
+    },
+  });
+
+  console.log("Progress indicator ScrollTrigger created");
+}
+
+// 🎯 TODAS LAS FUNCIONES SIGUIENTES SIN CAMBIOS
 function animateTitles() {
   const benefitsTitleElement = document.querySelector(".benefits-title");
   if (!benefitsTitleElement) return;

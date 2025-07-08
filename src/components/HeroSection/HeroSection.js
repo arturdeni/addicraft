@@ -22,7 +22,7 @@ export function createHeroSection() {
         </p>
         <div class="hero-buttons">
           <a href="#que-ofrecemos" class="btn btn-primary">Que Ofrecemos</a>
-          <a href="#contacto" class="btn btn-secondary">Contacto</a>
+          <a href="#contacto" class="btn btn-primary">Contacto</a>
         </div>
       </div>
       <div class="hero-image" id="hero3DContainer">

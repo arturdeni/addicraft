@@ -104,7 +104,7 @@ svg {
 /* Common button styles */
 .btn {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 4px 14px;
   border-radius: var(--border-radius-pill);
   text-decoration: none;
   font-weight: var(--font-weight-medium);
@@ -116,7 +116,7 @@ svg {
 .btn-primary {
   background-color: transparent;
   border-color: var(--primary-color);
-  color: var(--primary-color);
+  color: #fff;
 }
 
 .btn-primary:hover {

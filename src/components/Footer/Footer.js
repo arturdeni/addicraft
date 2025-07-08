@@ -10,12 +10,8 @@ export function createFooter() {
       <div class="tech-section">
         <h2 class="tech-title">Tecnología que usamos</h2>
         <p class="tech-description">
-          Optimizamos y diseñamos con Catia V5, software líder que abarca los procesos completos de
-          ingeniería permitiendo imaginar, diseñar y simular nuevos productos y sistemas con el fin de
-          ofrecer a los clientes experiencias impactantes hacia un mundo más sostenible.
-          Fabricamos con la impresora Markforged (no sabemos aún si la METAL X o la FX10) Una solución
-          de impresión 3D en metal accesible e integral para obtener piezas en metal funcionales de un día
-          para otro.
+          Optimizamos y diseñamos con Catia 3D Experience, software líder que abarca los procesos completos de innovación y desarrollo para imaginar, diseñar y simular nuevos productos y sistemas con el fin de ofrecer a los clientes experiencias impactantes hacia un mundo más sostenible.
+          Fabricamos con la impresora Markforged METAL X. Una solución de impresión 3D en metal accesible e integral para obtener piezas de metal funcionales de un día para otro.
         </p>
         
         <div class="tech-logos">

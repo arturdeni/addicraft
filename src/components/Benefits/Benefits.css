@@ -192,3 +192,184 @@
     padding: 70px 0;
   }
 }
+
+/* 🎯 CSS para el indicador de progreso */
+
+.scroll-progress-indicator {
+  position: fixed;
+  bottom: 320px;
+  right: 60px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.progress-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* 🎯 ARREGLADO: Tamaño fijo para que no se mueva */
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 8px rgba(204, 255, 2, 0.4));
+}
+
+.progress-ring-background {
+  opacity: 0.3;
+}
+
+.progress-ring-progress {
+  transition: stroke 0.3s ease;
+  stroke-linecap: round;
+}
+
+.progress-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-shadow: 0 0 4px rgba(204, 255, 2, 0.8);
+  letter-spacing: -0.5px;
+}
+
+.progress-text {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  line-height: 1.3;
+
+  /* 🎯 ARREGLADO: Ancho fijo para evitar movimiento */
+  width: 280px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🎯 NUEVO: Transición suave entre textos */
+  transition: all 0.4s ease;
+  opacity: 1;
+
+  /* Para textos largos */
+  white-space: normal;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 🎯 NUEVO: Clase para transición de texto */
+.progress-text.changing {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+@keyframes textPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Responsive solo para el indicador */
+@media (max-width: 768px) {
+  .scroll-progress-indicator {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .progress-circle {
+    padding: 6px;
+    width: 62px;
+    height: 62px;
+  }
+
+  .progress-ring {
+    width: 50px;
+    height: 50px;
+  }
+
+  .progress-ring-background,
+  .progress-ring-progress {
+    r: 21;
+    cx: 25;
+    cy: 25;
+  }
+
+  .progress-percentage {
+    font-size: 11px;
+  }
+
+  .progress-text {
+    font-size: 12px;
+    padding: 6px 12px;
+    width: 220px;
+    min-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-progress-indicator {
+    bottom: 220px;
+    left: 25%;
+    margin: 0 auto;
+    position: absolute;
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .progress-circle {
+    border: none;
+    padding: 0;
+    width: 55px;
+    height: 75px;
+    margin: 0;
+  }
+
+  .progress-text {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 11px;
+    width: 200px;
+    min-height: 30px;
+    line-height: 1.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-text {
+    animation: none;
+    transition: none;
+  }
+
+  .progress-text.changing {
+    transition: none;
+  }
+}
