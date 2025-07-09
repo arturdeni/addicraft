@@ -21,7 +21,7 @@ export function createHeroSection() {
           Somos una ingeniería especializada en optimización topológica y fabricación aditiva. Reducimos peso, coste y complejidad en maquinaria industrial.
         </p>
         <div class="hero-buttons">
-          <a href="#que-ofrecemos" class="btn btn-primary">Que Ofrecemos</a>
+          <a href="#que-ofrecemos" class="btn btn-primary">Qué Ofrecemos</a>
           <a href="#contacto" class="btn btn-primary">Contacto</a>
         </div>
       </div>

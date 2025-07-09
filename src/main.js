@@ -1,3 +1,4 @@
+// src/main.js
 import "./fonts.css";
 import "./style.css";
 import { createHeader } from "./components/Header/Header.js";
@@ -11,10 +12,14 @@ import { createFooter } from "./components/Footer/Footer.js";
 import { initAnimations } from "./utils/animations.js";
 import { initSectionTitleAnimations } from "./utils/titleAnimations.js";
 import { initSmoothScroll } from "./utils/scrollUtils.js";
+import { initIOSScrollOptimization } from "./utils/iosScrollFix.js";
 import "./utils/titleAnimations.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.querySelector("#app");
+
+  // Inicializar optimizaciones iOS ANTES que todo lo demás
+  initIOSScrollOptimization();
 
   // Añadir los componentes al DOM
   app.appendChild(createHeader());
@@ -26,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   app.appendChild(createContactForm());
   app.appendChild(createFooter());
 
-  // Inicializar animaciones GSAP
-  initAnimations();
-
-  // Inicializar animaciones para los títulos de sección
-  initSectionTitleAnimations();
+  // Inicializar animaciones GSAP con delay para iOS
+  setTimeout(() => {
+    initAnimations();
+    initSectionTitleAnimations();
+  }, 100); // Pequeño delay para que iOS se estabilice
 
   // Inicializar scroll suave unificado para toda la aplicación
   initSmoothScroll();
