@@ -4,6 +4,7 @@ import { createHeader } from "./components/Header/Header.js";
 import { createHeroSection } from "./components/HeroSection/HeroSection.js";
 import { createServices } from "./components/Services/Services.js";
 import { createProcess } from "./components/Process/Process.js";
+import { createMaterials } from "./components/Materials/Materials.js";
 import { createBenefits } from "./components/Benefits/Benefits.js";
 import { createContactForm } from "./components/ContactForm/ContactForm.js";
 import { createFooter } from "./components/Footer/Footer.js";
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   app.appendChild(createHeroSection());
   app.appendChild(createServices());
   app.appendChild(createProcess());
+  app.appendChild(createMaterials());
   app.appendChild(createBenefits());
   app.appendChild(createContactForm());
   app.appendChild(createFooter());

@@ -1,0 +1,165 @@
+/* src/components/Materials/Materials.css */
+.materials-section {
+  background-color: var(--background-primary);
+  color: #fff;
+  padding: 150px 0 240px;
+  position: relative;
+}
+
+.materials-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--container-padding);
+  width: 100%;
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 60px 40px;
+  justify-items: center;
+  align-items: center;
+  margin-top: var(--spacing-xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.material-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.material-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.material-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.material-name {
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary-color);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  max-width: 140px;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Efectos hover */
+.material-item:hover .material-image {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .materials-grid {
+    gap: 50px 30px;
+    max-width: 700px;
+  }
+
+  .material-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .material-name {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .materials-section {
+    padding: 160px 0;
+  }
+
+  .materials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 40px 25px;
+    max-width: 400px;
+  }
+
+  .material-circle {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 12px;
+  }
+
+  .material-name {
+    font-size: 12px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .materials-grid {
+    gap: 35px 20px;
+    max-width: 350px;
+  }
+
+  .material-circle {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .material-name {
+    font-size: 11px;
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .materials-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 30px;
+    max-width: 200px;
+  }
+
+  .material-circle {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+
+  .material-name {
+    font-size: 13px;
+    max-width: 140px;
+  }
+}
+
+/* Optimizaciones de rendimiento */
+.material-circle,
+.material-glow {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reducir animaciones para usuarios con preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .material-circle,
+  .material-image,
+  .material-glow {
+    transition: none;
+  }
+}

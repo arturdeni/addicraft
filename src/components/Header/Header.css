@@ -371,17 +371,28 @@
 /* 📱 RESPONSIVE BREAKPOINTS */
 @media (max-width: 768px) {
   .header {
-    /* Header transparente en móvil por defecto */
-    background-color: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  /* 🎯 En móvil, cuando el header está visible mantener el backdrop */
-  .header-visible {
+    /* 🎯 NUEVO: Header siempre fijo en mobile con backdrop */
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
+
+    /* 🎯 NUEVO: Desactivar transiciones de transform en mobile */
+    transform: translateY(0) !important;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  /* 🎯 NUEVO: Prevenir que las clases de scroll afecten en mobile */
+  .header.header-hidden,
+  .header.header-visible {
+    transform: translateY(0) !important;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+
+  /* 🎯 NUEVO: Eliminar el efecto de sombra en mobile */
+  .header-visible::after {
+    display: none;
   }
 
   .nav-list {
