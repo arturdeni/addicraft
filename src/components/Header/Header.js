@@ -20,7 +20,6 @@ export function createHeader() {
         <ul class="nav-list">
           <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="#que-ofrecemos" class="nav-link">Qué Ofrecemos</a></li>
-          <li class="nav-item"><a href="#quienes-somos" class="nav-link">Quiénes somos</a></li>
           <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
         </ul>
       </nav>
@@ -45,9 +44,6 @@ export function createHeader() {
           </li>
           <li class="mobile-nav-item">
             <a href="#que-ofrecemos" class="mobile-nav-link">Qué Ofrecemos</a>
-          </li>
-          <li class="mobile-nav-item">
-            <a href="#quienes-somos" class="mobile-nav-link">Quiénes somos</a>
           </li>
           <li class="mobile-nav-item">
             <a href="#contacto" class="mobile-nav-link">Contacto</a>
