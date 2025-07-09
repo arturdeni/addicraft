@@ -180,6 +180,7 @@
   .benefit-images-container {
     width: 300px;
     height: 300px;
+    margin-top: -22px;
   }
 
   .benefit-metrics {
@@ -298,47 +299,10 @@
   }
 }
 
-/* Responsive solo para el indicador */
-@media (max-width: 768px) {
-  .scroll-progress-indicator {
-    bottom: 20px;
-    right: 20px;
-  }
-
-  .progress-circle {
-    padding: 6px;
-    width: 75px;
-    height: 75px;
-  }
-
-  .progress-ring {
-    width: 50px;
-    height: 50px;
-  }
-
-  .progress-ring-background,
-  .progress-ring-progress {
-    r: 21;
-    cx: 25;
-    cy: 25;
-  }
-
-  .progress-percentage {
-    font-size: 11px;
-  }
-
-  .progress-text {
-    font-size: 12px;
-    padding: 6px 12px;
-    width: 220px;
-    min-height: 32px;
-  }
-}
-
 @media (max-width: 480px) {
   .scroll-progress-indicator {
     bottom: 220px;
-    left: 25%;
+    left: 22%;
     margin: 0 auto;
     position: absolute;
     flex-direction: row;
@@ -348,7 +312,7 @@
   .progress-circle {
     border: none;
     padding: 0;
-    width: 55px;
+    width: 75px;
     height: 75px;
     margin: 0;
   }
@@ -359,6 +323,7 @@
     font-size: 11px;
     width: 200px;
     min-height: 30px;
+    padding: 4px;
     line-height: 1.2;
   }
 }

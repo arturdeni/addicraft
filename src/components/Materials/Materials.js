@@ -106,7 +106,7 @@ function initMaterialsAnimations() {
     },
     scrollTrigger: {
       trigger: ".materials-section",
-      start: "center 70%",
+      start: "25% 70%",
       end: "bottom 30%",
       toggleActions: "play none none reverse",
     },
