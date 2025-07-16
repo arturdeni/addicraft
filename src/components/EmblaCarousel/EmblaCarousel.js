@@ -224,7 +224,7 @@ function addTweenBlur(emblaApi) {
   };
 }
 
-// Función para el efecto de escala (mantener la original)
+// Función para el efecto de escala (ACTUALIZADA para slide activo más grande)
 function addTweenScale(emblaApi) {
   const TWEEN_FACTOR_BASE = 0.2;
 
@@ -250,6 +250,7 @@ function addTweenScale(emblaApi) {
     const scrollProgress = emblaApi.scrollProgress();
     const slidesInView = emblaApi.slidesInView();
     const isScrollEvent = eventName === "scroll";
+    const selectedIndex = emblaApi.selectedScrollSnap();
 
     emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
       let diffToTarget = scrollSnap - scrollProgress;
@@ -275,10 +276,29 @@ function addTweenScale(emblaApi) {
           });
         }
 
-        const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor);
-        const scale = numberWithinRange(tweenValue, 0.7, 1).toString(); // Mínimo 0.7 en lugar de 0
+        // NUEVO: Escala más grande para el slide activo (responsive)
+        let scale;
+        if (slideIndex === selectedIndex) {
+          // Detectar si estamos en mobile
+          const isMobile = window.innerWidth <= 768;
+          // Slide activo: escala diferente según dispositivo
+          scale = isMobile ? "1.05" : "1.15"; // 5% en mobile, 15% en desktop
+        } else {
+          // Slides no activos: escala normal con efecto de distancia
+          const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor);
+          scale = numberWithinRange(tweenValue, 0.7, 1).toString();
+        }
+
         const tweenNode = tweenNodes[slideIndex];
         tweenNode.style.transform = `scale(${scale})`;
+
+        // NUEVO: Añadir atributo data para identificar slide activo
+        const slideElement = emblaApi.slideNodes()[slideIndex];
+        if (slideIndex === selectedIndex) {
+          slideElement.setAttribute("data-active", "true");
+        } else {
+          slideElement.removeAttribute("data-active");
+        }
       });
     });
   };
@@ -291,10 +311,16 @@ function addTweenScale(emblaApi) {
     tweenNodes.push(...setTweenNodes(emblaApi));
   });
 
-  emblaApi.on("reInit", tweenScale).on("scroll", tweenScale);
+  emblaApi
+    .on("reInit", tweenScale)
+    .on("scroll", tweenScale)
+    .on("select", tweenScale);
 
   return () => {
-    emblaApi.off("reInit", tweenScale).off("scroll", tweenScale);
+    emblaApi
+      .off("reInit", tweenScale)
+      .off("scroll", tweenScale)
+      .off("select", tweenScale);
   };
 }
 
@@ -431,7 +457,6 @@ export function createMaterialsCarousel(materials, options = {}) {
       }" class="material-sphere">
               <div class="material-title">${material.name}</div>
               <div class="material-description">
-                <div class="material-properties-label">Propiedades:</div>
                 <div class="material-properties">${
                   material.properties || ""
                 }</div>

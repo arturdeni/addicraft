@@ -2,49 +2,54 @@
 import { createMaterialsCarousel } from "../EmblaCarousel/EmblaCarousel.js";
 import "./Materials.css";
 
-// Datos de los materiales actualizados con propiedades
 const materialsData = [
   {
     id: 1,
     name: "316L",
     image: "/assets/images/316L.png",
-    properties:
-      "Excelente resistencia a la corrosión y buena soldabilidad. Ideal para aplicaciones marinas, químicas e intercambiadores de calor.",
+    properties: `<span class="property-title">Propiedades:</span> Alta resistencia a la corrosión, buena tenacidad y resistencia mecánica.<br>
+    <span class="property-title">Aplicaciones:</span> Industrias alimentaria, automotriz, química, médica y marina.<br>
+    <span class="property-title">Ventaja:</span> Ideal para ambientes agresivos donde la resistencia química es esencial.`,
   },
   {
     id: 2,
     name: "COPPER",
     image: "/assets/images/copper.png",
-    properties:
-      "Excelente conductividad térmica y eléctrica. Perfecto para componentes eléctricos, intercambiadores de calor, inductores, conectores.",
+    properties: `<span class="property-title">Propiedades:</span> Excelente conductividad térmica y eléctrica.<br>
+    <span class="property-title">Aplicaciones:</span> Componentes eléctricos, intercambiadores de calor, inductores, conectores.<br>
+    <span class="property-title">Ventaja:</span> Mucho más fácil de imprimir en 3D con buena precisión, a diferencia de los métodos tradicionales.`,
   },
   {
     id: 3,
     name: "17-4PH",
     image: "/assets/images/17-4ph.png",
-    properties:
-      "Alta resistencia mecánica combinada con buena resistencia a la corrosión. Aeroespacial, nuclear y aplicaciones de alta precisión.",
+    properties: `<span class="property-title">Propiedades:</span> Alta resistencia mecánica y dureza (hasta 36 HRC), buena resistencia a la corrosión.<br>
+    <span class="property-title">Aplicaciones:</span> Aeroespacial, herramientas, dispositivos médicos, moldes.<br>
+    <span class="property-title">Ventaja:</span> Se puede tratar térmicamente para mejorar aún más su dureza y rendimiento.`,
   },
   {
     id: 4,
     name: "INCONEL 625",
     image: "/assets/images/inconel625.png",
-    properties:
-      "Superaleación resistente a altas temperaturas y ambientes corrosivos. Turbinas de gas, reactores nucleares.",
+    properties: `<span class="property-title">Propiedades:</span> Aleación de níquel-cromo con gran resistencia a la corrosión y al calor.<br>
+    <span class="property-title">Aplicaciones:</span> Aeroespacial, petroquímica, ambientes extremos y marinos.<br>
+    <span class="property-title">Ventaja:</span> Mantiene integridad estructural hasta los 600 °C, cumpliendo normas ASTM B443.`,
   },
   {
     id: 5,
-    name: "H13 Tool Steel",
-    image: "/assets/images/h13-tool-steel.png",
-    properties:
-      "Dureza excepcional y resistencia al desgaste a altas temperaturas. Moldes de inyección, herramientas de forja.",
+    name: "D2 Tool Steel",
+    image: "/assets/images/d2-tool-steel.png",
+    properties: `<span class="property-title">Propiedades:</span> Alto contenido de carbono y cromo, excelente resistencia al desgaste y compresión.<br>
+    <span class="property-title">Aplicaciones:</span> Troqueles, cuchillas, moldes, herramientas de corte.<br>
+    <span class="property-title">Ventaja:</span> Puede tratarse térmicamente para alcanzar alta dureza y es ideal para trabajos en frío.`,
   },
   {
     id: 6,
-    name: "D2 Tool Steel",
-    image: "/assets/images/d2-tool-steel.png",
-    properties:
-      "Alta dureza y excelente resistencia al desgaste. Punzones, matrices, cuchillas industriales.",
+    name: "H13 Tool Steel",
+    image: "/assets/images/h13-tool-steel.png",
+    properties: `<span class="property-title">Propiedades:</span> Alta dureza (hasta 45 HRC), buena resistencia al calor y a la tracción (UTS: 1680 MPa).<br>
+    <span class="property-title">Aplicaciones:</span> Moldes de inyección, herramientas de estampado, piezas de soldadura fuerte.<br>
+    <span class="property-title">Ventaja:</span> Excelente retención de propiedades mecánicas a altas temperaturas.`,
   },
 ];
 
