@@ -1,0 +1,298 @@
+/* src/components/EmblaCarousel/EmblaCarousel.css - Actualizado */
+
+.embla {
+  max-width: none; /* Sin max-width */
+  margin: auto;
+  position: relative;
+  --slide-color: #fff;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 70%;
+  width: 100%; /* Ancho completo */
+}
+
+/* ============ VIEWPORT Y CONTAINER ============ */
+.embla__viewport {
+  overflow: hidden;
+  border-radius: 0;
+  position: relative;
+  margin: 110px 0;
+}
+
+.embla__container {
+  backface-visibility: hidden;
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+  align-items: center;
+}
+
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============ SLIDE CONTENT ============ */
+.embla__slide__number {
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  border-radius: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  font-size: 4rem;
+  background-color: var(--slide-color);
+  color: var(--background-primary, #000);
+  transition: transform 0.3s ease;
+}
+
+.embla__slide__content {
+  border-radius: 1.8rem;
+  height: var(--slide-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--slide-color);
+  color: var(--background-primary, #000);
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+}
+
+/* ============ CONTROLES ============ */
+.embla__controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+.embla__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  align-items: center;
+}
+
+/* ============ BOTONES DE NAVEGACIÓN ============ */
+.embla__button {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  width: 3.6rem;
+  height: 3.6rem;
+  z-index: 1;
+  border-radius: 50%;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.embla__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.embla__button:not(:disabled):hover {
+  background-color: var(--primary-color, #ccff02);
+  color: var(--background-primary, #000);
+  transform: scale(1.1);
+}
+
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
+  z-index: 2;
+  position: relative;
+}
+
+/* ============ VARIABLES CSS ============ */
+.embla {
+  --detail-medium-contrast: rgba(255, 255, 255, 0.2);
+  --text-body: #fff;
+  --text-high-contrast-rgb-value: 255, 255, 255;
+}
+
+/* ============ ESTILOS PARA MATERIALES ESPECÍFICAMENTE ============ */
+
+/* Proyectos */
+.project-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-image {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-info {
+  text-align: center;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-color, #ccff02);
+}
+
+.project-description {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Testimonios */
+.testimonial-slide {
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    var(--background-primary, #000) 0%,
+    #1a1a1a 100%
+  );
+  color: white;
+}
+
+.testimonial-quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  quotes: "" " " "" "'" "'";
+}
+
+.testimonial-quote::before {
+  content: open-quote;
+}
+
+.testimonial-quote::after {
+  content: close-quote;
+}
+
+.testimonial-author {
+  font-size: 0.9rem;
+}
+
+.testimonial-company {
+  display: block;
+  opacity: 0.7;
+  font-weight: normal;
+  margin-top: 0.25rem;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .embla__viewport {
+    margin: 0;
+  }
+
+  .embla {
+    --slide-size: 85%;
+    --slide-height: 16rem;
+  }
+
+  .embla__slide__number {
+    font-size: 3rem;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+  }
+
+  .testimonial-quote {
+    font-size: 1rem;
+  }
+
+  .embla__controls {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1rem;
+  }
+
+  .embla__buttons {
+    order: 1;
+  }
+
+  .embla__dots {
+    justify-content: center;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .embla {
+    --slide-size: 95%;
+    --slide-height: 14rem;
+    --slide-spacing: 0.8rem;
+  }
+
+  .embla__slide__number {
+    font-size: 2.5rem;
+  }
+
+  .embla__slide__content {
+    padding: 1.5rem;
+  }
+
+  .embla__button {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .embla__dot {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .embla__dot:after {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+/* ============ MEJORAS DE RENDIMIENTO ============ */
+.embla__slide__number,
+.embla__slide__content {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ============ REDUCCIÓN DE MOVIMIENTO ============ */
+@media (prefers-reduced-motion: reduce) {
+  .embla__button,
+  .embla__dot,
+  .embla__slide__content,
+  .embla__slide__number {
+    transition: none;
+  }
+}

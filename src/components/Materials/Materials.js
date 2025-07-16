@@ -1,41 +1,50 @@
 // src/components/Materials/Materials.js
+import { createMaterialsCarousel } from "../EmblaCarousel/EmblaCarousel.js";
 import "./Materials.css";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
-// Datos de los materiales
+// Datos de los materiales actualizados con propiedades
 const materialsData = [
   {
     id: 1,
-    name: "COPPER",
-    image: "/assets/images/copper.png",
+    name: "316L",
+    image: "/assets/images/316L.png",
+    properties:
+      "Excelente resistencia a la corrosión y buena soldabilidad. Ideal para aplicaciones marinas, químicas e intercambiadores de calor.",
   },
   {
     id: 2,
-    name: "316L",
-    image: "/assets/images/316L.png",
+    name: "COPPER",
+    image: "/assets/images/copper.png",
+    properties:
+      "Excelente conductividad térmica y eléctrica. Perfecto para componentes eléctricos, intercambiadores de calor, inductores, conectores.",
   },
   {
     id: 3,
     name: "17-4PH",
     image: "/assets/images/17-4ph.png",
+    properties:
+      "Alta resistencia mecánica combinada con buena resistencia a la corrosión. Aeroespacial, nuclear y aplicaciones de alta precisión.",
   },
   {
     id: 4,
     name: "INCONEL 625",
     image: "/assets/images/inconel625.png",
+    properties:
+      "Superaleación resistente a altas temperaturas y ambientes corrosivos. Turbinas de gas, reactores nucleares.",
   },
   {
     id: 5,
     name: "H13 Tool Steel",
     image: "/assets/images/h13-tool-steel.png",
+    properties:
+      "Dureza excepcional y resistencia al desgaste a altas temperaturas. Moldes de inyección, herramientas de forja.",
   },
   {
     id: 6,
     name: "D2 Tool Steel",
     image: "/assets/images/d2-tool-steel.png",
+    properties:
+      "Alta dureza y excelente resistencia al desgaste. Punzones, matrices, cuchillas industriales.",
   },
 ];
 
@@ -44,130 +53,34 @@ export function createMaterials() {
   materialsSection.id = "materiales";
   materialsSection.classList.add("materials-section");
 
+  const materialsCarousel = createMaterialsCarousel(materialsData, {
+    loop: false, // Sin loop
+    align: "center",
+    autoplay: false, // Sin autoplay para mejor control
+    className: "materials-showcase",
+    showDots: false, // Sin dots
+    blurSideSlides: true, // Con efecto blur
+  });
+
   materialsSection.innerHTML = `
     <div class="materials-container">
       <h2 class="section-title">Materiales</h2>
-      
-      <div class="materials-grid">
-        ${materialsData
-          .map(
-            (material, index) => `
-          <div class="material-item" data-material="${index}">
-            <div class="material-circle">
-              <img src="${material.image}" alt="${material.name}" class="material-image">
-              <div class="material-glow"></div>
-            </div>
-            <h3 class="material-name">${material.name}</h3>
-          </div>
-        `
-          )
-          .join("")}
-      </div>
+      ${materialsCarousel.html}
     </div>
   `;
 
-  // Inicializar animaciones después del DOM
-  requestAnimationFrame(() => {
-    initMaterialsAnimations();
-  });
+  // Inicializar el carousel después del DOM
+  setTimeout(() => {
+    const emblaApi = materialsCarousel.init();
+
+    // Guardar referencia para cleanup posterior si es necesario
+    materialsSection._emblaApi = emblaApi;
+  }, 100);
 
   return materialsSection;
 }
 
-function initMaterialsAnimations() {
-  const materialsSection = document.getElementById("materiales");
-  if (!materialsSection) return;
-
-  const materialItems = document.querySelectorAll(".material-item");
-  const materialCircles = document.querySelectorAll(".material-circle");
-  const materialNames = document.querySelectorAll(".material-name");
-
-  // Estado inicial
-  gsap.set(materialItems, {
-    y: 50,
-    opacity: 0,
-  });
-
-  gsap.set(materialNames, {
-    y: 20,
-    opacity: 0,
-  });
-
-  // Animación de entrada con ScrollTrigger
-  gsap.to(materialItems, {
-    y: 0,
-    opacity: 1,
-    duration: 0.8,
-    ease: "back.out(1.2)",
-    stagger: {
-      amount: 0.6,
-      grid: [2, 3],
-      from: "start",
-    },
-    scrollTrigger: {
-      trigger: ".materials-section",
-      start: "25% 70%",
-      end: "bottom 30%",
-      toggleActions: "play none none reverse",
-    },
-  });
-
-  // Animación de los nombres con delay
-  gsap.to(materialNames, {
-    y: 0,
-    opacity: 1,
-    duration: 0.6,
-    ease: "power2.out",
-    stagger: {
-      amount: 0.4,
-      grid: [2, 3],
-      from: "start",
-    },
-    delay: 0.3,
-    scrollTrigger: {
-      trigger: ".materials-section",
-      start: "top 70%",
-      end: "bottom 30%",
-      toggleActions: "play none none reverse",
-    },
-  });
-
-  // Efectos hover para cada círculo
-  materialCircles.forEach((circle, index) => {
-    const glow = circle.querySelector(".material-glow");
-
-    circle.addEventListener("mouseenter", () => {
-      gsap.to(circle, {
-        scale: 1.1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-
-      gsap.to(glow, {
-        opacity: 0.6,
-        scale: 1.2,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
-
-    circle.addEventListener("mouseleave", () => {
-      gsap.to(circle, {
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-
-      gsap.to(glow, {
-        opacity: 0,
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
-  });
-}
-
+// Función simplificada para inicializar (compatible con tu main.js)
 export function initMaterials() {
   const mainContainer = document.getElementById("app") || document.body;
   const processSection = document.querySelector(".process-section");
@@ -175,14 +88,10 @@ export function initMaterials() {
   // Remover sección existente si existe
   const existingMaterials = document.querySelector(".materials-section");
   if (existingMaterials) {
-    ScrollTrigger.getAll().forEach((trigger) => {
-      if (
-        trigger.trigger === existingMaterials ||
-        existingMaterials.contains(trigger.trigger)
-      ) {
-        trigger.kill();
-      }
-    });
+    // Cleanup del carousel anterior si existe
+    if (existingMaterials._emblaApi) {
+      existingMaterials._emblaApi.destroy();
+    }
     existingMaterials.remove();
   }
 

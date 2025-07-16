@@ -1,4 +1,6 @@
-/* src/components/Materials/Materials.css */
+/* src/components/Materials/Materials.css - SOLO LOS CAMBIOS MÍNIMOS */
+
+/* ============ MANTENER TUS ESTILOS ORIGINALES ============ */
 .materials-section {
   background-color: var(--background-primary);
   color: #fff;
@@ -13,153 +15,233 @@
   width: 100%;
 }
 
-.materials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 60px 40px;
-  justify-items: center;
-  align-items: center;
+/* ============ CONFIGURACIÓN ESPECÍFICA DEL CAROUSEL ============ */
+.materials-showcase {
   margin-top: var(--spacing-xl);
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  /* Configurar para mostrar 3 slides en desktop */
+  --slide-height: 400px;
+  --slide-spacing: 1rem;
+  --slide-size: 400px; /* Desktop: 400px */
+  position: relative;
 }
 
-.material-item {
+/* ============ MÁSCARA NEGRA CON DIFUMINADO EN LOS COSTADOS ============ */
+.materials-showcase::before,
+.materials-showcase::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.materials-showcase::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--background-primary) 0%,
+    var(--background-primary) 20%,
+    rgba(0, 0, 0, 0.8) 40%,
+    rgba(0, 0, 0, 0.4) 70%,
+    transparent 100%
+  );
+}
+
+.materials-showcase::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--background-primary) 0%,
+    var(--background-primary) 20%,
+    rgba(0, 0, 0, 0.8) 40%,
+    rgba(0, 0, 0, 0.4) 70%,
+    transparent 100%
+  );
+}
+
+.materials-showcase .embla__slide {
+  flex: 0 0 var(--slide-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============ QUITAR FONDO BLANCO Y ESTILOS DE CARD ============ */
+.material-slide {
+  height: var(--slide-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none !important; /* Sin fondo */
+  border: none !important; /* Sin bordes */
+  box-shadow: none !important; /* Sin sombras */
+  padding: 0;
+  position: relative;
+  cursor: grab;
+}
+
+.material-slide:active {
+  cursor: grabbing;
+}
+
+.material-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.material-circle {
   position: relative;
-  width: 120px;
-  height: 120px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-}
-
-.material-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
 }
 
-.material-name {
-  font-size: 14px;
-  font-weight: var(--font-weight-medium);
-  color: var(--primary-color);
-  margin: 0;
+/* ============ TÍTULO SUPERPUESTO SOBRE LA IMAGEN ============ */
+.material-title {
+  position: absolute;
+  top: 32%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--primary-color) !important; /* Color primario forzado */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  max-width: 140px;
-  word-wrap: break-word;
-  hyphens: auto;
+  z-index: 10; /* Z-index superior */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
 }
 
-/* Efectos hover */
-.material-item:hover .material-image {
+/* ============ ESFERA DEL MATERIAL ============ */
+.material-sphere {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 5;
+}
+
+/* ============ DESCRIPCIÓN EN HOVER ============ */
+.material-description {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 280px;
+  z-index: 10;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+  padding: 15px;
+}
+
+.material-properties-label {
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.material-properties {
+  font-size: 12px;
+  line-height: 1.4;
+  color: white !important; /* Texto blanco forzado */
+}
+
+/* ============ EFECTOS HOVER ============ */
+.material-slide:hover .material-sphere {
   transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .materials-grid {
-    gap: 50px 30px;
-    max-width: 700px;
-  }
-
-  .material-circle {
-    width: 100px;
-    height: 100px;
-  }
-
-  .material-name {
-    font-size: 13px;
-  }
+.material-slide:hover .material-title {
+  text-shadow: 0 0 25px rgba(204, 255, 2, 0.2);
 }
 
+/* ============ BOTONES CENTRADOS ABAJO ============ */
+.materials-showcase .embla__controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.materials-showcase .embla__buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.materials-showcase .embla__button {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.materials-showcase .embla__button:not(:disabled):hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--background-primary);
+  transform: scale(1.1);
+}
+
+.materials-showcase .embla__button:disabled {
+  opacity: 0.3;
+}
+
+/* ============ ESPACIADORES INVISIBLES ============ */
+.spacer-slide {
+  opacity: 0 !important;
+  pointer-events: none;
+  width: var(--slide-size);
+  height: var(--slide-height);
+}
+
+/* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-  .materials-section {
-    padding: 160px 0;
+  .materials-showcase {
+    --slide-size: 320px; /* Móvil: 320px */
+    --slide-height: 350px;
   }
 
-  .materials-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 40px 25px;
-    max-width: 400px;
+  /* Ajustar máscaras para móvil */
+  .materials-showcase::before,
+  .materials-showcase::after {
+    width: 80px;
   }
 
-  .material-circle {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 12px;
+  .material-sphere {
+    width: 200px;
+    height: 200px;
   }
 
-  .material-name {
-    font-size: 12px;
-    max-width: 120px;
+  .material-title {
+    font-size: 18px;
   }
 }
 
 @media (max-width: 576px) {
-  .materials-grid {
-    gap: 35px 20px;
-    max-width: 350px;
+  .materials-showcase {
+    --slide-size: 320px; /* Mantener 320px */
+    --slide-height: 300px;
   }
 
-  .material-circle {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
+  /* Máscaras más pequeñas en móviles pequeños */
+  .materials-showcase::before,
+  .materials-showcase::after {
+    width: 60px;
   }
 
-  .material-name {
-    font-size: 11px;
-    max-width: 100px;
-  }
-}
-
-@media (max-width: 480px) {
-  .materials-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 1fr);
-    gap: 30px;
-    max-width: 200px;
+  .material-sphere {
+    width: 180px;
+    height: 180px;
   }
 
-  .material-circle {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 15px;
-  }
-
-  .material-name {
-    font-size: 13px;
-    max-width: 140px;
-  }
-}
-
-/* Optimizaciones de rendimiento */
-.material-circle,
-.material-glow {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Reducir animaciones para usuarios con preferencias de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-  .material-circle,
-  .material-image,
-  .material-glow {
-    transition: none;
+  .material-title {
+    font-size: 16px;
   }
 }
