@@ -192,8 +192,6 @@
 
 .materials-showcase .embla__button {
   background-color: rgba(0, 0, 0, 0.7);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  /* MODIFICADO: Botones más pequeños en desktop */
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -234,18 +232,12 @@
   }
 
   .material-sphere {
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
   }
 
   .material-title {
     font-size: 18px;
-  }
-
-  /* Volver a tamaño normal de botones en móvil */
-  .materials-showcase .embla__button {
-    width: 50px;
-    height: 50px;
   }
 
   .material-description {
@@ -256,8 +248,8 @@
 
 @media (max-width: 576px) {
   .materials-showcase {
-    --slide-size: 320px; /* Mantener 320px */
-    --slide-height: 300px;
+    --slide-size: 320px;
+    --slide-height: 350px;
   }
 
   /* Máscaras más pequeñas en móviles pequeños */
@@ -267,8 +259,8 @@
   }
 
   .material-sphere {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
   }
 
   .material-title {
