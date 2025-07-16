@@ -218,3 +218,58 @@
     min-height: 80px; /* Mínimo para dispositivos muy pequeños */
   }
 }
+
+/* ============ BARRA DE TEXTO DESLIZANTE ============ */
+.hero-ticker {
+  width: 100vw;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  overflow: hidden;
+  position: relative;
+  margin: 40px 0 180px;
+  padding: 12px 0;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.hero-ticker-content {
+  display: inline-block;
+  animation: tickerScroll 60s linear infinite;
+}
+
+.ticker-text {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-secondary);
+  display: inline-block;
+  margin: 0 80px; /* Espacio después del texto */
+}
+
+@keyframes tickerScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Media queries para móvil */
+@media (max-width: 768px) {
+  .hero-ticker {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-top: 30px;
+    margin-bottom: 130px;
+  }
+
+  .ticker-text {
+    font-size: 14px;
+    margin: 0 40px; /* Espacio después del texto */
+  }
+
+  /* Animación más rápida en móvil para compensar el texto más pequeño */
+  .hero-ticker-content {
+    animation: tickerScroll 45s linear infinite;
+  }
+}

@@ -29,6 +29,30 @@ export function createHeroSection() {
         <!-- 3D model will be inserted here by JavaScript -->
       </div>
     </div>
+    
+    <!-- Barra de texto deslizante -->
+    <div class="hero-ticker">
+  <div class="hero-ticker-content">
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
+    <span class="ticker-separator">★</span>
+    <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>    
+  </div>
+</div>
+    
     <div class="hero-bottom">
       <h2 class="hero-tagline">Reducimos peso, material y coste.<br>Nunca el rendimiento</h2>
     </div>
