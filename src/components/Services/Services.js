@@ -1,5 +1,9 @@
 // src/components/Services/Services.js
 import "./Services.css";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const servicesData = [
   {
@@ -69,7 +73,7 @@ export function createServices() {
           ${servicesData
             .map(
               (service, index) => `
-            <div class="mobile-service">
+            <div class="mobile-service mobile-service-item" data-mobile-index="${index}">
               <div class="mobile-service-image">
                 <img src="${service.image}" alt="${service.title}">
               </div>
@@ -86,14 +90,70 @@ export function createServices() {
     </div>
   `;
 
-  // Solo inicializar interacciones en desktop
+  // Inicializar interacciones después del DOM
   setTimeout(() => {
     if (window.innerWidth > 768) {
       initDesktopInteractions();
+    } else {
+      initMobileAnimations();
     }
+
+    // Listener para cambios de tamaño de ventana
+    window.addEventListener("resize", handleResize);
   }, 100);
 
   return servicesSection;
+}
+
+function handleResize() {
+  // Limpiar animaciones existentes
+  ScrollTrigger.getAll().forEach((trigger) => {
+    if (trigger.trigger && trigger.trigger.closest(".services-section")) {
+      trigger.kill();
+    }
+  });
+
+  // Reinicializar según el tamaño de pantalla
+  if (window.innerWidth > 768) {
+    // Reset mobile styles
+    gsap.set(".mobile-service-item", { opacity: 1, y: 0 });
+    initDesktopInteractions();
+  } else {
+    initMobileAnimations();
+  }
+}
+
+function initMobileAnimations() {
+  // Solo ejecutar si estamos en móvil
+  if (window.innerWidth > 768) return;
+
+  const mobileServices = document.querySelectorAll(".mobile-service-item");
+
+  if (!mobileServices.length) return;
+
+  // Estado inicial: ocultos y desplazados hacia abajo
+  gsap.set(mobileServices, {
+    opacity: 0,
+    y: 30,
+  });
+
+  // Animar cada servicio individualmente con stagger
+  mobileServices.forEach((service, index) => {
+    gsap.to(service, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: service,
+        start: "top 85%",
+        end: "bottom 50%",
+        toggleActions: "play none none reverse",
+        // Pequeño delay basado en el índice para efecto stagger
+        delay: index * 0.1,
+      },
+    });
+  });
 }
 
 function initDesktopInteractions() {
@@ -142,6 +202,13 @@ export function initServices() {
 
   const existingServices = document.querySelector(".services-section");
   if (existingServices) {
+    // Limpiar listeners y animaciones anteriores
+    ScrollTrigger.getAll().forEach((trigger) => {
+      if (trigger.trigger && trigger.trigger.closest(".services-section")) {
+        trigger.kill();
+      }
+    });
+    window.removeEventListener("resize", handleResize);
     existingServices.remove();
   }
 
