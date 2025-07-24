@@ -196,14 +196,14 @@
 }
 
 /* 🎯 NUEVO: Línea separadora centrada del color primario */
-.mobile-service:not(:last-child)::after {
+.mobile-service::after {
   content: "";
   position: absolute;
-  bottom: -26px;
+  bottom: -25px;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 1px;
+  width: 320px;
+  height: 2px;
   background-color: var(--primary-color);
 }
 
