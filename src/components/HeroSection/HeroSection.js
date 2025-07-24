@@ -34,21 +34,21 @@ export function createHeroSection() {
     <div class="hero-ticker">
   <div class="hero-ticker-content">
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>
-    <span class="ticker-separator">★</span>
+    <span class="ticker-separator">|</span>
     <span class="ticker-text">Optimización topológica / Fabricación aditiva</span>    
   </div>
 </div>

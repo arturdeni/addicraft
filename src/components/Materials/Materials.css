@@ -1,4 +1,4 @@
-/* src/components/Materials/Materials.css - ACTUALIZADO */
+/* src/components/Materials/Materials.css - ACTUALIZADO para spacers responsivos */
 
 /* ============ MANTENER TUS ESTILOS ORIGINALES ============ */
 .materials-section {
@@ -25,40 +25,42 @@
   position: relative;
 }
 
-/* ============ MÁSCARA NEGRA CON DIFUMINADO EN LOS COSTADOS ============ */
-.materials-showcase::before,
-.materials-showcase::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 150px;
-  z-index: 20;
-  pointer-events: none;
-}
+/* ============ MÁSCARA NEGRA CON DIFUMINADO EN LOS COSTADOS - SOLO DESKTOP ============ */
+@media (min-width: 769px) {
+  .materials-showcase::before,
+  .materials-showcase::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 20;
+    pointer-events: none;
+  }
 
-.materials-showcase::before {
-  left: 0;
-  background: linear-gradient(
-    to right,
-    var(--background-primary) 0%,
-    var(--background-primary) 20%,
-    rgba(0, 0, 0, 0.8) 40%,
-    rgba(0, 0, 0, 0.4) 70%,
-    transparent 100%
-  );
-}
+  .materials-showcase::before {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      var(--background-primary) 0%,
+      var(--background-primary) 20%,
+      rgba(0, 0, 0, 0.8) 40%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 100%
+    );
+  }
 
-.materials-showcase::after {
-  right: 0;
-  background: linear-gradient(
-    to left,
-    var(--background-primary) 0%,
-    var(--background-primary) 20%,
-    rgba(0, 0, 0, 0.8) 40%,
-    rgba(0, 0, 0, 0.4) 70%,
-    transparent 100%
-  );
+  .materials-showcase::after {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      var(--background-primary) 0%,
+      var(--background-primary) 20%,
+      rgba(0, 0, 0, 0.8) 40%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 100%
+    );
+  }
 }
 
 .materials-showcase .embla__slide {
@@ -213,12 +215,21 @@
   opacity: 0.3;
 }
 
-/* ============ ESPACIADORES INVISIBLES ============ */
-.spacer-slide {
-  opacity: 0 !important;
-  pointer-events: none;
-  width: var(--slide-size);
-  height: var(--slide-height);
+/* ============ ESPACIADORES INVISIBLES - SOLO EN DESKTOP ============ */
+@media (min-width: 769px) {
+  .spacer-slide {
+    opacity: 0 !important;
+    pointer-events: none;
+    width: var(--slide-size);
+    height: var(--slide-height);
+  }
+}
+
+/* 🎯 NUEVO: En mobile, asegurar que no aparezcan spacers */
+@media (max-width: 768px) {
+  .spacer-slide {
+    display: none !important;
+  }
 }
 
 /* ============ RESPONSIVE ============ */
@@ -228,10 +239,10 @@
     --slide-height: 350px;
   }
 
-  /* Ajustar máscaras para móvil */
+  /* 🎯 MODIFICADO: Quitar máscaras completamente en mobile */
   .materials-showcase::before,
   .materials-showcase::after {
-    display: none;
+    display: none !important;
   }
 
   .material-sphere {
@@ -247,18 +258,17 @@
     max-width: 280px;
     padding: 15px 12px;
   }
+
+  /* 🎯 NUEVO: Escala más conservadora en mobile para slide activo */
+  .material-slide[data-active="true"] .material-content {
+    transform: scale(1.05); /* Solo 5% en mobile */
+  }
 }
 
 @media (max-width: 576px) {
   .materials-showcase {
     --slide-size: 320px;
     --slide-height: 350px;
-  }
-
-  /* Máscaras más pequeñas en móviles pequeños */
-  .materials-showcase::before,
-  .materials-showcase::after {
-    display: none;
   }
 
   .material-sphere {
@@ -276,3 +286,45 @@
     padding: 12px 10px;
   }
 }
+
+/* ============ MEJORAS DE RENDIMIENTO ============ */
+.material-slide,
+.material-content,
+.material-sphere {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* ============ REDUCCIÓN DE MOVIMIENTO ============ */
+@media (prefers-reduced-motion: reduce) {
+  .material-slide,
+  .material-content,
+  .material-sphere,
+  .materials-showcase .embla__button {
+    transition: none;
+  }
+
+  .material-slide[data-active="true"] .material-content {
+    transform: none;
+  }
+}
+
+/* ============ DEBUGGING: Solo para desarrollo ============ */
+/* Descomenta estas líneas si necesitas debuggear los spacers */
+/*
+.spacer-slide {
+  background-color: rgba(255, 0, 0, 0.3) !important;
+  border: 2px dashed red !important;
+}
+
+.spacer-slide::after {
+  content: "SPACER";
+  color: red;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+*/

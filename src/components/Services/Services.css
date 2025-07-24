@@ -192,6 +192,19 @@
   gap: 20px;
   margin-bottom: 30px;
   align-items: center;
+  position: relative;
+}
+
+/* 🎯 NUEVO: Línea separadora centrada del color primario */
+.mobile-service:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1px;
+  background-color: var(--primary-color);
 }
 
 .mobile-service-image {

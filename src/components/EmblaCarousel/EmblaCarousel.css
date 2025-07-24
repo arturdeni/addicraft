@@ -25,7 +25,7 @@
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
   align-items: center;
-  height: 420px;
+  height: 440px;
 }
 
 .embla__slide {

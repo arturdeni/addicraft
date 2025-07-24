@@ -53,18 +53,25 @@ const materialsData = [
   },
 ];
 
+// 🎯 NUEVA VARIABLE GLOBAL para almacenar la instancia actual
+let currentEmblaApi = null;
+let currentMaterialsSection = null;
+
 export function createMaterials() {
   const materialsSection = document.createElement("section");
   materialsSection.id = "materiales";
   materialsSection.classList.add("materials-section");
 
+  // 🎯 NUEVO: Guardar referencia de la sección
+  currentMaterialsSection = materialsSection;
+
   const materialsCarousel = createMaterialsCarousel(materialsData, {
-    loop: false, // Sin loop
+    loop: false,
     align: "center",
-    autoplay: false, // Sin autoplay para mejor control
+    autoplay: false,
     className: "materials-showcase",
-    showDots: false, // Sin dots
-    blurSideSlides: true, // Con efecto blur
+    showDots: false,
+    blurSideSlides: true,
   });
 
   materialsSection.innerHTML = `
@@ -74,15 +81,90 @@ export function createMaterials() {
     </div>
   `;
 
-  // Inicializar el carousel después del DOM
+  // 🎯 NUEVO: Inicializar el carousel y configurar listener de resize
   setTimeout(() => {
-    const emblaApi = materialsCarousel.init();
-
-    // Guardar referencia para cleanup posterior si es necesario
-    materialsSection._emblaApi = emblaApi;
+    initializeCarousel();
+    setupResizeListener();
   }, 100);
 
   return materialsSection;
+}
+
+// 🎯 NUEVA FUNCIÓN: Inicializar o reinicializar el carousel
+function initializeCarousel() {
+  if (!currentMaterialsSection) return;
+
+  // Limpiar instancia anterior si existe
+  if (currentEmblaApi) {
+    currentEmblaApi.destroy();
+    currentEmblaApi = null;
+  }
+
+  // Crear nuevo carousel
+  const materialsCarousel = createMaterialsCarousel(materialsData, {
+    loop: false,
+    align: "center",
+    autoplay: false,
+    className: "materials-showcase",
+    showDots: false,
+    blurSideSlides: true,
+  });
+
+  // Actualizar el HTML del carousel
+  const carouselContainer = currentMaterialsSection.querySelector(
+    ".materials-container"
+  );
+  if (carouselContainer) {
+    carouselContainer.innerHTML = `
+      <h2 class="section-title">Materiales</h2>
+      ${materialsCarousel.html}
+    `;
+  }
+
+  // Inicializar el nuevo carousel
+  setTimeout(() => {
+    currentEmblaApi = materialsCarousel.init();
+  }, 50);
+}
+
+// 🎯 NUEVA FUNCIÓN: Configurar listener de resize con debounce
+function setupResizeListener() {
+  let resizeTimer;
+
+  const handleResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      // Solo reinicializar si realmente cambió el breakpoint
+      const wasMobile = !document.querySelector(".spacer-slide");
+      const isMobileNow = window.innerWidth <= 768;
+
+      if ((wasMobile && !isMobileNow) || (!wasMobile && isMobileNow)) {
+        console.log("Breakpoint changed, reinitializing carousel...");
+        initializeCarousel();
+      }
+    }, 250); // Debounce de 250ms
+  };
+
+  // Añadir listener si no existe ya
+  if (!window.materialsResizeListener) {
+    window.materialsResizeListener = handleResize;
+    window.addEventListener("resize", handleResize);
+  }
+}
+
+// 🎯 NUEVA FUNCIÓN: Limpiar listeners y referencias
+function cleanup() {
+  if (currentEmblaApi) {
+    currentEmblaApi.destroy();
+    currentEmblaApi = null;
+  }
+
+  if (window.materialsResizeListener) {
+    window.removeEventListener("resize", window.materialsResizeListener);
+    window.materialsResizeListener = null;
+  }
+
+  currentMaterialsSection = null;
 }
 
 // Función simplificada para inicializar (compatible con tu main.js)
@@ -90,13 +172,10 @@ export function initMaterials() {
   const mainContainer = document.getElementById("app") || document.body;
   const processSection = document.querySelector(".process-section");
 
-  // Remover sección existente si existe
+  // 🎯 MODIFICADO: Limpiar sección existente con cleanup completo
   const existingMaterials = document.querySelector(".materials-section");
   if (existingMaterials) {
-    // Cleanup del carousel anterior si existe
-    if (existingMaterials._emblaApi) {
-      existingMaterials._emblaApi.destroy();
-    }
+    cleanup(); // Limpiar todo antes de remover
     existingMaterials.remove();
   }
 
@@ -109,4 +188,9 @@ export function initMaterials() {
   }
 
   return newMaterials;
+}
+
+// 🎯 NUEVA FUNCIÓN: Exportar cleanup para uso externo si es necesario
+export function cleanupMaterials() {
+  cleanup();
 }

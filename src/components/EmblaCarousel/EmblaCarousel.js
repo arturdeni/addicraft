@@ -88,15 +88,30 @@ function initEmblaCarousel(carouselId, options) {
   const nextBtnNode = emblaNode.querySelector(".embla__button--next");
   const dotsNode = emblaNode.querySelector(".embla__dots");
 
+  // 🎯 NUEVA FUNCIÓN: Detectar si hay spacers y calcular startIndex correcto
+  const slides = emblaNode.querySelectorAll(".embla__slide");
+  let actualStartIndex = options.startIndex;
+
+  // Si hay spacers (detectamos por la clase spacer-slide), ajustar el startIndex
+  const hasSpacers = emblaNode.querySelector(".spacer-slide");
+  if (hasSpacers && window.innerWidth > 768) {
+    // En desktop con spacers, mantener el startIndex original
+    actualStartIndex = options.startIndex;
+  } else if (hasSpacers && window.innerWidth <= 768) {
+    // En mobile, si por alguna razón hay spacers, ignorarlos
+    actualStartIndex = 0;
+  } else {
+    // Sin spacers (mobile), empezar desde 0
+    actualStartIndex = 0;
+  }
+
   // Configuración de Embla
   const emblaApi = EmblaCarousel(viewportNode, {
     loop: options.loop,
     align: options.align,
     slidesToScroll: options.slidesToScroll,
-    // NUEVO: Configurar containScroll para centrar mejor
     containScroll: "trimSnaps",
-    // NUEVO: Índice de inicio
-    startIndex: options.startIndex,
+    startIndex: actualStartIndex,
   });
 
   // Funciones de utilidad
@@ -324,22 +339,35 @@ function addTweenScale(emblaApi) {
   };
 }
 
-// Mantener las funciones originales para botones y dots...
+// 🎯 MODIFICADA: Función para manejar botones prev/next sin spacers en mobile
 function addPrevNextBtnsClickHandlers(emblaApi, prevBtn, nextBtn) {
   const togglePrevNextBtnsState = () => {
     const currentIndex = emblaApi.selectedScrollSnap();
-    const firstRealSlide = 2; // Primer slide real (después de los 2 spacers)
-    const lastRealSlide = emblaApi.scrollSnapList().length - 3; // Último slide real (antes de los 2 spacers)
+    const totalSlides = emblaApi.scrollSnapList().length;
+    const isMobile = window.innerWidth <= 768;
+    const hasSpacers = document.querySelector(".spacer-slide");
+
+    let firstSlide, lastSlide;
+
+    if (hasSpacers && !isMobile) {
+      // Desktop con spacers: saltar los 2 primeros y 2 últimos
+      firstSlide = 2;
+      lastSlide = totalSlides - 3;
+    } else {
+      // Mobile sin spacers: usar todo el rango
+      firstSlide = 0;
+      lastSlide = totalSlides - 1;
+    }
 
     // Bloquear botón prev si estamos en el primer slide real
-    if (currentIndex <= firstRealSlide) {
+    if (currentIndex <= firstSlide) {
       prevBtn.setAttribute("disabled", "disabled");
     } else {
       prevBtn.removeAttribute("disabled");
     }
 
     // Bloquear botón next si estamos en el último slide real
-    if (currentIndex >= lastRealSlide) {
+    if (currentIndex >= lastSlide) {
       nextBtn.setAttribute("disabled", "disabled");
     } else {
       nextBtn.removeAttribute("disabled");
@@ -405,36 +433,59 @@ function addDotBtnsAndClickHandlers(emblaApi, dotsNode) {
   };
 }
 
-// src/components/EmblaCarousel/EmblaCarousel.js
-// SOLO CAMBIO EN LA FUNCIÓN createMaterialsCarousel - el resto igual
-
+// 🎯 FUNCIÓN PRINCIPAL MODIFICADA: createMaterialsCarousel con detección responsiva
 export function createMaterialsCarousel(materials, options = {}) {
-  // SOLUCIÓN: Añadir slides invisibles al principio y final para centrar
-  const materialsWithSpacers = [
-    // Spacers al inicio (invisibles)
-    {
-      id: "spacer-start-1",
-      name: "",
-      image: "",
-      properties: "",
-      isSpacer: true,
-    },
-    {
-      id: "spacer-start-2",
-      name: "",
-      image: "",
-      properties: "",
-      isSpacer: true,
-    },
-    // Materiales reales
-    ...materials,
-    // Spacers al final (invisibles)
-    { id: "spacer-end-1", name: "", image: "", properties: "", isSpacer: true },
-    { id: "spacer-end-2", name: "", image: "", properties: "", isSpacer: true },
-  ];
+  // 🎯 NUEVA LÓGICA: Detectar si estamos en mobile
+  const isMobile = window.innerWidth <= 768;
+
+  let materialsToUse;
+  let startIndexToUse;
+
+  if (isMobile) {
+    // 🎯 MOBILE: Sin spacers, usar materiales directamente
+    materialsToUse = materials;
+    startIndexToUse = 0; // Empezar desde el primer material real
+  } else {
+    // 🎯 DESKTOP: Con spacers para centrado
+    materialsToUse = [
+      // Spacers al inicio (invisibles)
+      {
+        id: "spacer-start-1",
+        name: "",
+        image: "",
+        properties: "",
+        isSpacer: true,
+      },
+      {
+        id: "spacer-start-2",
+        name: "",
+        image: "",
+        properties: "",
+        isSpacer: true,
+      },
+      // Materiales reales
+      ...materials,
+      // Spacers al final (invisibles)
+      {
+        id: "spacer-end-1",
+        name: "",
+        image: "",
+        properties: "",
+        isSpacer: true,
+      },
+      {
+        id: "spacer-end-2",
+        name: "",
+        image: "",
+        properties: "",
+        isSpacer: true,
+      },
+    ];
+    startIndexToUse = 2; // Empezar en el primer material real (después de 2 spacers)
+  }
 
   return createEmblaCarousel({
-    slides: materialsWithSpacers,
+    slides: materialsToUse,
     renderSlide: (material, index) => {
       // Si es un spacer, renderizar slide vacío e invisible
       if (material.isSpacer) {
@@ -471,8 +522,7 @@ export function createMaterialsCarousel(materials, options = {}) {
     blurSideSlides: true,
     showDots: false,
     slidesToScroll: 1,
-    // IMPORTANTE: Comenzar en el slide 2 (primer material real)
-    startIndex: 2,
+    startIndex: startIndexToUse, // Usar el índice calculado según el dispositivo
     ...options,
   });
 }
