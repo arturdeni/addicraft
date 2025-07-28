@@ -1,14 +1,12 @@
-/* src/utils/titleAnimations.css */
+/* src/utils/titleAnimations.css - SIMPLIFICADO */
 .animate-title {
   overflow: hidden;
-  transform-origin: center bottom;
-  will-change: transform, opacity;
   position: relative;
 }
 
 .section-title {
   position: relative;
-  transition: all 0.3s ease;
+  opacity: 1; /* Siempre visible */
 }
 
 .section-title::before {
@@ -21,27 +19,14 @@
   background-color: var(--background-primary);
   transform-origin: right;
   transform: scaleX(1);
-  transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1.2s ease;
   z-index: 1;
 }
 
 .contact-container .section-title::before {
   background-color: var(--primary-color);
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .section-title.is-inview::before {
   transform: scaleX(0);
-}
-
-/* Performance optimizations */
-.animate-title {
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* Performance optimizations */
-.animate-title {
-  backface-visibility: hidden;
-  perspective: 1000px;
 }
