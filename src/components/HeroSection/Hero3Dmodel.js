@@ -18,65 +18,55 @@ export class Hero3DModel {
   }
 
   init() {
-    // Check for WebGL support
     if (!this.isWebGLAvailable()) {
       this.showWebGLError();
       return;
     }
 
-    // Create a simple loading indicator
     this.createSimpleLoadingIndicator();
 
-    // Create scene
+    // Escena (fondo negro como tu web; si quieres blanco: 0xffffff)
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x000000); // Black background to match your website
+    this.scene.background = new THREE.Color(0x000000);
 
-    // Create camera
+    // Cámara
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     this.camera.position.set(0, 0, 5);
 
-    // Create renderer - simplified settings
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // Renderer
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap pixel ratio for performance
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
-    this.renderer.shadowMap.enabled = false; // Disable shadows for simplicity
-    this.renderer.setClearColor(0x000000, 0); // Transparent background
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Append renderer to container
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 0.8; // ↓ Menos brillo global
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.setClearColor(0x000000, 0);
+
+    // (si tu versión de three aún lo soporta)
+    this.renderer.physicallyCorrectLights = true;
+
     this.container.appendChild(this.renderer.domElement);
 
-    // Fix touch scroll on mobile - disable pointer events on canvas for mobile devices
     this.setupMobileScrollFix();
-
-    // Add lights - simplified, neutral lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    this.scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Neutral white light
-    directionalLight.position.set(1, 1, 1);
-    this.scene.add(directionalLight);
-
-    const backLight = new THREE.DirectionalLight(0xffffff, 1);
-    backLight.position.set(-1, -1, -1);
-    this.scene.add(backLight);
-
-    // Load 3D model
+    this.setupAdvancedLighting();
     this.loadModel();
 
-    // Add orbit controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
     this.controls.rotateSpeed = 0.3;
-    this.controls.enabled = false; // Disable manual control
+    this.controls.enabled = false;
 
-    // Handle window resize
     window.addEventListener("resize", this.onWindowResize.bind(this));
-
-    // Handle orientation change on mobile
     window.addEventListener("orientationchange", () => {
       setTimeout(() => {
         this.setupMobileScrollFix();
@@ -84,8 +74,101 @@ export class Hero3DModel {
       }, 100);
     });
 
-    // Start animation loop
     this.animate();
+  }
+
+  // --- ILUMINACIÓN: estudio suave, sin quemar highlights ---
+  setupAdvancedLighting() {
+    // ambiente mínimo para no “aplastar” el metal
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    this.scene.add(ambientLight);
+
+    // Key light (principal)
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    mainLight.position.set(8, 10, 6);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.camera.near = 0.1;
+    mainLight.shadow.camera.far = 50;
+    mainLight.shadow.bias = -0.0001;
+    this.scene.add(mainLight);
+
+    // Fill light (relleno suave)
+    const fillLight = new THREE.DirectionalLight(0xffffff, 3);
+    fillLight.position.set(-6, 3, 4);
+    this.scene.add(fillLight);
+
+    // Rim light (contorno más discreto)
+    const rimLight = new THREE.DirectionalLight(0xffffff, 4);
+    rimLight.position.set(-8, 4, -6);
+    this.scene.add(rimLight);
+
+    // Luces puntuales muy contenidas (solo para volumen)
+    const topLight = new THREE.PointLight(0xffffff, 0.35, 18);
+    topLight.position.set(0, 10, 2);
+    this.scene.add(topLight);
+
+    const sideLight = new THREE.PointLight(0xffffff, 0.3, 14);
+    sideLight.position.set(8, 2, 8);
+    this.scene.add(sideLight);
+
+    // Environment para reflejos
+    this.setupEnvironmentMap();
+  }
+
+  setupEnvironmentMap() {
+    this.createProceduralEnvironment();
+  }
+
+  createProceduralEnvironment() {
+    const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
+    pmremGenerator.compileEquirectangularShader();
+
+    const renderTarget = pmremGenerator.fromScene(
+      this.createEnvironmentScene()
+    );
+    this.scene.environment = renderTarget.texture;
+
+    pmremGenerator.dispose();
+  }
+
+  // Environment: cúpula gris + “light cards” grises (no blancas puras) → reflejo controlado
+  createEnvironmentScene() {
+    const envScene = new THREE.Scene();
+
+    const dome = new THREE.Mesh(
+      new THREE.SphereGeometry(50, 36, 18),
+      new THREE.MeshBasicMaterial({ color: 0xe8e8e8, side: THREE.BackSide })
+    );
+    envScene.add(dome);
+
+    const makePanel = (
+      w,
+      h,
+      x,
+      y,
+      z,
+      rx = 0,
+      ry = 0,
+      rz = 0,
+      color = 0xf2f2f2
+    ) => {
+      const m = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide });
+      const g = new THREE.PlaneGeometry(w, h);
+      const mesh = new THREE.Mesh(g, m);
+      mesh.position.set(x, y, z);
+      mesh.rotation.set(rx, ry, rz);
+      envScene.add(mesh);
+    };
+
+    // Paneles algo más grises (evitan “hotspots”)
+    makePanel(18, 8, 0, 12, 16, -0.25, 0.0, 0.0, 0xeeeeee);
+    makePanel(16, 8, 16, 4, 0, 0.0, Math.PI / 2, 0.0, 0xededed);
+    makePanel(16, 8, -16, 4, 0, 0.0, -Math.PI / 2, 0.0, 0xededed);
+    makePanel(18, 8, 0, 2, -18, 0.0, Math.PI, 0.0, 0xeeeeee);
+
+    return envScene;
   }
 
   createSimpleLoadingIndicator() {
@@ -114,24 +197,30 @@ export class Hero3DModel {
       (gltf) => {
         this.model = gltf.scene;
 
-        // Center the model
+        // Centrar y escalar
         const box = new THREE.Box3().setFromObject(this.model);
         const center = box.getCenter(new THREE.Vector3());
         this.model.position.sub(center);
 
-        // Scale model to fit view - slightly more conservative scaling
         const boxSize = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(boxSize.x, boxSize.y, boxSize.z);
-        const scale = 2.2 / maxDim; // Smaller scale factor for a more natural size
+        const scale = 2.2 / maxDim;
         this.model.scale.multiplyScalar(scale);
 
-        // Keep original materials and colors - NO COLOR MODIFICATIONS
-        // The model will display with its original textures and colors from the GLB file
+        // Material
+        this.enhanceMaterials(this.model);
 
-        // Add model to scene
         this.scene.add(this.model);
 
-        // If the model has animations, set up the mixer
+        // Sombras
+        this.model.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        // Animaciones
         if (gltf.animations && gltf.animations.length) {
           this.animationMixer = new THREE.AnimationMixer(this.model);
           const clip = gltf.animations[0];
@@ -139,7 +228,7 @@ export class Hero3DModel {
           action.play();
         }
 
-        // Remove loading indicator
+        // Quitar loader
         if (this.loadingIndicator && this.loadingIndicator.parentNode) {
           this.loadingIndicator.parentNode.removeChild(this.loadingIndicator);
         }
@@ -153,23 +242,85 @@ export class Hero3DModel {
     );
   }
 
+  // --- Texturas procedurales sutiles para micro-rugosidad ---
+  createNoiseRoughnessTexture(size = 256, repeat = 8) {
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const ctx = c.getContext("2d");
+    const img = ctx.createImageData(size, size);
+    const d = img.data;
+
+    // Ruido suave y claro (gris 195–230): suficiente para romper reflejo plástico
+    for (let i = 0; i < d.length; i += 4) {
+      const g = 195 + Math.random() * 35;
+      d[i] = d[i + 1] = d[i + 2] = g;
+      d[i + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(repeat, repeat);
+    tex.anisotropy = 4;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.generateMipmaps = true;
+    return tex;
+  }
+
+  // --- Material de ACERO OSCURO satinado, sin clearcoat ni transparencia ---
+  enhanceMaterials(object) {
+    const roughTex = this.createNoiseRoughnessTexture();
+
+    object.traverse((child) => {
+      if (child.isMesh && child.material) {
+        const newMaterial = new THREE.MeshPhysicalMaterial({
+          color: 0x6b6b6b, // ← acero oscuro (ajusta a 0x4d4d4d si lo quieres más oscuro)
+          metalness: 1.0, // metal puro
+          roughness: 0.32, // satinado (más alto = menos brillo)
+          roughnessMap: roughTex,
+          envMapIntensity: 0.9, // reflejo contenido
+          // sin barniz para evitar look plástico
+          clearcoat: 0.0,
+          clearcoatRoughness: 0.0,
+          // Garantizar que NO sea transparente
+          transparent: false,
+          opacity: 1.0,
+          side: THREE.FrontSide,
+          // sin mapas extra
+          map: null,
+          normalMap: null,
+          metalnessMap: null,
+        });
+
+        child.material = newMaterial;
+        child.material.needsUpdate = true;
+
+        // Normales suaves si faltaran
+        if (
+          child.geometry &&
+          child.geometry.attributes &&
+          !child.geometry.attributes.normal
+        ) {
+          child.geometry.computeVertexNormals();
+        }
+
+        console.log("Material acero oscuro aplicado a:", child.name || "mesh");
+      }
+    });
+  }
+
   setupMobileScrollFix() {
-    // Detect if we're on a mobile device
     const isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       ) || window.innerWidth <= 768;
 
     if (isMobile) {
-      // Disable pointer events on canvas for mobile to allow scroll
       this.renderer.domElement.style.pointerEvents = "none";
-
-      // Also disable controls for mobile since we can't interact anyway
       if (this.controls) {
         this.controls.enabled = false;
       }
     } else {
-      // For desktop, keep pointer events enabled if needed for future interactions
       this.renderer.domElement.style.pointerEvents = "auto";
     }
   }
@@ -183,7 +334,6 @@ export class Hero3DModel {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height);
 
-      // Re-check mobile status on resize
       this.setupMobileScrollFix();
     }
   }
@@ -191,18 +341,15 @@ export class Hero3DModel {
   animate() {
     requestAnimationFrame(this.animate.bind(this));
 
-    // Automatic rotation for the model - slower rotation on both X and Y axes
     if (this.model) {
-      this.model.rotation.y += 0.002; // Very slow rotation around Y axis
-      this.model.rotation.x += 0.001; // Even slower rotation around X axis
+      this.model.rotation.y += 0.002;
+      this.model.rotation.x += 0.001;
     }
 
-    // Update animation mixer if it exists
     if (this.animationMixer) {
       this.animationMixer.update(this.clock.getDelta());
     }
 
-    // Update controls
     if (this.controls) {
       this.controls.update();
     }
@@ -211,20 +358,17 @@ export class Hero3DModel {
   }
 
   dispose() {
-    // Clean up resources when component unmounts
     window.removeEventListener("resize", this.onWindowResize.bind(this));
     window.removeEventListener(
       "orientationchange",
       this.setupMobileScrollFix.bind(this)
     );
 
-    // Remove canvas from container
     if (this.renderer) {
       this.container.removeChild(this.renderer.domElement);
       this.renderer.dispose();
     }
 
-    // Dispose of Three.js resources
     if (this.scene) {
       this.scene.traverse((object) => {
         if (object.isMesh) {
@@ -233,7 +377,6 @@ export class Hero3DModel {
           if (object.material.isMaterial) {
             this.cleanMaterial(object.material);
           } else {
-            // Array of materials
             for (const material of object.material) {
               this.cleanMaterial(material);
             }
@@ -245,8 +388,6 @@ export class Hero3DModel {
 
   cleanMaterial(material) {
     material.dispose();
-
-    // Dispose textures
     for (const key of Object.keys(material)) {
       const value = material[key];
       if (value && typeof value === "object" && "minFilter" in value) {
@@ -268,18 +409,15 @@ export class Hero3DModel {
   }
 
   showWebGLError() {
-    // Remove loading indicator if it exists
     if (this.loadingIndicator && this.loadingIndicator.parentNode) {
       this.loadingIndicator.parentNode.removeChild(this.loadingIndicator);
     }
 
-    // Create fallback image element
     const fallbackImg = document.createElement("img");
     fallbackImg.src = "/assets/images/cube3D.png";
     fallbackImg.alt = "Estructura optimizada topológicamente";
     fallbackImg.classList.add("cube-image");
 
-    // Create error message
     const errorMsg = document.createElement("div");
     errorMsg.style.position = "absolute";
     errorMsg.style.bottom = "10px";
@@ -290,7 +428,6 @@ export class Hero3DModel {
     errorMsg.style.color = "rgba(255,255,255,0.7)";
     errorMsg.textContent = "Tu navegador no soporta gráficos 3D";
 
-    // Clear container and add fallback
     this.container.innerHTML = "";
     this.container.appendChild(fallbackImg);
     this.container.appendChild(errorMsg);
